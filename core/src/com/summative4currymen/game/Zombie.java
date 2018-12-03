@@ -9,6 +9,10 @@ package com.summative4currymen.game;
  *
  * @author riepj9547
  */
-public class Zombie {
+public class Zombie extends Player {
     
+    public Zombie(){
+        
+    }
 }
+

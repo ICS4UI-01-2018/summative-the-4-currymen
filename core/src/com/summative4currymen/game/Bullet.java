@@ -10,5 +10,5 @@ package com.summative4currymen.game;
  * @author riepj9547
  */
 public class Bullet {
-    
+
 }
