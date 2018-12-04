@@ -68,8 +68,8 @@ public class Scene{
                 batch.setProjectionMatrix(cam.combined);
                 batch.begin();
                 batch.draw(obstacle1, 20,20,20,20);
-                batch.draw(obstacle2, 600, 600, 20,20);
-                batch.draw(obstacle3, 20, 600, 20,20);
+                batch.draw(obstacle2, 600, 400, 20,20);
+                batch.draw(obstacle3, 20, 400, 20,20);
                 batch.draw(obstacle4, 600, 20, 20,20);
                 
                 
