@@ -55,11 +55,11 @@ public class Scene{
                 
                 shapeBatch.setProjectionMatrix(cam.combined);
                 shapeBatch.begin(ShapeType.Filled);
-                shapeBatch.setColor(Color.FOREST);
+                shapeBatch.setColor(Color.MAROON);
                 shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
                 
                 shapeBatch.setColor(Color.WHITE);
-                player1.draw(shapeBatch);
+                obstacle1.draw(shapeBatch);
                 player2.draw(shapeBatch);
                
                 
@@ -69,8 +69,9 @@ public class Scene{
                 batch.begin();
                 batch.draw(obstacle1, 20,20,20,20);
                 batch.draw(obstacle2, 600, 600, 20,20);
-                //batch.draw(obstacle3, ball.getLeft(), ball.getBottom(),20,20);
-                //batch.draw(obstacle4, ball.getLeft(), ball.getBottom(),20,20);
+                batch.draw(obstacle3, 20, 600, 20,20);
+                batch.draw(obstacle4, 600, 20, 20,20);
+                
                 
                 batch.end();
                 
