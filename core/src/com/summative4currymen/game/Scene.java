@@ -21,18 +21,14 @@ public class Scene{
         private Texture obstacle3;
         private Texture obstacle4;
         
-	public void create () {
-		batch = new SpriteBatch();
-		shapeBatch = new ShapeRenderer();
-                
-                obstacle1 = new Texture("Conrete_Roof.jpg");
-                obstacle2 = new Texture("Conrete_Roof.jpg");
-                obstacle3 = new Texture("Conrete_Roof.jpg");
-                obstacle4 = new Texture("Conrete_Roof.jpg");
-	}
+	
 
 	
 	public void draw (SpriteBatch batch) {
+            obstacle1 = new Texture("Conrete_Roof.jpg");
+                obstacle2 = new Texture("Conrete_Roof.jpg");
+                obstacle3 = new Texture("Conrete_Roof.jpg");
+                obstacle4 = new Texture("Conrete_Roof.jpg");
                 batch.draw(obstacle1, 20,20,20,20);
                 batch.draw(obstacle2, 600, 400, 20,20);
                 batch.draw(obstacle3, 20, 400, 20,20);
