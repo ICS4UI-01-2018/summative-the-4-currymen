@@ -60,7 +60,6 @@ public class Zombie extends Player{
         return zombie;
     }
     
-    @Override
     public void spawn(ShapeRenderer shapeBatch){
         shapeBatch.rect(zombie.x, zombie.y, zombie.width, zombie.height);
     }

@@ -36,6 +36,7 @@ public class Scene{
                 obstacle4 = new Texture("Conrete_Roof.jpg");
                 
                 
+                
                 cam = new OrthographicCamera();
                 viewport = new FitViewport(800,600,cam);
                 viewport.apply();
