@@ -72,7 +72,7 @@ public class Player {
         return speed;
     }
     
-    public void spawn(ShapeRenderer shapeBatch){
+    public void draw(ShapeRenderer shapeBatch){
         shapeBatch.rect(player.x, player.y, player.width, player.height);
     }
 }
