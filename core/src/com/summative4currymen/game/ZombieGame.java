@@ -2,6 +2,7 @@ package com.summative4currymen.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -51,6 +52,7 @@ public class ZombieGame extends ApplicationAdapter {
 	public void render () {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                
                 //if the game has not started yet, draw in the main menu
                 if(startGame == false){
 		shapeBatch.setProjectionMatrix(cam.combined);
@@ -66,10 +68,7 @@ public class ZombieGame extends ApplicationAdapter {
                 batch.begin();
                 shapeBatch.rect(0, 0, viewport.getWorldWidth(),viewport.getWorldHeight());
                 batch.end();
-                }
-
-
-		
+                }		
 	}
 	
 	@Override
