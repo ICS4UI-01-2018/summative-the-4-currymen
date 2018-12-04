@@ -64,6 +64,7 @@ public class Zombie extends Player{
     public void spawn(ShapeRenderer shapeBatch){
         shapeBatch.rect(zombie.x, zombie.y, zombie.width, zombie.height);
     }
+    
     public int attack(){
         return this.damage;
     }
