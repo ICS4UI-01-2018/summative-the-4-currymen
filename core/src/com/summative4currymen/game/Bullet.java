@@ -53,8 +53,8 @@ public class Bullet {
         shapeBatch.rect(bullet.x, bullet.y, bullet.width, bullet.height);
     }
     
-    public boolean collidesWith(Bullet b){
-        return(bullet.overlaps(b.getBounds()));
-    }
+   // public boolean collidesWith(Bullet b){
+     //   return(bullet.overlaps(b.getBounds()));
+   // }
     
 }
