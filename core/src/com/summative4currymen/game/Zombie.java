@@ -30,7 +30,7 @@ public class Zombie extends Player {
 
     public void move(Player player) {
         // checking to see if the zombie is moveable
-        if (alive == false) {
+        if (alive == true) {
             // if the zombies x value is bigger than the players x value
             if (zombie.x > player.getX()) {
                 // the zombies x value decreases using the speed integer

@@ -53,9 +53,9 @@ public class Bullet {
     private void drawBullet(ShapeRenderer shapeBatch) {
         shapeBatch.rect(bullet.x, bullet.y, bullet.width, bullet.height);
     }
-
-    public boolean collidesWith(Zombie b) {
-        return (bullet.overlaps(b.getBounds()));
+    
+    public boolean collidesWith(Zombie b){
+        return bullet.overlaps(b.getBounds());
     }
 
 }
