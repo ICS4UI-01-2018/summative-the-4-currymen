@@ -29,7 +29,7 @@ public class Zombie extends Player{
     
     public void move(Player player) {
         // checking to see if the zombie is moveable
-        if(alive == false){
+        if(alive == true){
             // if the zombies x value is bigger than the players x value
             if(zombie.x > player.getX()){
                 // the zombies x value decreases using the speed integer
@@ -53,12 +53,21 @@ public class Zombie extends Player{
             }else if(zombie.y == player.getY()){
             }
         }else{
+            
         }
     }
     
     public Rectangle getBounds(){
         return zombie;
     }
+    
+    public void hit(int damage){
+        this.health =- damage;
+        if(this.health<= 0){
+            alive = false;
+        }
+    }
+    
     
     @Override
     public void draw(ShapeRenderer shapeBatch){
