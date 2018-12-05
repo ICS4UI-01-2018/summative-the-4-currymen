@@ -104,6 +104,7 @@ public class ZombieGame extends ApplicationAdapter {
                 }
                 if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
                     player2.moveRight();
+                    
                 }
                    shapeBatch.setProjectionMatrix(cam.combined);
                 shapeBatch.begin(ShapeRenderer.ShapeType.Filled);                
@@ -114,7 +115,7 @@ public class ZombieGame extends ApplicationAdapter {
                 batch.setProjectionMatrix(cam.combined);
                 batch.begin();
                 batch.draw(obstacle1, 0,0, viewport.getWorldWidth(), viewport.getWorldHeight());
-                batch.draw(chr1IMG,player1.getX(),player1.getY(),45,45);
+                batch.draw(chr1IMG,player1.getX(),player1.getY(),-45,45);
                 batch.draw(chr1IMG,player2.getX(),player2.getY(),45,45);
                 
                 
