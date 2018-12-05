@@ -71,9 +71,10 @@ public class Zombie extends Player {
     
     
     @Override
-    public void draw(ShapeRenderer shapeBatch) {
+    public void draw(ShapeRenderer shapeBatch){
         shapeBatch.rect(zombie.x, zombie.y, zombie.width, zombie.height);
     }
+    
 
     public int attack() {
         return this.damage;
