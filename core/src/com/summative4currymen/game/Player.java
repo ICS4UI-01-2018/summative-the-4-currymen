@@ -10,69 +10,69 @@ import com.badlogic.gdx.math.Rectangle;
 
 /**
  *
- * 
+ *
  * @author nagra2700
  */
 public class Player {
+
     private int speed;
     private int health;
     private Rectangle player;
     private String name;
     private Boolean alive;
     private int direction;
-    
-    
-    public Player(int x, int y, int width, int height, int speed, int health, String name){
+
+    public Player(int x, int y, int width, int height, int speed, int health, String name) {
         this.speed = speed;
         this.health = health;
         alive = true;
         this.name = name;
         player = new Rectangle(x, y, width, height);
     }
-    
-    public void moveUp(){
+
+    public void moveUp() {
         player.y = player.y + speed;
     }
-    
-    public void moveLeft(){
+
+    public void moveLeft() {
         player.x = player.x - speed;
     }
-    
-    public void moveDown(){
+
+    public void moveDown() {
         player.y = player.y - speed;
     }
-    
-    public void moveRight(){
+
+    public void moveRight() {
         player.x = player.x + speed;
     }
-    
-    public void die(){
+
+    public void die() {
         health = 0;
         alive = false;
         name = "dead";
     }
-    
-    public int getHealth(){
+
+    public int getHealth() {
         return health;
     }
-    
-    public Boolean getAlive(){
+
+    public Boolean getAlive() {
         return alive;
     }
-    
-    public Float getX(){
+
+    public Float getX() {
         return player.x;
     }
-    
-    public Float getY(){
+
+    public Float getY() {
         return player.y;
     }
-    
-    public int getSpeed(){
+
+    public int getSpeed() {
         return speed;
     }
-    
-    public void draw(ShapeRenderer shapeBatch){
+
+    public void draw(ShapeRenderer shapeBatch) {
         shapeBatch.rect(player.x, player.y, player.width, player.height);
     }
 }
