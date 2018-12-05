@@ -38,6 +38,8 @@ public class ZombieGame extends ApplicationAdapter {
 
     @Override
     public void create() {
+        startGame = false;
+        shapeBatch = new ShapeRenderer();
         batch = new SpriteBatch();
         img = new Texture("badlogic.jpg");
         menuPic = new Texture("MenuPic.jpg");
@@ -110,6 +112,9 @@ public class ZombieGame extends ApplicationAdapter {
             }
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 player2.moveRight();
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+                System.exit(0);
             }
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
