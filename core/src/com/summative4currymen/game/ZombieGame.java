@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -35,6 +37,8 @@ public class ZombieGame extends ApplicationAdapter {
     private boolean startGame;
 
     private Vector3 touch = new Vector3(0, 0, 0);
+    
+    private BitmapFont font;
 
     @Override
     public void create() {
@@ -60,6 +64,12 @@ public class ZombieGame extends ApplicationAdapter {
         cam.update();
         player1 = new Player(400, 300, 45, 45, 2, 100, "Rick");
         player2 = new Player(450, 350, 45, 20, 2, 100, "Carl");
+        
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        parameter.size = 26;
+        font = generator.generateFont(parameter); // font size 12 pixels
+        generator.dispose();
     }
 
     @Override
@@ -87,7 +97,7 @@ public class ZombieGame extends ApplicationAdapter {
                     startGame = true;
                 }
             }
-            //if the gmae has begon draw in the game             
+            //if the gmae has begun draw in the game             
         } else if (startGame == true) {
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player1.moveUp();
@@ -127,7 +137,9 @@ public class ZombieGame extends ApplicationAdapter {
             batch.draw(obstacle1, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
             batch.draw(chr1IMG, player1.getX(), player1.getY(), 45, 45);
             batch.draw(chr1IMG, player2.getX(), player2.getY(), 45, 45);
-
+            
+            font.setColor(Color.FIREBRICK);
+            font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();
             
         }
