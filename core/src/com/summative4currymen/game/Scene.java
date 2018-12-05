@@ -1,4 +1,3 @@
-
 package com.summative4currymen.game;
 
 import com.badlogic.gdx.ApplicationAdapter;

@@ -9,8 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -35,15 +33,11 @@ public class ZombieGame extends ApplicationAdapter {
     private Texture obstacle4;
 
     private boolean startGame;
-    
-    private Vector3 touch = new Vector3(0,0,0);
+
+    private Vector3 touch = new Vector3(0, 0, 0);
 
     @Override
     public void create() {
-        startGame = false;
-        shapeBatch = new ShapeRenderer();
-        Scene worldMap = new Scene();
-
         batch = new SpriteBatch();
         img = new Texture("badlogic.jpg");
         menuPic = new Texture("MenuPic.jpg");
@@ -83,12 +77,13 @@ public class ZombieGame extends ApplicationAdapter {
             batch.draw(menuPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
             batch.draw(startButton, 350, 250, 100, 50);
             batch.end();
-            
+
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
-                if(touch.x > 350 && touch.x < 450 && touch.y > 250 && touch.y < 300)
-                startGame = true;
+                if (touch.x > 350 && touch.x < 450 && touch.y > 250 && touch.y < 300) {
+                    startGame = true;
+                }
             }
             //if the gmae has begon draw in the game             
         } else if (startGame == true) {
@@ -129,11 +124,7 @@ public class ZombieGame extends ApplicationAdapter {
             batch.draw(chr1IMG, player2.getX(), player2.getY(), 45, 45);
 
             batch.end();
-            FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
-            FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-            parameter.size = 30;
-            //font12 = generator.generateFont(parameter); // font size 12 pixels
-            generator.dispose();
+            
         }
 
     }
