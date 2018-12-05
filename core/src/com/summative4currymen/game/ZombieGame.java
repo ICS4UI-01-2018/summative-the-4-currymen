@@ -46,7 +46,6 @@ public class ZombieGame extends ApplicationAdapter {
 
         //player1 = new Player();
         //player2 = new Player();
-
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
         parameter.size = 30;
