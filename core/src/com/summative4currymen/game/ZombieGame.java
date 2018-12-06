@@ -17,6 +17,7 @@ public class ZombieGame extends ApplicationAdapter {
 
     private SpriteBatch batch;
     private ShapeRenderer shapeBatch;
+    private ShapeRenderer shapeBatch2;
     private OrthographicCamera cam;
     private FitViewport viewport;
     private Player player1;
@@ -26,27 +27,23 @@ public class ZombieGame extends ApplicationAdapter {
     private Texture startButton;
     private Texture chr1IMG;
     private Scene wordlMap;
-
+    private boolean startGame;
     private Texture obstacle1;
     private Texture obstacle2;
     private Texture obstacle3;
     private Texture obstacle4;
 
-    private boolean startGame;
-
-    private Vector3 touch = new Vector3(0, 0, 0);
-    
-    private BitmapFont font;
-
-    @Override
-    public void create() {
-        startGame = false;
+    private Vector3 touch = new Vector3(0,0,0);
+	public void create(){
+                
+        shapeBatch2 = new ShapeRenderer();        
         shapeBatch = new ShapeRenderer();
         batch = new SpriteBatch();
         img = new Texture("badlogic.jpg");
         menuPic = new Texture("MenuPic.jpg");
         startButton = new Texture("StartButton.png");
         chr1IMG = new Texture("character1.png");
+        
 
         obstacle1 = new Texture("Concrete_Roof.jpg");
         obstacle2 = new Texture("Concrete_Roof.jpg");
@@ -83,15 +80,14 @@ public class ZombieGame extends ApplicationAdapter {
             batch.draw(menuPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
             batch.draw(startButton, 350, 250, 100, 50);
             batch.end();
-
+            
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
-                if (touch.x > 350 && touch.x < 450 && touch.y > 250 && touch.y < 300) {
-                    startGame = true;
-                }
+                if(touch.x > 350 && touch.x < 450 && touch.y > 250 && touch.y < 300)
+                startGame = true;
             }
-            //if the gmae has begun draw in the game             
+            //if the gmae has begon draw in the game             
         } else if (startGame == true) {
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player1.moveUp();
@@ -117,25 +113,31 @@ public class ZombieGame extends ApplicationAdapter {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 player2.moveRight();
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-                System.exit(0);
-            }
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the menu picture
+            /* shapeBatch.setColor(Color.WHITE);
+            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());*/
             shapeBatch.setColor(Color.WHITE);
-            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            shapeBatch.rect(player1.getX(), player1.getY(), 45, 45);
+            //player1.draw(shapeBatch);
             shapeBatch.end();
             batch.setProjectionMatrix(cam.combined);
             batch.begin();
             batch.draw(obstacle1, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            batch.draw(chr1IMG, player1.getX(), player1.getY(), 45, 45);
+            
+           
             batch.draw(chr1IMG, player2.getX(), player2.getY(), 45, 45);
+            batch.draw(chr1IMG, player1.getX(), player1.getY(),player1.getX(),player1.getY(), 45, 45, 1, 1, 90, 0, 0, 45, 45, false, false);
             
-            font.setColor(Color.FIREBRICK);
-            font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
+            
+
             batch.end();
-            
+            FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
+            FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+            parameter.size = 30;
+            //font12 = generator.generateFont(parameter); // font size 12 pixels
+            generator.dispose();
         }
 
     }
