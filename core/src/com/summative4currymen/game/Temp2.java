@@ -40,12 +40,14 @@ public class Temp2 extends ApplicationAdapter {
     private Texture obstacle4;
 
     private boolean startGame;
+    private boolean nextScreen;
 
     private Vector3 touch = new Vector3(0, 0, 0);
 
     @Override
     public void create() {
         startGame = false;
+        nextScreen = false;
         shapeBatch = new ShapeRenderer();
         batch = new SpriteBatch();
         img = new Texture("badlogic.jpg");
@@ -54,7 +56,6 @@ public class Temp2 extends ApplicationAdapter {
         instructionPic = new Texture("instruct.jpg");
         nextButton = new Texture("next.png");
         chr1IMG = new Texture("character1.png");
-        
 
         obstacle1 = new Texture("Concrete_Roof.jpg");
         obstacle2 = new Texture("Concrete_Roof.jpg");
@@ -89,74 +90,74 @@ public class Temp2 extends ApplicationAdapter {
             batch.draw(menuPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
             batch.draw(startButton, 350, 250, 100, 50);
             batch.end();
-            
+
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
                 if (touch.x > 350 && touch.x < 450 && touch.y > 250 && touch.y < 300) {
-                    startGame = true;
+                    nextScreen = true;
                 }
             }
-            
-            shapeBatch.setProjectionMatrix(cam.combined);
-            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-            //the menu picture
-            shapeBatch.setColor(Color.GOLD);
-            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            shapeBatch.end();
-            batch.setProjectionMatrix(cam.combined);
-            batch.begin();
-            batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            batch.draw(nextButton, 350, 250, 100, 50);
-            // not done, add images for instructions
-            batch.end();
 
-            
-            //if the gmae has begon draw in the game             
-        } else if (startGame == true) {
-            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                player1.moveUp();
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                player1.moveDown();
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                player1.moveLeft();
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                player1.moveRight();
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                player2.moveUp();
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                player2.moveDown();
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                player2.moveLeft();
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                player2.moveRight();
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-                System.exit(0);
-            }
-            shapeBatch.setProjectionMatrix(cam.combined);
-            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-            //the menu picture
-            shapeBatch.setColor(Color.WHITE);
-            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            shapeBatch.end();
-            batch.setProjectionMatrix(cam.combined);
-            batch.begin();
-            batch.draw(obstacle1, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            batch.draw(chr1IMG, player1.getX(), player1.getY(), 45, 45);
-            batch.draw(chr1IMG, player2.getX(), player2.getY(), 45, 45);
+            if (nextScreen == true) {
+                shapeBatch.setProjectionMatrix(cam.combined);
+                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+                //the instruction picture
+                shapeBatch.setColor(Color.GOLD);
+                shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+                shapeBatch.end();
+                batch.setProjectionMatrix(cam.combined);
+                batch.begin();
+                batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+                batch.draw(nextButton, 350, 250, 100, 50);
 
-            batch.end();
-            
+                batch.end();
+
+                //if the gmae has begon draw in the game             
+            } else if (startGame == true) {
+                if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                    player1.moveUp();
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                    player1.moveDown();
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                    player1.moveLeft();
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                    player1.moveRight();
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                    player2.moveUp();
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                    player2.moveDown();
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                    player2.moveLeft();
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    player2.moveRight();
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+                    System.exit(0);
+                }
+                shapeBatch.setProjectionMatrix(cam.combined);
+                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+                //the menu picture
+                shapeBatch.setColor(Color.WHITE);
+                shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+                shapeBatch.end();
+                batch.setProjectionMatrix(cam.combined);
+                batch.begin();
+                batch.draw(obstacle1, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+                batch.draw(chr1IMG, player1.getX(), player1.getY(), 45, 45);
+                batch.draw(chr1IMG, player2.getX(), player2.getY(), 45, 45);
+
+                batch.end();
+
+            }
         }
-
     }
 
     @Override
