@@ -34,6 +34,7 @@ public class ZombieGame extends ApplicationAdapter {
     private Texture obstacle2;
     private Texture obstacle3;
     private Texture obstacle4;
+    private Bullet bullet;
 
     private Vector3 touch = new Vector3(0,0,0);
 	public void create(){
@@ -65,7 +66,7 @@ public class ZombieGame extends ApplicationAdapter {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
         parameter.size = 26;
-        font = generator.generateFont(parameter); // font size 12 pixels
+        //font = generator.generateFont(parameter); // font size 12 pixels
         generator.dispose();
     }
 
@@ -106,7 +107,7 @@ public class ZombieGame extends ApplicationAdapter {
             }
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 player1.moveRight();
-            }
+            }            
             if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 player2.moveUp();
             }
@@ -134,11 +135,11 @@ public class ZombieGame extends ApplicationAdapter {
             
            
             batch.draw(chr1IMG, player2.getX(), player2.getY(), 45, 45);
+            batch.draw(chr1IMG, player1.getX(), player1.getY(), 45, 45);
             batch.draw(chr1IMG, player1.getX(), player1.getY(),player1.getX(),player1.getY(), 45, 45, 1, 1, 90, 0, 0, 45, 45, false, false);
             
-            
-
             batch.end();
+            
             FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
             FreeTypeFontParameter parameter = new FreeTypeFontParameter();
             parameter.size = 30;

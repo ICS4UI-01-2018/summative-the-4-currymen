@@ -19,13 +19,11 @@ public class Scene{
         private Texture obstacle2;
         private Texture obstacle3;
         private Texture obstacle4;
-        private Bullet bullet;
+       
         
 	
         public void create(){
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                bullet = new Bullet(player1.getX(), player1.geyY(), 10, 10, 20, 50);
-            }
+            
         }
 	
 	public void draw (SpriteBatch batch) {

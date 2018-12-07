@@ -20,25 +20,44 @@ public class Bullet {
     private int dy;
     private int damage;
     private int direction;
+    private boolean spawned;
 
     public Bullet(int x, int y, int width, int height, int speed, int damage) {
         this.speed = speed;
         this.damage = damage;
         bullet = new Rectangle(x, y, width, height);
-        bullet.x = 1;
-        bullet.y = 1;
+        bullet.x = x;
+        bullet.y = y;
+        this.dx = 1;
+        this.dy = 1;
+        spawned = false;
     }
 
     public void bulletMovement() {
-        bullet.x = bullet.x + speed * dx;
-        bullet.y = bullet.y + speed * dy;
+        bullet.x = bullet.x + speed *dx;
+        bullet.y = bullet.y + speed *dx;
     }
-
+    
+    public void spawnedIn(){
+        this.spawned = true;
+    }  
+    public boolean getSpawned(){
+        return this.spawned;
+    }
+    
     public float getLeft() {
         return bullet.x;
     }
 
     public float getBottom() {
+        return bullet.y;
+    }
+    
+    public float getX(){
+        return bullet.x;
+    }
+    
+    public float getY(){
         return bullet.y;
     }
 
@@ -50,7 +69,7 @@ public class Bullet {
         return bullet.y + bullet.height;
     }
 
-    private void drawBullet(ShapeRenderer shapeBatch) {
+    public void drawBullet(ShapeRenderer shapeBatch) {
         shapeBatch.rect(bullet.x, bullet.y, bullet.width, bullet.height);
     }
     

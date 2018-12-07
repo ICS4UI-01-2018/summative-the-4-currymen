@@ -60,11 +60,11 @@ public class Player {
         return alive;
     }
 
-    public Float getX() {
+    public float getX() {
         return player.x;
     }
 
-    public Float getY() {
+    public float getY() {
         return player.y;
     }
 
