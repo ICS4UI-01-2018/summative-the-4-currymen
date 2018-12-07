@@ -117,7 +117,7 @@ public class Temp3 extends ApplicationAdapter {
                 player1.moveRight();
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-                Bullet b = new Bullet((int)player1.getX(),(int)player1.getY(),10, 10, 5, 50);
+                Bullet b = new Bullet((int)player1.getX(),(int)player1.getY(),10, 10, 5, 50,0,1);
                 bullets.add(b);
                 System.out.println(""+ player1.getX() + " "+ player1.getY());
                 System.out.println(""+ b.getX()+ " " + b.getY());

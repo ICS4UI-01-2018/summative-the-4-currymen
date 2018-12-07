@@ -19,12 +19,7 @@ public class Scene{
         private Texture obstacle2;
         private Texture obstacle3;
         private Texture obstacle4;
-       
-        
-	
-        public void create(){
-            
-        }
+        private Bullet bullet;
 	
 	public void draw (SpriteBatch batch) {
                 obstacle1 = new Texture("Conrete_Roof.jpg");

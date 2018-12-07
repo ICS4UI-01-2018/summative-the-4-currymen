@@ -22,21 +22,23 @@ public class Bullet {
     private int direction;
     private boolean spawned;
 
-    public Bullet(int x, int y, int width, int height, int speed, int damage) {
+    public Bullet(int x, int y, int width, int height, int speed, int damage, int dx, int dy) {
         this.speed = speed;
         this.damage = damage;
         bullet = new Rectangle(x, y, width, height);
         bullet.x = x;
         bullet.y = y;
-        this.dx = 1;
-        this.dy = 1;
+        this.dx = dx;
+        this.dy = dy;
         spawned = false;
     }
 
     public void bulletMovement() {
         bullet.x = bullet.x + speed *dx;
-        bullet.y = bullet.y + speed *dx;
+        bullet.y = bullet.y + speed *dy;
     }
+    
+    
     
     public void spawnedIn(){
         this.spawned = true;
