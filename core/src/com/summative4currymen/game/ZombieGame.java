@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import java.util.ArrayList;
 
 public class ZombieGame extends ApplicationAdapter {
 
@@ -36,6 +37,7 @@ public class ZombieGame extends ApplicationAdapter {
     private Texture obstacle4;
     private int rotation1;
     private int rotation2;
+    private ArrayList<Bullet> bullets;
     private BitmapFont font;
 
     private Vector3 touch = new Vector3(0,0,0);
@@ -50,6 +52,7 @@ public class ZombieGame extends ApplicationAdapter {
         startButton = new Texture("StartButton.png");
         chr1IMG = new Texture("character1.png");
         
+        bullets = new ArrayList<Bullet>();
 
         obstacle1 = new Texture("Concrete_Roof.jpg");
         obstacle2 = new Texture("Concrete_Roof.jpg");
@@ -116,6 +119,38 @@ public class ZombieGame extends ApplicationAdapter {
                 player1.moveRight();
                 rotation1 = 0;
             }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+                if(rotation1 == 90){
+                    System.out.println("90");
+                Bullet b = new Bullet((int)player1.getX(),(int)player1.getY(),10, 10, 5, 50,0,1);
+                bullets.add(b);
+                System.out.println(""+ player1.getX() + " "+ player1.getY());
+                System.out.println(""+ b.getX()+ " " + b.getY());
+                }
+                if(rotation1 == 0){
+                    System.out.println("0");
+                Bullet b = new Bullet((int)player1.getX(),(int)player1.getY(),10, 10, 5, 50,1,0);
+                bullets.add(b);
+                System.out.println(""+ player1.getX() + " "+ player1.getY());
+                System.out.println(""+ b.getX()+ " " + b.getY());
+                }
+                if(rotation1 == 180){
+                    System.out.println("180");
+                Bullet b = new Bullet((int)player1.getX(),(int)player1.getY(),10, 10, 5, 50,-1,0);
+                bullets.add(b);
+                System.out.println(""+ player1.getX() + " "+ player1.getY());
+                System.out.println(""+ b.getX()+ " " + b.getY());
+                }
+                if(rotation1 == 270){
+                    System.out.println("270");
+                Bullet b = new Bullet((int)player1.getX(),(int)player1.getY(),10, 10, 5, 50,0,-1);
+                bullets.add(b);
+                System.out.println(""+ player1.getX() + " "+ player1.getY());
+                System.out.println(""+ b.getX()+ " " + b.getY());
+                }
+                
+                
+                }            
             if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 player2.moveUp();
                 rotation2 = 90;
@@ -132,7 +167,11 @@ public class ZombieGame extends ApplicationAdapter {
                 player2.moveRight();
                 rotation2 = 0;
             }
-            if(Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
+            
+            for (Bullet b : this.bullets) {                
+            b.bulletMovement();            
+        }
+            if(Gdx.input.isKeyPressed(Input.Keys.W)&&Gdx.input.isKeyPressed(Input.Keys.A)) {
                 rotation1 = 135;
             }
             if(Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.D)) {
@@ -205,6 +244,12 @@ public class ZombieGame extends ApplicationAdapter {
             font.setColor(Color.MAROON);
             font.draw(batch, "ZUMBIEZ", 0, 160);
             batch.end();
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            shapeBatch.setColor(Color.WHITE);
+        for (Bullet b : this.bullets) {
+            b.drawBullet(shapeBatch);
+        }
+        shapeBatch.end();
         }
 
     }
