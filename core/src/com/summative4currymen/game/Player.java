@@ -21,6 +21,8 @@ public class Player {
     private String name;
     private Boolean alive;
     private int direction;
+    private int width;
+    private int height;
 
     public Player(int x, int y, int width, int height, int speed, int health, String name) {
         this.speed = speed;
@@ -28,6 +30,8 @@ public class Player {
         alive = true;
         this.name = name;
         player = new Rectangle(x, y, width, height);
+        this.width = width;
+        this.height = height;
     }
 
     public void moveUp() {
@@ -45,6 +49,7 @@ public class Player {
     public void moveRight() {
         player.x = player.x + speed;
     }
+    
 
     public void die() {
         health = 0;
@@ -60,16 +65,24 @@ public class Player {
         return alive;
     }
 
-    public Float getX() {
+    public float getX() {
         return player.x;
     }
 
-    public Float getY() {
+    public float getY() {
         return player.y;
     }
 
     public int getSpeed() {
         return speed;
+    }
+    
+    public int getWidth(){
+        return this.width;
+    }
+    
+    public int getHeight(){
+        return this.height;
     }
 
     public void draw(ShapeRenderer shapeBatch) {
