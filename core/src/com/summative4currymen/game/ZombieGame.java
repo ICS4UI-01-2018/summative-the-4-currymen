@@ -97,7 +97,7 @@ public class ZombieGame extends ApplicationAdapter {
                     startGame = true;
                 }
             }
-            //if the gmae has begun draw in the game             
+            //if the game has begun draw in the game             
         } else if (startGame == true) {
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player1.moveUp();

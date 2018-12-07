@@ -26,6 +26,7 @@ public class Zombie extends Player {
     public Zombie(int x, int y, int width, int height, int health, int speed, String name, int damage) {
         super(x, y, width, height, health, speed, name);
         this.damage = damage;
+        alive = true;
     }
 
     public void move(Player player) {
