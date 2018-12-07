@@ -132,28 +132,28 @@ public class ZombieGame extends ApplicationAdapter {
                 player2.moveRight();
                 rotation2 = 0;
             }
-            if(Gdx.input.isKeyPressed(Input.Keys.W)&&Gdx.input.isKeyPressed(Input.Keys.A)) {
+            if(Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
                 rotation1 = 135;
             }
-            if(Gdx.input.isKeyPressed(Input.Keys.W)&&Gdx.input.isKeyPressed(Input.Keys.D)) {
+            if(Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.D)) {
                 rotation1 = 45;
             }
-            if(Gdx.input.isKeyPressed(Input.Keys.S)&&Gdx.input.isKeyPressed(Input.Keys.A)) {
+            if(Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.A)) {
                 rotation1 = 225;
             }
-            if(Gdx.input.isKeyPressed(Input.Keys.S)&&Gdx.input.isKeyPressed(Input.Keys.D)) {
-                rotation1 = 315;
+            if(Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.D)) {
+                rotation1 = 315; 
             }
-            if(Gdx.input.isKeyPressed(Input.Keys.UP)&&Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            if(Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 rotation2 = 135;
             }
-            if(Gdx.input.isKeyPressed(Input.Keys.UP)&&Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            if(Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 rotation2 = 45;
             }
-            if(Gdx.input.isKeyPressed(Input.Keys.DOWN)&&Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 rotation2 = 225;
             }
-            if(Gdx.input.isKeyPressed(Input.Keys.DOWN)&&Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 rotation2 = 315;
             }
             if(player1.getX() < 0){
