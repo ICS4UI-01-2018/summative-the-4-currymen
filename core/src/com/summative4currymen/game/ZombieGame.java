@@ -25,10 +25,13 @@ public class ZombieGame extends ApplicationAdapter {
     private FitViewport viewport;
     private Player player1;
     private Player player2;
+    private Zombie zombie;
+    private ArrayList<Zombie> zombies; 
     private Texture img;
     private Texture menuPic;
     private Texture startButton;
     private Texture chr1IMG;
+    private Texture zomIMG;
     private Scene wordlMap;
     private boolean startGame;
     private Texture obstacle1;
@@ -52,6 +55,7 @@ public class ZombieGame extends ApplicationAdapter {
         menuPic = new Texture("MenuPic.jpg");
         startButton = new Texture("StartButton.png");
         chr1IMG = new Texture("character1.png");
+        zomIMG = new Texture ("thriller-zombie.png");
 
         bullets = new ArrayList<Bullet>();
 
@@ -69,11 +73,17 @@ public class ZombieGame extends ApplicationAdapter {
         cam.update();
         player1 = new Player(400, 300, 45, 45, 2, 100, "Rick");
         player2 = new Player(450, 350, 45, 45, 2, 100, "Carl");
-
+        
+        zombies = new ArrayList<Zombie>();
+        
+        for(int i = 0; i < 100; i++){
+            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 100, "Zambie", 100));
+        }
+        
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 120;
-        font = generator.generateFont(parameter); // font size 12 pixels
+        parameter.size = 26;
+        font = generator.generateFont(parameter); 
         generator.dispose();
     }
 
@@ -323,9 +333,13 @@ public class ZombieGame extends ApplicationAdapter {
 
             batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-
-            font.setColor(Color.MAROON);
-            font.draw(batch, "ZUMBIEZ", 0, 160);
+            
+            for(int i = 0; i < zombies.size(); i++){
+                batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), 45, 45);
+            }
+            
+            font.setColor(Color.FIREBRICK);
+            font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             shapeBatch.setColor(Color.WHITE);
