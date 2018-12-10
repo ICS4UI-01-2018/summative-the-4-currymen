@@ -23,10 +23,9 @@ public class Scene{
         
 	
         public void create(){
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                bullet = new Bullet(player1.getX(), player1.geyY(), 10, 10, 20, 50);
+            
             }
-        }
+        
 	
 	public void draw (SpriteBatch batch) {
                 obstacle1 = new Texture("Conrete_Roof.jpg");
