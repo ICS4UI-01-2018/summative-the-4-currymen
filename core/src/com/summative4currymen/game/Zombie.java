@@ -30,33 +30,7 @@ public class Zombie extends Player {
     }
 
     public void move(Player player) {
-        // checking to see if the zombie is moveable
-        if(alive == true){
-            // if the zombies x value is bigger than the players x value
-            if (zombie.x > player.getX()) {
-                // the zombies x value decreases using the speed integer
-                zombie.x = zombie.x - speed;
-                // if the zombies x value is less than the players x value  
-            } else if (zombie.x < player.getX()) {
-                // the zombies x value increases using the speed integer
-                zombie.x = zombie.x + speed;
-                // if the zombies x value is equal the players x value than nothing changes
-            } else if (zombie.x == player.getX()) {
-            }
-            // if the zombies y value is bigger than the players y value
-            if (zombie.y > player.getY()) {
-                // the zombies y value decreases using the speed integer
-                zombie.y = zombie.y - speed;
-                // if the zombies y value is less than the players y value
-            } else if (zombie.y < player.getY()) {
-                // the zombies y value increases using the speed integer
-                zombie.y = zombie.y + speed;
-                // if the zombies y value is equal to the players y value than nothing changes      
-            } else if (zombie.y == player.getY()) {
-            }
-        }else{
-            
-        }
+        zombie.x = 5;
     }
 
     public Rectangle getBounds() {
@@ -78,6 +52,6 @@ public class Zombie extends Player {
     
 
     public int attack() {
-        return this.damage;
+        return damage;
     }
 }
