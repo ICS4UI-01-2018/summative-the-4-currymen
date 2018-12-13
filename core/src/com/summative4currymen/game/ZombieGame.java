@@ -32,6 +32,7 @@ public class ZombieGame extends ApplicationAdapter {
     private Texture startButton;
     private Texture chr1IMG;
     private Texture zomIMG;
+    private Texture arcadeLogo;
     private Texture obstacle1;
     private Texture obstacle2;
     private Texture obstacle3;
@@ -40,7 +41,9 @@ public class ZombieGame extends ApplicationAdapter {
     private int rotation2;
     private ArrayList<Bullet> bullets;
     private BitmapFont font;
+    private BitmapFont titleFont;
     private Texture instructionPic;
+    
     private Texture nextButton;
     private boolean startGame;
     private boolean nextScreen;
@@ -55,6 +58,7 @@ public class ZombieGame extends ApplicationAdapter {
         batch = new SpriteBatch();
         img = new Texture("badlogic.jpg");
         menuPic = new Texture("MenuPic.jpg");
+        arcadeLogo = new Texture("Arcade_logo.png");
         startButton = new Texture("StartButton.png");        
         instructionPic = new Texture("instruct.jpg");
         nextButton = new Texture("next.png");
@@ -66,8 +70,9 @@ public class ZombieGame extends ApplicationAdapter {
         obstacle1 = new Texture("Concrete_Roof.jpg");
         obstacle2 = new Texture("Concrete_Roof.jpg");
         obstacle3 = new Texture("Concrete_Roof.jpg");
-        obstacle4 = new Texture("Concrete_Roof.jpg");
-
+        obstacle4 = new Texture("Concrete_Roof.jpg"); 
+        
+        
         cam = new OrthographicCamera();
         viewport = new FitViewport(800, 600, cam);
         viewport.apply();
@@ -84,11 +89,17 @@ public class ZombieGame extends ApplicationAdapter {
             zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 100, "Zambie", 100));
         }
         
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
-        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 17;
-        font = generator.generateFont(parameter); 
-        generator.dispose();
+        FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
+        FreeTypeFontParameter param = new FreeTypeFontParameter();
+        param.size = 35;
+        titleFont = gen.generateFont(param);
+        gen.dispose();
+
+        FreeTypeFontGenerator g = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
+        FreeTypeFontParameter p = new FreeTypeFontParameter();
+        p.size = 17;
+        font = g.generateFont(p);
+        g.dispose();
     }
 
     @Override
@@ -107,7 +118,10 @@ public class ZombieGame extends ApplicationAdapter {
             batch.setProjectionMatrix(cam.combined);
             batch.begin();
             batch.draw(menuPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            batch.draw(startButton, 350, 250, 100, 50);
+            batch.draw(startButton, 350, 210, 100, 50);
+            batch.draw(arcadeLogo, 335, 330, 125, 75);
+            titleFont.setColor(Color.WHITE);
+            titleFont.draw(batch, "ARCADE APOCALYPSE", 125, 310);
             batch.end();
 
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -130,34 +144,35 @@ public class ZombieGame extends ApplicationAdapter {
             batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
             font.setColor(Color.WHITE);
-            font.draw(batch, "Instructions", 300, 550);  
+            font.draw(batch, "Instructions", 300, 550);
             font.setColor(Color.WHITE);
-            font.draw(batch, "Player One Controls", 25, 450);  
+            font.draw(batch, "Player One Controls", 25, 450);
             font.setColor(Color.WHITE);
-            font.draw(batch, "W = Move Upwards", 25, 400);  
+            font.draw(batch, "W = Move Upwards", 25, 400);
             font.setColor(Color.WHITE);
-            font.draw(batch, "A = Move Left", 25, 350);    
+            font.draw(batch, "A = Move Left", 25, 350);
             font.setColor(Color.WHITE);
-            font.draw(batch, "S = Move Right", 25, 300);    
+            font.draw(batch, "S = Move Downwards", 25, 300);
             font.setColor(Color.WHITE);
-            font.draw(batch, "D = Move Downwards", 25, 250);  
+            font.draw(batch, "D = Move Right", 25, 250);
             font.setColor(Color.WHITE);
             font.draw(batch, "Space = Shoot", 25, 200);
             font.setColor(Color.WHITE);
-            font.draw(batch, "Player Two Controls", 360, 450);  
+            font.draw(batch, "Player Two Controls", 360, 450);
             font.setColor(Color.WHITE);
-            font.draw(batch, "Up Arrow = Move Upwards", 360, 400);  
+            font.draw(batch, "Up Arrow = Move Upwards", 360, 400);
             font.setColor(Color.WHITE);
-            font.draw(batch, "Left Arrow = Move Left", 360, 350);    
+            font.draw(batch, "Left Arrow = Move Left", 360, 350);
             font.setColor(Color.WHITE);
-            font.draw(batch, "Right Arrow = Move Right", 360, 300);    
+            font.draw(batch, "Right Arrow = Move Right", 360, 300);
             font.setColor(Color.WHITE);
-            font.draw(batch, "Down Arrow = Move Downwards", 360, 250);  
+            font.draw(batch, "Down Arrow = Move Downwards", 360, 250);
             font.setColor(Color.WHITE);
-            font.draw(batch, "Enter = Shoot", 360, 200); 
+            font.draw(batch, "Enter = Shoot", 360, 200);
             font.setColor(Color.WHITE);
-            font.draw(batch, "Start", 685, 23);  
+            font.draw(batch, "Start", 685, 23);
             batch.end();
+
           
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touch);
@@ -383,7 +398,8 @@ public class ZombieGame extends ApplicationAdapter {
             shapeBatch.end();
             batch.setProjectionMatrix(cam.combined);
             batch.begin();
-            batch.draw(obstacle1, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            batch.draw(obstacle1, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());          
+            
 
             batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);

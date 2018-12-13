@@ -49,8 +49,9 @@ public class Temp2 extends ApplicationAdapter {
     private BitmapFont titleFont;
     private Texture instructionPic;
     private Texture nextButton;
-    private Texture backButton;
+    private Texture storeButton;
     private boolean startGame;
+    private boolean goStore;
     private boolean nextScreen;
 
     private Vector3 touch = new Vector3(0, 0, 0);
@@ -66,9 +67,9 @@ public class Temp2 extends ApplicationAdapter {
         menuPic = new Texture("MenuPic.jpg");
         arcadeLogo = new Texture("Arcade_logo.png");
         startButton = new Texture("StartButton.png");
+        storeButton = new Texture("StoreButton.png");
         instructionPic = new Texture("instruct.jpg");
         nextButton = new Texture("next.png");
-        backButton = new Texture("back.png");
         chr1IMG = new Texture("character1.png");
         zomIMG = new Texture("thriller-zombie.png");
 
@@ -112,7 +113,8 @@ public class Temp2 extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //if the game has not started yet, draw in the main menu      
+        //if the game has not started yet, draw in the main menu   
+
         if (nextScreen == false) {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
@@ -123,8 +125,9 @@ public class Temp2 extends ApplicationAdapter {
             batch.setProjectionMatrix(cam.combined);
             batch.begin();
             batch.draw(menuPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            batch.draw(startButton, 350, 210, 100, 50);
+            batch.draw(startButton, 275, 210, 100, 50);
             batch.draw(arcadeLogo, 335, 330, 125, 75);
+            batch.draw(storeButton, 425, 215, 100, 50);
             titleFont.setColor(Color.WHITE);
             titleFont.draw(batch, "ARCADE APOCALYPSE", 125, 310);
             batch.end();
@@ -132,9 +135,21 @@ public class Temp2 extends ApplicationAdapter {
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
-                if (touch.x > 335 && touch.x < 450 && touch.y > 225 && touch.y < 300) {
-                    nextScreen = true;
+                if (touch.x > 425 && touch.x < 525 && touch.y > 215 && touch.y < 265) {
+                    shapeBatch.setProjectionMatrix(cam.combined);
+                    shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+                    //the menu picture
+                    shapeBatch.setColor(Color.GOLD);
+                    shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+                    shapeBatch.end();
+                    batch.setProjectionMatrix(cam.combined);
+                    batch.begin();
+                    batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+                    batch.end();
                 }
+                //goStore = true;
+            } else if (touch.x > 275 && touch.x < 375 && touch.y > 210 && touch.y < 260) {
+                nextScreen = true;
             }
 
         } else if (startGame == false) {
@@ -148,7 +163,6 @@ public class Temp2 extends ApplicationAdapter {
             batch.begin();
             batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
-            batch.draw(backButton, 20, 20, 100, 100);
             font.setColor(Color.WHITE);
             font.draw(batch, "Instructions", 300, 550);
             font.setColor(Color.WHITE);
@@ -187,248 +201,245 @@ public class Temp2 extends ApplicationAdapter {
                 }
             }
 
-                //if the game has begun draw in the game             
-            } else if (startGame == true) {
-                if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                    player1.moveUp();
-                    rotation1 = 90;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                    player1.moveDown();
-                    rotation1 = 270;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                    player1.moveLeft();
-                    rotation1 = 180;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                    player1.moveRight();
-                    rotation1 = 0;
-                }
-
-                if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                    player2.moveUp();
-                    rotation2 = 90;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                    player2.moveDown();
-                    rotation2 = 270;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                    player2.moveLeft();
-                    rotation2 = 180;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                    player2.moveRight();
-                    rotation2 = 0;
-                }
-
-                if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
-                    rotation1 = 135;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.D)) {
-                    rotation1 = 45;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.A)) {
-                    rotation1 = 225;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.D)) {
-                    rotation1 = 315;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                    rotation2 = 135;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                    rotation2 = 45;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                    rotation2 = 225;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                    rotation2 = 315;
-                }
-                if (player1.getX() < 0) {
-                    player1.moveRight();
-                }
-                if (player1.getX() > 755) {
-                    player1.moveLeft();
-                }
-                if (player1.getY() < 0) {
-                    player1.moveUp();
-                }
-                if (player1.getY() > 555) {
-                    player1.moveDown();
-                }
-                if (player2.getX() < 0) {
-                    player2.moveRight();
-                }
-                if (player2.getX() > 755) {
-                    player2.moveLeft();
-                }
-                if (player2.getY() < 0) {
-                    player2.moveUp();
-                }
-                if (player2.getY() > 555) {
-                    player2.moveDown();
-                }
-                if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-                    if (rotation1 == 0) {
-                        System.out.println("0");
-                        Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 1, 0);
-                        bullets.add(b);
-                        System.out.println("" + player1.getX() + " " + player1.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                    if (rotation1 == 45) {
-                        System.out.println("45");
-                        Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 1, 1);
-                        bullets.add(b);
-                        System.out.println("" + player1.getX() + " " + player1.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                    if (rotation1 == 90) {
-                        System.out.println("90");
-                        Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 0, 1);
-                        bullets.add(b);
-                        System.out.println("" + player1.getX() + " " + player1.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                    if (rotation1 == 135) {
-                        System.out.println("135");
-                        Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, -1, 1);
-                        bullets.add(b);
-                        System.out.println("" + player1.getX() + " " + player1.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                    if (rotation1 == 180) {
-                        System.out.println("180");
-                        Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, -1, 0);
-                        bullets.add(b);
-                        System.out.println("" + player1.getX() + " " + player1.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                    if (rotation1 == 225) {
-                        System.out.println("270");
-                        Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, -1, -1);
-                        bullets.add(b);
-                        System.out.println("" + player1.getX() + " " + player1.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                    if (rotation1 == 270) {
-                        System.out.println("270");
-                        Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 0, -1);
-                        bullets.add(b);
-                        System.out.println("" + player1.getX() + " " + player1.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                    if (rotation1 == 315) {
-                        System.out.println("315");
-                        Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 1, -1);
-                        bullets.add(b);
-                        System.out.println("" + player1.getX() + " " + player1.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                }
-                if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-                    if (rotation2 == 0) {
-                        System.out.println("0");
-                        Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 1, 0);
-                        bullets.add(b);
-                        System.out.println("" + player2.getX() + " " + player2.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                    if (rotation2 == 45) {
-                        System.out.println("45");
-                        Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 1, 1);
-                        bullets.add(b);
-                        System.out.println("" + player2.getX() + " " + player2.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                    if (rotation2 == 90) {
-                        System.out.println("90");
-                        Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 0, 1);
-                        bullets.add(b);
-                        System.out.println("" + player2.getX() + " " + player2.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                    if (rotation2 == 135) {
-                        System.out.println("135");
-                        Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, -1, 1);
-                        bullets.add(b);
-                        System.out.println("" + player2.getX() + " " + player2.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                    if (rotation2 == 180) {
-                        System.out.println("180");
-                        Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, -1, 0);
-                        bullets.add(b);
-                        System.out.println("" + player2.getX() + " " + player2.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                    if (rotation2 == 225) {
-                        System.out.println("270");
-                        Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, -1, -1);
-                        bullets.add(b);
-                        System.out.println("" + player2.getX() + " " + player2.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                    if (rotation2 == 270) {
-                        System.out.println("270");
-                        Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 0, -1);
-                        bullets.add(b);
-                        System.out.println("" + player2.getX() + " " + player2.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                    if (rotation2 == 315) {
-                        System.out.println("315");
-                        Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 1, -1);
-                        bullets.add(b);
-                        System.out.println("" + player2.getX() + " " + player2.getY());
-                        System.out.println("" + b.getX() + " " + b.getY());
-                    }
-                }
-
-                for (Bullet b : this.bullets) {
-                    b.bulletMovement();
-                }
-                shapeBatch.setProjectionMatrix(cam.combined);
-                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-                //the menu picture
-                /* shapeBatch.setColor(Color.WHITE);
-            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());*/
-                shapeBatch.setColor(Color.WHITE);
-                shapeBatch.rect(player1.getX(), player1.getY(), 45, 45);
-                //player1.draw(shapeBatch);
-                shapeBatch.end();
-                batch.setProjectionMatrix(cam.combined);
-                batch.begin();
-                batch.draw(obstacle1, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-
-                batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-                batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-
-                for (int i = 0; i < zombies.size(); i++) {
-                    batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), 45, 45);
-                }
-
-                font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
-                batch.end();
-                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-                shapeBatch.setColor(Color.WHITE);
-                for (Bullet b : this.bullets) {
-                    b.drawBullet(shapeBatch);
-                }
-                shapeBatch.end();
+            //if the game has begn draw in the game             
+        } else if (startGame == true) {
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                player1.moveUp();
+                rotation1 = 90;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                player1.moveDown();
+                rotation1 = 270;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                player1.moveLeft();
+                rotation1 = 180;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                player1.moveRight();
+                rotation1 = 0;
             }
 
-        }
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                player2.moveUp();
+                rotation2 = 90;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                player2.moveDown();
+                rotation2 = 270;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                player2.moveLeft();
+                rotation2 = 180;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                player2.moveRight();
+                rotation2 = 0;
+            }
 
-        @Override
-        public void dispose
-        
-        
-            () {
-        batch.dispose();
+            if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
+                rotation1 = 135;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.D)) {
+                rotation1 = 45;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.A)) {
+                rotation1 = 225;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.D)) {
+                rotation1 = 315;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                rotation2 = 135;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                rotation2 = 45;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                rotation2 = 225;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                rotation2 = 315;
+            }
+            if (player1.getX() < 0) {
+                player1.moveRight();
+            }
+            if (player1.getX() > 755) {
+                player1.moveLeft();
+            }
+            if (player1.getY() < 0) {
+                player1.moveUp();
+            }
+            if (player1.getY() > 555) {
+                player1.moveDown();
+            }
+            if (player2.getX() < 0) {
+                player2.moveRight();
+            }
+            if (player2.getX() > 755) {
+                player2.moveLeft();
+            }
+            if (player2.getY() < 0) {
+                player2.moveUp();
+            }
+            if (player2.getY() > 555) {
+                player2.moveDown();
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+                if (rotation1 == 0) {
+                    System.out.println("0");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 1, 0);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation1 == 45) {
+                    System.out.println("45");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 1, 1);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation1 == 90) {
+                    System.out.println("90");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 0, 1);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation1 == 135) {
+                    System.out.println("135");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, -1, 1);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation1 == 180) {
+                    System.out.println("180");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, -1, 0);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation1 == 225) {
+                    System.out.println("270");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, -1, -1);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation1 == 270) {
+                    System.out.println("270");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 0, -1);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation1 == 315) {
+                    System.out.println("315");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 1, -1);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+                if (rotation2 == 0) {
+                    System.out.println("0");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 1, 0);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation2 == 45) {
+                    System.out.println("45");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 1, 1);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation2 == 90) {
+                    System.out.println("90");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 0, 1);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation2 == 135) {
+                    System.out.println("135");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, -1, 1);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation2 == 180) {
+                    System.out.println("180");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, -1, 0);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation2 == 225) {
+                    System.out.println("270");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, -1, -1);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation2 == 270) {
+                    System.out.println("270");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 0, -1);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation2 == 315) {
+                    System.out.println("315");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 1, -1);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+            }
+
+            for (Bullet b : this.bullets) {
+                b.bulletMovement();
+            }
+            shapeBatch.setProjectionMatrix(cam.combined);
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            //the menu picture
+            /* shapeBatch.setColor(Color.WHITE);
+            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());*/
+            shapeBatch.setColor(Color.WHITE);
+            shapeBatch.rect(player1.getX(), player1.getY(), 45, 45);
+            //player1.draw(shapeBatch);
+            shapeBatch.end();
+            batch.setProjectionMatrix(cam.combined);
+            batch.begin();
+            batch.draw(obstacle1, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+
+            batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+            batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+
+            for (int i = 0; i < zombies.size(); i++) {
+                batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), 45, 45);
+            }
+
+            font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
+            batch.end();
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            shapeBatch.setColor(Color.WHITE);
+            for (Bullet b : this.bullets) {
+                b.drawBullet(shapeBatch);
+            }
+            shapeBatch.end();
         }
 
     }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+    }
+
+}
