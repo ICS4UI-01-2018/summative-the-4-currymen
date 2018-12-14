@@ -16,13 +16,12 @@ public class Bullet {
 
     private Rectangle bullet;
     private int speed;
-    private int dx;
-    private int dy;
-    private int damage;
-    private int direction;
+    private float dx;
+    private float dy;
+    private int damage;    
     private boolean spawned;
 
-    public Bullet(int x, int y, int width, int height, int speed, int damage, int dx, int dy) {
+    public Bullet(float x, float y, int width, int height, int speed, int damage, float dx, float dy) {
         this.speed = speed;
         this.damage = damage;
         bullet = new Rectangle(x, y, width, height);

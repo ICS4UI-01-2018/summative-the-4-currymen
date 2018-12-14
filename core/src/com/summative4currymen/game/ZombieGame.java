@@ -87,8 +87,9 @@ public class ZombieGame extends ApplicationAdapter {
             String gunName = gunInfo[0];
             int bulletSpeed = Integer.parseInt(gunInfo[1]);
             int fireRate = Integer.parseInt(gunInfo[2]);
-            int damage = Integer.parseInt(gunInfo[3]);  
-            Weapon gun = new Weapon(gunName,bulletSpeed,fireRate,damage,(int)(Math.random()*(800-1))+1,(int)(Math.random()*(600-1))+1);
+            int damage = Integer.parseInt(gunInfo[3]); 
+            int numBullets = Integer.parseInt(gunInfo[4]);
+            Weapon gun = new Weapon(gunName,bulletSpeed,fireRate,damage,numBullets,(int)(Math.random()*(800-1))+1,(int)(Math.random()*(600-1))+1);
             worldWeapons.add(gun);
             System.out.println(gunName +" "+ bulletSpeed +" "+ fireRate +" "+ damage);
         } 
@@ -303,7 +304,7 @@ public class ZombieGame extends ApplicationAdapter {
                 System.out.println(w.getName());
                 if(w.getName().equals(player1.getEquipped())){
                     if(TimeUtils.millis()-previousTime > w.fireRate()){
-                    bullets.add(w.shootWeapon(w.getName(),rotation1, player1.getX(), player1.getY(),w.bulletSpeed(),w.damage(),w.fireRate()));
+                   // bullets.add(w.shootWeapon(w.getName(),rotation1, player1.getX(), player1.getY(),w.bulletSpeed(),w.damage(),w.fireRate()));
                     previousTime = TimeUtils.millis();
                     
                     }
@@ -316,7 +317,7 @@ public class ZombieGame extends ApplicationAdapter {
                 System.out.println(w.getName());
                 if(w.getName().equals(player2.getEquipped())){
                     if(TimeUtils.millis()-previousTime2 > w.fireRate()){
-                    bullets.add(w.shootWeapon(w.getName(),rotation2, player2.getX(), player2.getY(),w.bulletSpeed(),w.damage(),w.fireRate()));
+                   // bullets.add(w.shootWeapon(w.getName(),rotation2, player2.getX(), player2.getY(),w.bulletSpeed(),w.damage(),w.fireRate()));
                     previousTime2 = TimeUtils.millis();                    
                     }
                 }                
