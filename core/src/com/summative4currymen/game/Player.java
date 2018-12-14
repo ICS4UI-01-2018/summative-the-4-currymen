@@ -7,6 +7,7 @@ package com.summative4currymen.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,6 +24,8 @@ public class Player {
     private int direction;
     private int width;
     private int height;
+    private String equipped;
+    private ArrayList<Weapon> weapons;
 
     public Player(float x, float y, int width, int height, int health, int speed, String name) {
         this.speed = speed;
@@ -32,6 +35,14 @@ public class Player {
         player = new Rectangle(x, y, width, height);
         this.width = width;
         this.height = height;
+        
+    }
+    public String getEquipped(){
+        return equipped;
+    }
+    
+    public void setEquipped(String name){
+        equipped = name;
     }
 
     public void moveUp() {
@@ -48,6 +59,10 @@ public class Player {
 
     public void moveRight() {
         player.x = player.x + speed;
+    }
+    
+    public ArrayList getWeapons(){
+        return weapons;
     }
     
 
