@@ -24,7 +24,7 @@ public class Player {
     private int width;
     private int height;
 
-    public Player(int x, int y, int width, int height, int speed, int health, String name) {
+    public Player(float x, float y, int width, int height, int health, int speed, String name) {
         this.speed = speed;
         this.health = health;
         alive = true;
