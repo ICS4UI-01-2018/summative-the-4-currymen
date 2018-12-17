@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -27,7 +27,7 @@ public class Player {
     private String equipped;
     private ArrayList<Weapon> weapons;
 
-    public Player(int x, int y, int width, int height, int health, int speed, String name) {
+    public Player(float x, float y, int width, int height, int health, int speed, String name) {
         this.speed = speed;
         this.health = health;
         alive = true;

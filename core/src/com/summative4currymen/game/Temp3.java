@@ -35,7 +35,6 @@ public class Temp3 extends ApplicationAdapter {
     private Texture startButton;
     private Texture chr1IMG;
     private Texture zomIMG;
-    private Scene wordlMap;
     private Texture obstacle1;
     private Texture obstacle2;
     private Texture obstacle3;
@@ -327,7 +326,6 @@ public class Temp3 extends ApplicationAdapter {
                 b.bulletMovement();
                 if (b.getX() > 800 || b.getX() < 0 || b.getY() > 600 || b.getY() < 0) {
                     it.remove();
-
                     System.out.println("hey dont do that");
                 }
 
