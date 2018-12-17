@@ -47,13 +47,6 @@ public class Temp extends ApplicationAdapter {
 
     FreeTypeFontParameter parameter = new FreeTypeFontParameter();
     
-    double cohesionCoefficient = 100.0;
-    int alignmentCoefficient = 8;
-    double separationCoefficient = 10.0;
-    int N = 500;                                 //number of boids to simulate
-    int distance = 50;                           //amount of neighbours to search for in kd-tree
-    
-    
     @Override
     public void create() {
         startGame = false;
@@ -86,7 +79,7 @@ public class Temp extends ApplicationAdapter {
 
         zombies = new ArrayList<Zombie>();
         for(int i = 0; i < 100; i++){
-        //zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 100, "Zambie", 100));
+            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 2, "Zambie", 100));
         }
         
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
@@ -202,9 +195,21 @@ public class Temp extends ApplicationAdapter {
             }
             }
             
-            Boids boids = null;
-//            boids.move(distance, cohesionCoefficient, alignmentCoefficient, separationCoefficient);
-            
+            for(int i = 0; i < zombies.size(); i++){
+                Float x1 = zombies.get(i).getX();
+                Float x2 = zombies.get(i++).getX();
+                Float y1 = zombies.get(i).getY();
+                Float y2 = zombies.get(i++).getY();
+                if(x1 == x2){
+                    zombies.get(i).moveLeft();
+                    zombies.get(i).moveRight();
+                }
+                
+                if(y1 == y2){
+                    zombies.get(i).moveUp();
+                    zombies.get(i).moveDown();
+                }
+            }
             
 
             shapeBatch.setProjectionMatrix(cam.combined);
@@ -218,10 +223,9 @@ public class Temp extends ApplicationAdapter {
             batch.draw(obstacle1, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
             batch.draw(chr1IMG, player1.getX(), player1.getY(), 45, 45);
             batch.draw(chr1IMG, player2.getX(), player2.getY(), 45, 45);
-            batch.draw(zomIMG, zombie.getX(), zombie.getY(), 45, 45);
-            //for(int i = 0; i < zombies.size(); i++){
-            //batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), 45, 45);
-            //}   
+            for(int i = 0; i < zombies.size(); i++){
+            batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), 45, 45);
+            }   
 
             font.setColor(Color.FIREBRICK);
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
