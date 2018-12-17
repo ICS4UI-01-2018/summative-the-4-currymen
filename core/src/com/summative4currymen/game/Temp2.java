@@ -114,7 +114,6 @@ public class Temp2 extends ApplicationAdapter {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //if the game has not started yet, draw in the main menu   
-
         if (nextScreen == false) {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
@@ -135,22 +134,15 @@ public class Temp2 extends ApplicationAdapter {
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
-                if (touch.x > 425 && touch.x < 525 && touch.y > 215 && touch.y < 265) {
-                    shapeBatch.setProjectionMatrix(cam.combined);
-                    shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-                    //the menu picture
-                    shapeBatch.setColor(Color.GOLD);
-                    shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-                    shapeBatch.end();
-                    batch.setProjectionMatrix(cam.combined);
-                    batch.begin();
-                    batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-                    batch.end();
+                if (touch.x > 275 && touch.x < 375 && touch.y > 210 && touch.y < 260) {
+                    nextScreen = true;
                 }
-                //goStore = true;
-            } else if (touch.x > 275 && touch.x < 375 && touch.y > 210 && touch.y < 260) {
-                nextScreen = true;
             }
+                    
+                    
+            //} else if (touch.x > 275 && touch.x < 375 && touch.y > 210 && touch.y < 260) {
+              //  goStore = true;
+            //}
 
         } else if (startGame == false) {
             shapeBatch.setProjectionMatrix(cam.combined);

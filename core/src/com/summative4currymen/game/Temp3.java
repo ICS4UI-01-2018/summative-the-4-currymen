@@ -34,7 +34,6 @@ public class Temp3 extends ApplicationAdapter {
     private Texture startButton;
     private Texture chr1IMG;
     private Texture zomIMG;
-    private Scene wordlMap;
     private Texture obstacle1;
     private Texture obstacle2;
     private Texture obstacle3;
