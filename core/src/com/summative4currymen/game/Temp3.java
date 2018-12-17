@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Temp3 extends ApplicationAdapter {
@@ -49,6 +50,8 @@ public class Temp3 extends ApplicationAdapter {
     private Texture gun1Texture;
     private boolean startGame;
     private boolean nextScreen;
+    private int screenX;
+    private int screenY;
 
     private long previousTime;
     private long previousTime2;
@@ -88,7 +91,7 @@ public class Temp3 extends ApplicationAdapter {
             int fireRate = Integer.parseInt(gunInfo[2]);
             int damage = Integer.parseInt(gunInfo[3]);
             int numBullets = Integer.parseInt(gunInfo[4]);
-            Weapon gun = new Weapon(gunName, bulletSpeed, fireRate, damage, numBullets, (int) (Math.random() * (800 - 1)) + 1, (int) (Math.random() * (600 - 1)) + 1);
+            Weapon gun = new Weapon(gunName, bulletSpeed, fireRate, damage, numBullets, (int) (Math.random() * (750 - 50)) + 50, (int) (Math.random() * (550 - 50)) + 50);
             worldWeapons.add(gun);
             System.out.println(gunName + " " + bulletSpeed + " " + fireRate + " " + damage + " " + numBullets);
         }
@@ -114,12 +117,11 @@ public class Temp3 extends ApplicationAdapter {
         player1.setEquipped("AK-47");
         player2.setEquipped("ShotGun");
 
-       // zombies = new ArrayList<Zombie>();
+        // zombies = new ArrayList<Zombie>();
 
-       /*  for (int i = 0; i < 100; i++) {
+        /*  for (int i = 0; i < 100; i++) {
        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 100, "Zambie", 100));
        }*/
-
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
         parameter.size = 17;
@@ -298,11 +300,10 @@ public class Temp3 extends ApplicationAdapter {
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 for (Weapon w : this.worldWeapons) {
                     if (w.getName().equals(player1.getEquipped())) {
-                        if (TimeUtils.millis() - previousTime > w.fireRate()) {                            
-                                System.out.println(w.numBullets());                                
-                                bullets.addAll(w.shootWeapon(w.getName(), rotation1, player1.getX(), player1.getY(), w.bulletSpeed(), w.damage(), w.fireRate(), w.numBullets()));
-                                previousTime = TimeUtils.millis();
-                            
+                        if (TimeUtils.millis() - previousTime > w.fireRate()) {
+                            System.out.println(w.numBullets());
+                            bullets.addAll(w.shootWeapon(w.getName(), rotation1, player1.getX(), player1.getY(), w.bulletSpeed(), w.damage(), w.fireRate(), w.numBullets()));
+                            previousTime = TimeUtils.millis();
 
                         }
                     }
@@ -320,9 +321,18 @@ public class Temp3 extends ApplicationAdapter {
                     }
                 }
             }
-            for (Bullet b : this.bullets) {
+            Iterator<Bullet> it = this.bullets.iterator();
+            while (it.hasNext()) {
+                Bullet b = it.next();
                 b.bulletMovement();
+                if (b.getX() > 800 || b.getX() < 0 || b.getY() > 600 || b.getY() < 0) {
+                    it.remove();
+
+                    System.out.println("hey dont do that");
+                }
+
             }
+            System.out.println(this.bullets.size());
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the menu picture
@@ -342,7 +352,6 @@ public class Temp3 extends ApplicationAdapter {
             /*for (int i = 0; i < zombies.size(); i++) {
             batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), 45, 45);
             }*/
-
             font.setColor(Color.FIREBRICK);
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();

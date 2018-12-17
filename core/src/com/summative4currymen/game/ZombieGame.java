@@ -89,7 +89,7 @@ public class ZombieGame extends ApplicationAdapter {
             int fireRate = Integer.parseInt(gunInfo[2]);
             int damage = Integer.parseInt(gunInfo[3]); 
             int numBullets = Integer.parseInt(gunInfo[4]);
-            Weapon gun = new Weapon(gunName,bulletSpeed,fireRate,damage,numBullets,(int)(Math.random()*(800-1))+1,(int)(Math.random()*(600-1))+1);
+            Weapon gun = new Weapon(gunName,bulletSpeed,fireRate,damage,numBullets,(int)(Math.random()*(750-50))+50,(int)(Math.random()*(550-50))+50);
             worldWeapons.add(gun);
             System.out.println(gunName +" "+ bulletSpeed +" "+ fireRate +" "+ damage);
         } 
