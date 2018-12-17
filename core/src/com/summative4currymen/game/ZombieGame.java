@@ -13,10 +13,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ZombieGame extends ApplicationAdapter {
 
@@ -35,7 +33,6 @@ public class ZombieGame extends ApplicationAdapter {
     private Texture chr1IMG;
     private Texture zomIMG;
     private Texture arcadeLogo;
-    private Texture storeButton;
     private Texture obstacle1;
     private Texture obstacle2;
     private Texture obstacle3;
@@ -43,27 +40,19 @@ public class ZombieGame extends ApplicationAdapter {
     private int rotation1;
     private int rotation2;
     private ArrayList<Bullet> bullets;
-    private ArrayList<Weapon> worldWeapons;
     private BitmapFont font;
     private BitmapFont titleFont;
     private Texture instructionPic;
-
     private Texture nextButton;
-    private Texture gun1Texture;
+    private Texture storeButton;
     private boolean startGame;
-    private boolean nextScreen;
     private boolean goStore;
-
-    private long previousTime;
-    private long previousTime2;
+    private boolean nextScreen;
 
     private Vector3 touch = new Vector3(0, 0, 0);
 
     @Override
     public void create() {
-        this.goStore = false;
-        this.startGame = false;
-        this.nextScreen = false;
         this.rotation1 = 270;
         this.rotation2 = 270;
         shapeBatch2 = new ShapeRenderer();
@@ -78,32 +67,8 @@ public class ZombieGame extends ApplicationAdapter {
         nextButton = new Texture("next.png");
         chr1IMG = new Texture("character1.png");
         zomIMG = new Texture("thriller-zombie.png");
-        gun1Texture = new Texture("gun1.png");
 
         bullets = new ArrayList<Bullet>();
-        worldWeapons = new ArrayList<Weapon>();
-
-        //load in guns from file        
-        Scanner in = null;
-        try {
-            in = new Scanner(Gdx.files.internal("GunsFile").file());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        while (in.hasNext()) {
-            String gunLine = in.nextLine();
-            String gunInfo[] = gunLine.split(" ");
-            String gunName = gunInfo[0];
-            int bulletSpeed = Integer.parseInt(gunInfo[1]);
-            int fireRate = Integer.parseInt(gunInfo[2]);
-            int damage = Integer.parseInt(gunInfo[3]);
-            Weapon gun = new Weapon(gunName, bulletSpeed, fireRate, damage, (int) (Math.random() * (800 - 1)) + 1, (int) (Math.random() * (600 - 1)) + 1);
-            worldWeapons.add(gun);
-            System.out.println(gunName + " " + bulletSpeed + " " + fireRate + " " + damage);
-        }
-
-        long previousTime = TimeUtils.millis();
-        long previousTime2 = TimeUtils.millis();
 
         obstacle1 = new Texture("Concrete_Roof.jpg");
         obstacle2 = new Texture("Concrete_Roof.jpg");
@@ -117,17 +82,10 @@ public class ZombieGame extends ApplicationAdapter {
         cam.position.x = 400;
         cam.position.y = 300;
         cam.update();
-        player1 = new Player(400, 300, 45, 45, 100, 2, "Rick");
-        player2 = new Player(450, 350, 45, 45, 100, 2, "Carl");
-
-        player1.setEquipped("AK-47");
-        player2.setEquipped("ShotGun");
+        player1 = new Player(400, 300, 45, 45, 2, 100, "Rick");
+        player2 = new Player(450, 350, 45, 45, 2, 100, "Carl");
 
         zombies = new ArrayList<Zombie>();
-
-        for (int i = 0; i < 100; i++) {
-            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 100, "Zambie", 100));
-        }
 
         FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
         FreeTypeFontParameter param = new FreeTypeFontParameter();
@@ -140,14 +98,17 @@ public class ZombieGame extends ApplicationAdapter {
         p.size = 17;
         font = g.generateFont(p);
         g.dispose();
+
+        for (int i = 0; i < 100; i++) {
+            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 100, "Zambie", 100));
+        }
     }
 
     @Override
     public void render() {
-
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //if the game has not started yet, draw in the main menu
+        //if the game has not started yet, draw in the main menu   
         if (nextScreen == false) {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
@@ -159,8 +120,8 @@ public class ZombieGame extends ApplicationAdapter {
             batch.begin();
             batch.draw(menuPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
             batch.draw(startButton, 275, 210, 100, 50);
-            batch.draw(storeButton, 425, 215, 100, 50);
             batch.draw(arcadeLogo, 335, 330, 125, 75);
+            batch.draw(storeButton, 425, 215, 100, 50);
             titleFont.setColor(Color.WHITE);
             titleFont.draw(batch, "ARCADE APOCALYPSE", 125, 310);
             batch.end();
@@ -168,24 +129,15 @@ public class ZombieGame extends ApplicationAdapter {
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
-                if (touch.x > 425 && touch.x < 525 && touch.y > 215 && touch.y < 265) {
-                    System.out.println("test");
-                    shapeBatch.setProjectionMatrix(cam.combined);
-                    shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-                    //the menu picture
-                    shapeBatch.setColor(Color.GOLD);
-                    shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-                    shapeBatch.end();
-                    batch.setProjectionMatrix(cam.combined);
-                    batch.begin();
-                    batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-                    batch.end();
-                    goStore = true;
-                }
                 if (touch.x > 275 && touch.x < 375 && touch.y > 210 && touch.y < 260) {
                     nextScreen = true;
                 }
             }
+                    
+                    
+            //} else if (touch.x > 275 && touch.x < 375 && touch.y > 210 && touch.y < 260) {
+              //  goStore = true;
+            //}
 
         } else if (startGame == false) {
             shapeBatch.setProjectionMatrix(cam.combined);
@@ -236,7 +188,7 @@ public class ZombieGame extends ApplicationAdapter {
                 }
             }
 
-            //if the game has begun draw in the game             
+            //if the game has begn draw in the game             
         } else if (startGame == true) {
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player1.moveUp();
@@ -320,36 +272,120 @@ public class ZombieGame extends ApplicationAdapter {
             if (player2.getY() > 555) {
                 player2.moveDown();
             }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
-                for (Weapon g : this.worldWeapons) {
-                    if (player1.getX() > g.getX() && player1.getX() < g.getX() + 55 && player1.getY() > g.getY() && player1.getY() < g.getY() + 55) {
-                        System.out.println("YEEESSS");
-                    }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+                if (rotation1 == 0) {
+                    System.out.println("0");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 1, 0);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation1 == 45) {
+                    System.out.println("45");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 1, 1);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation1 == 90) {
+                    System.out.println("90");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 0, 1);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation1 == 135) {
+                    System.out.println("135");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, -1, 1);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation1 == 180) {
+                    System.out.println("180");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, -1, 0);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation1 == 225) {
+                    System.out.println("270");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, -1, -1);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation1 == 270) {
+                    System.out.println("270");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 0, -1);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation1 == 315) {
+                    System.out.println("315");
+                    Bullet b = new Bullet((int) player1.getX(), (int) player1.getY(), 10, 10, 5, 50, 1, -1);
+                    bullets.add(b);
+                    System.out.println("" + player1.getX() + " " + player1.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
                 }
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                for (Weapon w : this.worldWeapons) {
-                    System.out.println(player1.getEquipped());
-                    System.out.println(w.getName());
-                    if (w.getName().equals(player1.getEquipped())) {
-                        if (TimeUtils.millis() - previousTime > w.fireRate()) {
-                            bullets.add(w.shootWeapon(w.getName(), rotation1, player1.getX(), player1.getY(), w.bulletSpeed(), w.damage(), w.fireRate()));
-                            previousTime = TimeUtils.millis();
-
-                        }
-                    }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+                if (rotation2 == 0) {
+                    System.out.println("0");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 1, 0);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
                 }
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-                for (Weapon w : this.worldWeapons) {
-                    System.out.println(player2.getEquipped());
-                    System.out.println(w.getName());
-                    if (w.getName().equals(player2.getEquipped())) {
-                        if (TimeUtils.millis() - previousTime2 > w.fireRate()) {
-                            bullets.add(w.shootWeapon(w.getName(), rotation2, player2.getX(), player2.getY(), w.bulletSpeed(), w.damage(), w.fireRate()));
-                            previousTime2 = TimeUtils.millis();
-                        }
-                    }
+                if (rotation2 == 45) {
+                    System.out.println("45");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 1, 1);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation2 == 90) {
+                    System.out.println("90");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 0, 1);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation2 == 135) {
+                    System.out.println("135");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, -1, 1);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation2 == 180) {
+                    System.out.println("180");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, -1, 0);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation2 == 225) {
+                    System.out.println("270");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, -1, -1);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation2 == 270) {
+                    System.out.println("270");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 0, -1);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
+                }
+                if (rotation2 == 315) {
+                    System.out.println("315");
+                    Bullet b = new Bullet((int) player2.getX(), (int) player2.getY(), 10, 10, 5, 50, 1, -1);
+                    bullets.add(b);
+                    System.out.println("" + player2.getX() + " " + player2.getY());
+                    System.out.println("" + b.getX() + " " + b.getY());
                 }
             }
 
@@ -376,7 +412,6 @@ public class ZombieGame extends ApplicationAdapter {
                 batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), 45, 45);
             }
 
-            font.setColor(Color.FIREBRICK);
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
@@ -385,13 +420,6 @@ public class ZombieGame extends ApplicationAdapter {
                 b.drawBullet(shapeBatch);
             }
             shapeBatch.end();
-            batch.setProjectionMatrix(cam.combined);
-            batch.begin();
-            for (Weapon g : this.worldWeapons) {
-                g.drawWeapon(batch);
-            }
-            batch.end();
-
         }
     }
 

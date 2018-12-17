@@ -22,17 +22,16 @@ public class Zombie extends Player {
     private Boolean alive;
     private int direction;
     private int damage;
-
-    public Zombie(int x, int y, int width, int height, int health, int speed, String name, int damage) {
+    
+    public Zombie(float x, float y, int width, int height, int health, int speed, String name, int damage) {
         super(x, y, width, height, health, speed, name);
+        this.speed = speed;
         this.damage = damage;
         alive = true;
+        zombie = new Rectangle(x, y, width, height);
+       
     }
-
-    public void move(Player player) {
-        zombie.x = 5;
-    }
-
+    
     public Rectangle getBounds() {
         return zombie;
     }
@@ -44,7 +43,6 @@ public class Zombie extends Player {
         }
     }
     
-    
     @Override
     public void draw(ShapeRenderer shapeBatch){
         shapeBatch.rect(zombie.x, zombie.y, zombie.width, zombie.height);
@@ -53,5 +51,5 @@ public class Zombie extends Player {
 
     public int attack() {
         return damage;
-    }
+    }      
 }
