@@ -83,8 +83,8 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
         cam.position.x = 400;
         cam.position.y = 300;
         cam.update();
-        player1 = new Player(400, 300, 45, 45, 2, 10, "Rick");
-        player2 = new Player(450, 350, 45, 45, 2, 10, "Carl");
+        player1 = new Player(400, 300, 45, 45, 100, 10, "Rick");
+        player2 = new Player(450, 350, 45, 45, 100, 10, "Carl");
         hud = new HUD(player1, player2, viewport.getWorldWidth());
         zombies = new ArrayList<Zombie>();
 
@@ -389,7 +389,9 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
                     System.out.println("" + b.getX() + " " + b.getY());
                 }
             }
-
+            
+            hud.update(player1, player2); //update HUD
+            
             for (Bullet b : this.bullets) {
                 b.bulletMovement();
             }
