@@ -130,12 +130,13 @@ public class ZombieGame extends ApplicationAdapter {
         g.dispose();
 
         for (int i = 0; i < 100; i++) {
-            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 2, "Zambie", 100));
+            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 1, "Zambie", 100));
         }
     }
 
     @Override
     public void render() {
+        Gdx.graphics.getDeltaTime();
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //if the game has not started yet, draw in the main menu   

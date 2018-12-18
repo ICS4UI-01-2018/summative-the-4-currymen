@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class Player {
 
-    private int speed;
+    private float speed;
     private int health;
     private Rectangle player;
     private String name;
@@ -27,7 +27,7 @@ public class Player {
     private String equipped;
     private ArrayList<Weapon> weapons;
 
-    public Player(float x, float y, int width, int height, int health, int speed, String name) {
+    public Player(float x, float y, int width, int height, int health, float speed, String name) {
         this.speed = speed;
         this.health = health;
         alive = true;
@@ -88,7 +88,7 @@ public class Player {
         return player.y;
     }
 
-    public int getSpeed() {
+    public float getSpeed() {
         return speed;
     }
     

@@ -15,7 +15,7 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class Zombie extends Player {
 
-    private int speed;
+    private float speed;
     private int health;
     private Rectangle zombie;
     private String name;
@@ -23,9 +23,9 @@ public class Zombie extends Player {
     private int direction;
     private int damage;
 
-    public Zombie(float x, float y, int width, int height, int health, int speed, String name, int damage) {
-        super(x, y, width, height, health, speed, name);
-        this.speed = speed;
+    public Zombie(float x, float y, int width, int height, int health, float speed, String name, int damage) {
+        super(x, y, width, height, health,speed, name);
+        
         this.damage = damage;
         alive = true;
         zombie = new Rectangle(x, y, width, height);

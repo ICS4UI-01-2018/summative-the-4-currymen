@@ -69,7 +69,7 @@ public class Temp3 extends ApplicationAdapter {
         instructionPic = new Texture("instruct.jpg");
         nextButton = new Texture("next.png");
         chr1IMG = new Texture("character1.png");
-        //zomIMG = new Texture("thriller-zombie.png");
+        zomIMG = new Texture("thriller-zombie.png");
         gun1Texture = new Texture("gun1.png");
 
         bullets = new ArrayList<Bullet>();
@@ -116,11 +116,11 @@ public class Temp3 extends ApplicationAdapter {
         player1.setEquipped("AK-47");
         player2.setEquipped("ShotGun");
 
-        // zombies = new ArrayList<Zombie>();
+       zombies = new ArrayList<Zombie>();
 
-        /*  for (int i = 0; i < 100; i++) {
-       zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 100, "Zambie", 100));
-       }*/
+       for (int i = 0; i < 100; i++) {
+       zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 50, "Zambie", 100));
+       }
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
         parameter.size = 17;
@@ -347,9 +347,9 @@ public class Temp3 extends ApplicationAdapter {
             batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
 
-            /*for (int i = 0; i < zombies.size(); i++) {
+            for (int i = 0; i < zombies.size(); i++) {
             batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), 45, 45);
-            }*/
+            }
             font.setColor(Color.FIREBRICK);
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();
@@ -368,6 +368,7 @@ public class Temp3 extends ApplicationAdapter {
         }
 
     }
+    
 
     @Override
     public void dispose() {
