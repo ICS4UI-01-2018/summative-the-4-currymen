@@ -116,6 +116,7 @@ public class Temp3 extends ApplicationAdapter {
         cam.update();
         player1 = new Player(400, 300, 45, 45, 2, 2, "Rick");
         player2 = new Player(450, 350, 45, 45, 2, 2, "Carl");
+        
 
         player1.setEquipped("AK-47");
         player2.setEquipped("ShotGun");
@@ -222,6 +223,14 @@ public class Temp3 extends ApplicationAdapter {
 
             //if the game has begn draw in the game             
         } else if (startGame == true) {
+            //update camera to players positions and zoom in or out accordingly
+        viewport.setScreenSize(800 -(int)((Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2))))/2), 600 -(int)((Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2)))))/2);
+        viewport.apply();
+            System.out.println((int)(Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2)))));
+        cam.position.x = (player1.getX() + player2.getX())/2;
+        cam.position.y = (player1.getY() + player2.getY())/2;
+        cam.update();
+            
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player1.moveUp();
                 rotation1 = 90;
