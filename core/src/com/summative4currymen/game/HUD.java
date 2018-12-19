@@ -32,5 +32,5 @@ public class HUD {
     public void update(Player p1, Player p2){ //update the on screen graphic with current variables
         this.p1 = p1;
         this.p2 = p2;
-    }
+    } 
 }
