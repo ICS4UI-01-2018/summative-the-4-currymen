@@ -36,6 +36,7 @@ public class Player {
         this.width = width;
         this.height = height;
         
+        
     }
     public String getEquipped(){
         return equipped;
