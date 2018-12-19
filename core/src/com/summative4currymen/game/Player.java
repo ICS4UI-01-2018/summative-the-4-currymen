@@ -75,6 +75,10 @@ public class Player {
     public int getHealth() {
         return health;
     }
+    
+    public void setHealth(int damage){
+        this.health = this.health - damage;        
+    }
 
     public Boolean getAlive() {
         return alive;
