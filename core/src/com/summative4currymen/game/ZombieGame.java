@@ -13,8 +13,11 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Scanner;
 
 public class ZombieGame extends ApplicationAdapter {
 
@@ -40,6 +43,7 @@ public class ZombieGame extends ApplicationAdapter {
     private int rotation1;
     private int rotation2;
     private ArrayList<Bullet> bullets;
+    private ArrayList<Weapon> worldWeapons;
     private BitmapFont font;
     private BitmapFont titleFont;
     private Texture instructionPic;
@@ -48,6 +52,7 @@ public class ZombieGame extends ApplicationAdapter {
     private boolean startGame;
     private boolean goStore;
     private boolean nextScreen;
+    
 
     private Vector3 touch = new Vector3(0, 0, 0);
 
@@ -69,6 +74,31 @@ public class ZombieGame extends ApplicationAdapter {
         zomIMG = new Texture("thriller-zombie.png");
 
         bullets = new ArrayList<Bullet>();
+        worldWeapons = new ArrayList<Weapon>();
+        
+        //load in guns from file        
+        Scanner in = null;
+        try {
+            in = new Scanner(Gdx.files.internal("GunsFile").file());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        while (in.hasNext()) {
+            String gunLine = in.nextLine();
+            String gunInfo[] = gunLine.split(" ");
+            String gunName = gunInfo[0];
+            int bulletSpeed = Integer.parseInt(gunInfo[1]);
+            int fireRate = Integer.parseInt(gunInfo[2]);
+            int damage = Integer.parseInt(gunInfo[3]); 
+            int numBullets = Integer.parseInt(gunInfo[4]);
+            Weapon gun = new Weapon(gunName,bulletSpeed,fireRate,damage,numBullets,(int)(Math.random()*(750-50))+50,(int)(Math.random()*(550-50))+50);
+            worldWeapons.add(gun);
+            System.out.println(gunName +" "+ bulletSpeed +" "+ fireRate +" "+ damage);
+        } 
+        
+        long previousTime = TimeUtils.millis();
+        long previousTime2 = TimeUtils.millis();
+                
 
         obstacle1 = new Texture("Concrete_Roof.jpg");
         obstacle2 = new Texture("Concrete_Roof.jpg");
@@ -440,10 +470,15 @@ public class ZombieGame extends ApplicationAdapter {
             }
             }
             
-            }
-            
-            for (Bullet b : this.bullets) {
+            Iterator<Bullet> it = this.bullets.iterator();
+            while (it.hasNext()) {
+                Bullet b = it.next();
                 b.bulletMovement();
+                if (b.getX() > 800 || b.getX() < 0 || b.getY() > 600 || b.getY() < 0) {
+                    it.remove();
+                    System.out.println("hey dont do that");
+                }
+
             }
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
@@ -474,7 +509,7 @@ public class ZombieGame extends ApplicationAdapter {
             }
             shapeBatch.end();
         }
-    
+    }
     @Override
     public void dispose() {
         batch.dispose();
