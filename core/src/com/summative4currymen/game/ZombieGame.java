@@ -413,7 +413,7 @@ public class ZombieGame extends ApplicationAdapter {
             for (int i = 0; i < zombies.size(); i++) {
                 batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), 45, 45);
             }
-
+            
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
@@ -424,7 +424,6 @@ public class ZombieGame extends ApplicationAdapter {
             shapeBatch.end();
         }
     }
-
     @Override
     public void dispose() {
         batch.dispose();

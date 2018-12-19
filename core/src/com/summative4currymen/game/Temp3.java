@@ -255,6 +255,9 @@ public class Temp3 extends ApplicationAdapter {
                 player2.moveRight();
                 rotation2 = 0;
             }
+            if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+                player1.setEquipped("Barret50");
+            }
 
             if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
                 rotation1 = 135;
@@ -394,6 +397,7 @@ public class Temp3 extends ApplicationAdapter {
                 }while (zom.hasNext()) {
                     Zombie z = zom.next();
                     if(b.getX() > z.getX() && b.getX() < z.getX()+z.getWidth() && b.getY() > z.getY() && b.getY() < z.getY()+z.getHeight()){
+                        System.out.println(z.getHealth());
                         zom.remove();
                     }
                 }
