@@ -66,7 +66,7 @@ public class Temp extends ApplicationAdapter {
         instructionPic = new Texture("instruct.jpg");
         nextButton = new Texture("next.png");
         chr1IMG = new Texture("character1.png");
-        zomIMG = new Texture("thriller-zombie.png");
+        zomIMG = new Texture("download.jpg");
 
         bullets = new ArrayList<Bullet>();
 
@@ -440,7 +440,7 @@ public class Temp extends ApplicationAdapter {
             }
             }
             
-            for(int i = 0; i < zombies.size(); i++){
+            for(int i = 0; i < zombies.size(); i= i + 2){
                 if(zombies.get(i).collidesWith(zombies.get(i++))){
                     zombies.get(i).moveLeft();
                     zombies.get(i++).moveRight();
