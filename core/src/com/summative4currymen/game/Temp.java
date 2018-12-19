@@ -98,9 +98,21 @@ public class Temp extends ApplicationAdapter {
         p.size = 17;
         font = g.generateFont(p);
         g.dispose();
-
-        for (int i = 0; i < 100; i++) {
-            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 1, "Zambie", 100));
+        
+        for (int i = 0; i < 3; i++) {
+            zombies.add(new Zombie(-20, -20, 45, 45, 2, 1, "Spawn 1", 100));
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            zombies.add(new Zombie(-820, -20, 45, 45, 2, 1, "Spawn 2", 100));
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            zombies.add(new Zombie(-820, -620, 45, 45, 2, 1, "Spawn 2", 100));
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            zombies.add(new Zombie(-20, -620, 45, 45, 2, 1, "Spawn 2", 100));
         }
     }
 
@@ -440,7 +452,7 @@ public class Temp extends ApplicationAdapter {
             }
             }
             
-            for(int i = 0; i < zombies.size(); i= i + 2){
+            for(int i = 0; i < zombies.size() - 2; i = i + 2){
                 if(zombies.get(i).collidesWith(zombies.get(i++))){
                     zombies.get(i).moveLeft();
                     zombies.get(i++).moveRight();
