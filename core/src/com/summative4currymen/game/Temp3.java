@@ -43,15 +43,17 @@ public class Temp3 extends ApplicationAdapter {
     private int rotation1;
     private int rotation2;
     private ArrayList<Bullet> bullets;
-    private ArrayList<Weapon> worldWeapons;
+    private ArrayList<Weapon> worldWeapons;    
     private BitmapFont font;
     private BitmapFont titleFont;
     private Texture instructionPic;
     private Texture nextButton;
     private Texture storeButton;
+    private Texture treePic;
     private boolean startGame;
     private boolean goStore;
     private boolean nextScreen;
+    
     
     private long previousTime;
     private long previousTime2;
@@ -74,6 +76,7 @@ public class Temp3 extends ApplicationAdapter {
         nextButton = new Texture("next.png");
         chr1IMG = new Texture("character1.png");
         zomIMG = new Texture("thriller-zombie.png");
+        treePic = new Texture("treetop.png");
 
         bullets = new ArrayList<Bullet>();
         worldWeapons = new ArrayList<Weapon>();
@@ -224,9 +227,14 @@ public class Temp3 extends ApplicationAdapter {
             //if the game has begn draw in the game             
         } else if (startGame == true) {
             //update camera to players positions and zoom in or out accordingly
-        viewport.setScreenSize(800 -(int)((Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2))))/2), 600 -(int)((Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2)))))/2);
-        viewport.apply();
+        //viewport.setScreenSize(800 -(int)(1.3*(int)((Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2))))/2)), (int)(viewport.getScreenWidth() / 1.333));
+        //viewport.apply();
+        
             System.out.println((int)(Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2)))));
+        if(Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2)))>500){
+            cam.zoom = (float)(Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2))))/500;
+        }
+            
         cam.position.x = (player1.getX() + player2.getX())/2;
         cam.position.y = (player1.getY() + player2.getY())/2;
         cam.update();
@@ -291,7 +299,7 @@ public class Temp3 extends ApplicationAdapter {
             }
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 rotation2 = 315;
-            }
+            }/*
             if (player1.getX() < 0) {
                 player1.moveRight();
             }
@@ -316,6 +324,7 @@ public class Temp3 extends ApplicationAdapter {
             if (player2.getY() > 555) {
                 player2.moveDown();
             }
+            */
             //shooting for player 1
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 for (Weapon w : this.worldWeapons) {
@@ -343,8 +352,8 @@ public class Temp3 extends ApplicationAdapter {
             }            
             
             for(int i = 0; i < zombies.size(); i++){
-                double distance1 = Math.sqrt((Math.pow(zombies.get(i).getX() - player1.getX(), 2)) + (Math.pow(zombies.get(i).getX() - player1.getY(), 2)));
-                double distance2 = Math.sqrt((Math.pow(zombies.get(i).getY() - player2.getX(), 2)) + (Math.pow(zombies.get(i).getY() - player2.getY(), 2)));
+                double distance1 = Math.sqrt((Math.pow(zombies.get(i).getX() - player1.getX(), 2)) + (Math.pow(zombies.get(i).getY() - player1.getY(), 2)));
+                double distance2 = Math.sqrt((Math.pow(zombies.get(i).getX() - player2.getX(), 2)) + (Math.pow(zombies.get(i).getY() - player2.getY(), 2)));
                 
                 if(distance1 < distance2){
                 // if the zombies x value is bigger than the players x value
@@ -422,11 +431,11 @@ public class Temp3 extends ApplicationAdapter {
             shapeBatch.end();
             batch.setProjectionMatrix(cam.combined);
             batch.begin();
-            batch.draw(obstacle1, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            batch.draw(obstacle1, -200, -200, 1500, 1500);
 
             batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-
+            //batch.draw(treePic,(int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 65,65);
             for(Zombie z : this.zombies){   
                 
                 batch.draw(zomIMG, z.getX(), z.getY(), 45, 45);
