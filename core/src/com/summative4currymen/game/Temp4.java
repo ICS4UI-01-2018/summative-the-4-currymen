@@ -48,7 +48,10 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
     private boolean startGame;
     private boolean goStore;
     private boolean nextScreen;
+    //matt's variables
     private HUD hud;
+    private boolean p1Strafe;
+    private boolean p2Strafe;
 
     private Vector3 touch = new Vector3(0, 0, 0);
 
@@ -83,9 +86,9 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
         cam.position.x = 400;
         cam.position.y = 300;
         cam.update();
-        player1 = new Player(400, 300, 45, 45, 100, 10, "Rick");
-        player2 = new Player(450, 350, 45, 45, 100, 10, "Carl");
-        hud = new HUD(player1, player2, viewport.getWorldWidth());
+        player1 = new Player(400, 300, 45, 45, 100, 3, "Rick");
+        player2 = new Player(450, 350, 45, 45, 100, 3, "Carl");
+        hud = new HUD(player1, player2, viewport.getWorldWidth()); //new code
         zombies = new ArrayList<Zombie>();
 
         FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
@@ -194,6 +197,7 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player1.moveUp();
                 rotation1 = 90;
+
             }
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 player1.moveDown();
@@ -280,6 +284,7 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
                     bullets.add(b);
                     System.out.println("" + player1.getX() + " " + player1.getY());
                     System.out.println("" + b.getX() + " " + b.getY());
+                    player1.hit(5);
                 }
                 if (rotation1 == 45) {
                     System.out.println("45");
@@ -417,15 +422,20 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
 
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();
+            
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             shapeBatch.setColor(Color.WHITE);
             for (Bullet b : this.bullets) {
                 b.drawBullet(shapeBatch);
             }
             //mattG
-            hud.draw(shapeBatch);       //DRAW THE HUD
+            
             
             shapeBatch.end();
+            
+            hud.draw(shapeBatch, batch);       //DRAW THE HUD
+            
+            
         }
     }
 
