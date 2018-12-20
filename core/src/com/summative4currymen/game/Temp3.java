@@ -35,6 +35,7 @@ public class Temp3 extends ApplicationAdapter {
     private Texture startButton;
     private Texture chr1IMG;
     private Texture zomIMG;
+    private Texture arcadeLogo;
     private Texture obstacle1;
     private Texture obstacle2;
     private Texture obstacle3;
@@ -44,19 +45,20 @@ public class Temp3 extends ApplicationAdapter {
     private ArrayList<Bullet> bullets;
     private ArrayList<Weapon> worldWeapons;
     private BitmapFont font;
+    private BitmapFont titleFont;
     private Texture instructionPic;
     private Texture nextButton;
-    private Texture gun1Texture;
+    private Texture storeButton;
     private boolean startGame;
+    private boolean goStore;
     private boolean nextScreen;
-    private int screenX;
-    private int screenY;
-
+    
     private long previousTime;
     private long previousTime2;
 
     private Vector3 touch = new Vector3(0, 0, 0);
 
+    @Override
     public void create() {
         this.rotation1 = 270;
         this.rotation2 = 270;
@@ -65,16 +67,17 @@ public class Temp3 extends ApplicationAdapter {
         batch = new SpriteBatch();
         img = new Texture("badlogic.jpg");
         menuPic = new Texture("MenuPic.jpg");
+        arcadeLogo = new Texture("Arcade_logo.png");
         startButton = new Texture("StartButton.png");
+        storeButton = new Texture("StoreButton.png");
         instructionPic = new Texture("instruct.jpg");
         nextButton = new Texture("next.png");
         chr1IMG = new Texture("character1.png");
-        //zomIMG = new Texture("thriller-zombie.png");
-        gun1Texture = new Texture("gun1.png");
+        zomIMG = new Texture("thriller-zombie.png");
 
         bullets = new ArrayList<Bullet>();
         worldWeapons = new ArrayList<Weapon>();
-
+        
         //load in guns from file        
         Scanner in = null;
         try {
@@ -88,15 +91,16 @@ public class Temp3 extends ApplicationAdapter {
             String gunName = gunInfo[0];
             int bulletSpeed = Integer.parseInt(gunInfo[1]);
             int fireRate = Integer.parseInt(gunInfo[2]);
-            int damage = Integer.parseInt(gunInfo[3]);
+            int damage = Integer.parseInt(gunInfo[3]); 
             int numBullets = Integer.parseInt(gunInfo[4]);
-            Weapon gun = new Weapon(gunName, bulletSpeed, fireRate, damage, numBullets, (int) (Math.random() * (750 - 50)) + 50, (int) (Math.random() * (550 - 50)) + 50);
+            Weapon gun = new Weapon(gunName,bulletSpeed,fireRate,damage,numBullets,(int)(Math.random()*(750-50))+50,(int)(Math.random()*(550-50))+50);
             worldWeapons.add(gun);
-            System.out.println(gunName + " " + bulletSpeed + " " + fireRate + " " + damage + " " + numBullets);
-        }
-
+            System.out.println(gunName +" "+ bulletSpeed +" "+ fireRate +" "+ damage);
+        } 
+        
         long previousTime = TimeUtils.millis();
         long previousTime2 = TimeUtils.millis();
+                
 
         obstacle1 = new Texture("Concrete_Roof.jpg");
         obstacle2 = new Texture("Concrete_Roof.jpg");
@@ -110,30 +114,37 @@ public class Temp3 extends ApplicationAdapter {
         cam.position.x = 400;
         cam.position.y = 300;
         cam.update();
-        player1 = new Player(400, 300, 45, 45, 100, 2, "Rick");
-        player2 = new Player(450, 350, 45, 45, 100, 2, "Carl");
+        player1 = new Player(400, 300, 45, 45, 2, 2, "Rick");
+        player2 = new Player(450, 350, 45, 45, 2, 2, "Carl");
+        
 
         player1.setEquipped("AK-47");
         player2.setEquipped("ShotGun");
+        
+        zombies = new ArrayList<Zombie>();
 
-        // zombies = new ArrayList<Zombie>();
+        FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
+        FreeTypeFontParameter param = new FreeTypeFontParameter();
+        param.size = 35;
+        titleFont = gen.generateFont(param);
+        gen.dispose();
 
-        /*  for (int i = 0; i < 100; i++) {
-       zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 100, "Zambie", 100));
-       }*/
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
-        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 17;
-        font = generator.generateFont(parameter);
-        generator.dispose();
+        FreeTypeFontGenerator g = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
+        FreeTypeFontParameter p = new FreeTypeFontParameter();
+        p.size = 17;
+        font = g.generateFont(p);
+        g.dispose();
+
+        for (int i = 0; i < 100; i++) {
+            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 2, "Zambie", 100));
+        }
     }
 
     @Override
     public void render() {
-
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //if the game has not started yet, draw in the main menu
+        //if the game has not started yet, draw in the main menu   
         if (nextScreen == false) {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
@@ -144,16 +155,22 @@ public class Temp3 extends ApplicationAdapter {
             batch.setProjectionMatrix(cam.combined);
             batch.begin();
             batch.draw(menuPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            batch.draw(startButton, 350, 250, 100, 50);
+            batch.draw(startButton, 275, 210, 100, 50);
+            batch.draw(arcadeLogo, 335, 330, 125, 75);
+            batch.draw(storeButton, 425, 215, 100, 50);
+            titleFont.setColor(Color.WHITE);
+            titleFont.draw(batch, "ARCADE APOCALYPSE", 125, 310);
             batch.end();
 
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
-                if (touch.x > 350 && touch.x < 450 && touch.y > 250 && touch.y < 300) {
+                if (touch.x > 275 && touch.x < 375 && touch.y > 210 && touch.y < 260) {
                     nextScreen = true;
                 }
             }
+                    
+              
 
         } else if (startGame == false) {
             shapeBatch.setProjectionMatrix(cam.combined);
@@ -175,9 +192,9 @@ public class Temp3 extends ApplicationAdapter {
             font.setColor(Color.WHITE);
             font.draw(batch, "A = Move Left", 25, 350);
             font.setColor(Color.WHITE);
-            font.draw(batch, "S = Move Right", 25, 300);
+            font.draw(batch, "S = Move Downwards", 25, 300);
             font.setColor(Color.WHITE);
-            font.draw(batch, "D = Move Downwards", 25, 250);
+            font.draw(batch, "D = Move Right", 25, 250);
             font.setColor(Color.WHITE);
             font.draw(batch, "Space = Shoot", 25, 200);
             font.setColor(Color.WHITE);
@@ -204,8 +221,16 @@ public class Temp3 extends ApplicationAdapter {
                 }
             }
 
-            //if the game has begun draw in the game             
+            //if the game has begn draw in the game             
         } else if (startGame == true) {
+            //update camera to players positions and zoom in or out accordingly
+        viewport.setScreenSize(800 -(int)((Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2))))/2), 600 -(int)((Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2)))))/2);
+        viewport.apply();
+            System.out.println((int)(Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2)))));
+        cam.position.x = (player1.getX() + player2.getX())/2;
+        cam.position.y = (player1.getY() + player2.getY())/2;
+        cam.update();
+            
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player1.moveUp();
                 rotation1 = 90;
@@ -238,6 +263,9 @@ public class Temp3 extends ApplicationAdapter {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 player2.moveRight();
                 rotation2 = 0;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+                player1.setEquipped("Barret50");
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -288,13 +316,6 @@ public class Temp3 extends ApplicationAdapter {
             if (player2.getY() > 555) {
                 player2.moveDown();
             }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
-                for (Weapon g : this.worldWeapons) {
-                    if (player1.getX() > g.getX() && player1.getX() < g.getX() + 55 && player1.getY() > g.getY() && player1.getY() < g.getY() + 55) {
-                        System.out.println("YEEESSS");
-                    }
-                }
-            }
             //shooting for player 1
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 for (Weapon w : this.worldWeapons) {
@@ -319,18 +340,77 @@ public class Temp3 extends ApplicationAdapter {
                         }
                     }
                 }
+            }            
+            
+            for(int i = 0; i < zombies.size(); i++){
+                double distance1 = Math.sqrt((Math.pow(zombies.get(i).getX() - player1.getX(), 2)) + (Math.pow(zombies.get(i).getX() - player1.getY(), 2)));
+                double distance2 = Math.sqrt((Math.pow(zombies.get(i).getY() - player2.getX(), 2)) + (Math.pow(zombies.get(i).getY() - player2.getY(), 2)));
+                
+                if(distance1 < distance2){
+                // if the zombies x value is bigger than the players x value
+            if (zombies.get(i).getX() > player1.getX()) {
+                // the zombies x value decreases using the speed integer
+                zombies.get(i).moveLeft();
+                // if the zombies x value is less than the players x value  
+            } else if (zombies.get(i).getX() < player1.getX()) {
+                // the zombies x value increases using the speed integer
+                zombies.get(i).moveRight();
+                // if the zombies x value is equal the players x value than nothing changes
+            } else if (zombies.get(i).getX() == player1.getX()) {
+            }// if the zombies y value is bigger than the players y value
+            if (zombies.get(i).getY() > player1.getY()) {
+                // the zombies y value decreases using the speed integer
+                zombies.get(i).moveDown();
+                // if the zombies y value is less than the players y value
+            } else if (zombies.get(i).getY() < player1.getY()) {
+                // the zombies y value increases using the speed integer
+                zombies.get(i).moveUp();
+                // if the zombies y value is equal to the players y value than nothing changes      
+            } else if (zombies.get(i).getY() == player1.getY()) {
+
             }
+            }else if(distance1 > distance2){
+                // if the zombies x value is bigger than the players x value
+            if (zombies.get(i).getX() > player2.getX()) {
+                // the zombies x value decreases using the speed integer
+                zombies.get(i).moveLeft();
+                // if the zombies x value is less than the players x value  
+            } else if (zombies.get(i).getX() < player2.getX()) {
+                // the zombies x value increases using the speed integer
+                zombies.get(i).moveRight();
+                // if the zombies x value is equal the players x value than nothing changes
+            } else if (zombies.get(i).getX() == player2.getX()) {
+            }// if the zombies y value is bigger than the players y value
+            if (zombies.get(i).getY() > player2.getY()) {
+                // the zombies y value decreases using the speed integer
+                zombies.get(i).moveDown();
+                // if the zombies y value is less than the players y value
+            } else if (zombies.get(i).getY() < player2.getY()) {
+                // the zombies y value increases using the speed integer
+                zombies.get(i).moveUp();
+                // if the zombies y value is equal to the players y value than nothing changes      
+            } else if (zombies.get(i).getY() == player2.getY()) {
+
+            }
+            }else if(distance1 == distance2){
+            }
+            }
+            
             Iterator<Bullet> it = this.bullets.iterator();
+            Iterator<Zombie> zom = this.zombies.iterator();
             while (it.hasNext()) {
                 Bullet b = it.next();
                 b.bulletMovement();
                 if (b.getX() > 800 || b.getX() < 0 || b.getY() > 600 || b.getY() < 0) {
-                    it.remove();
-                    System.out.println("hey dont do that");
+                    it.remove();                    
+                }while (zom.hasNext()) {
+                    Zombie z = zom.next();
+                    if(b.getX() > z.getX() && b.getX() < z.getX()+z.getWidth() && b.getY() > z.getY() && b.getY() < z.getY()+z.getHeight()){
+                        System.out.println(z.getHealth());
+                        zom.remove();
+                    }
                 }
-
             }
-            System.out.println(this.bullets.size());
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the menu picture
@@ -347,10 +427,12 @@ public class Temp3 extends ApplicationAdapter {
             batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
 
-            /*for (int i = 0; i < zombies.size(); i++) {
-            batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), 45, 45);
-            }*/
-            font.setColor(Color.FIREBRICK);
+            for(Zombie z : this.zombies){   
+                
+                batch.draw(zomIMG, z.getX(), z.getY(), 45, 45);
+                
+            }
+
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
@@ -359,14 +441,7 @@ public class Temp3 extends ApplicationAdapter {
                 b.drawBullet(shapeBatch);
             }
             shapeBatch.end();
-            batch.setProjectionMatrix(cam.combined);
-            batch.begin();
-            for (Weapon g : this.worldWeapons) {
-                g.drawWeapon(batch);
-            }
-            batch.end();
         }
-
     }
 
     @Override

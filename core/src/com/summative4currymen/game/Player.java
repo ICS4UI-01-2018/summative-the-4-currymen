@@ -51,7 +51,7 @@ public class Player {
     /**
      * 
      * 
-     * @return 
+     * @return current gun name
      */
     public String getEquipped(){
         return equipped;
@@ -59,7 +59,7 @@ public class Player {
     
     /** 
      * 
-     * 
+     * setter for players gun
      * @param name 
      */
     public void setEquipped(String name){
@@ -123,6 +123,10 @@ public class Player {
      */
     public int getHealth() {
         return health;
+    }
+    
+    public void setHealth(int damage){
+        this.health = this.health - damage;
     }
     
     /**

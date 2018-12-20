@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class Zombie extends Player {
     private int speed;
-    private int health;
+    
     private Rectangle zombie;
     private String name;
     private Boolean alive;
@@ -49,6 +49,9 @@ public class Zombie extends Player {
     public Rectangle getBounds() {
         return zombie;
     }
+    public int getHealth(){
+        return super.getHealth();
+    }
     
     /**
      * The method when the zombie is being hit
@@ -56,10 +59,15 @@ public class Zombie extends Player {
      * @param damage the amount of damage the zombie is taking
      */
     public void hit(int damage){
-        health = health - damage;
-        if(health <= 0){
-            alive = false;
+        super.setHealth(damage);
+        if(super.getHealth()<= 0){
+            alive = false;             
         }
+    }   
+    
+    
+    public void die(){
+        
     }
     
     /**
