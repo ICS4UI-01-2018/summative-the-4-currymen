@@ -155,6 +155,7 @@ public class ZombieGame extends ApplicationAdapter {
 
     @Override
     public void render() {
+        Gdx.graphics.getDeltaTime();
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //if the game has not started yet, draw in the main menu   
@@ -462,7 +463,7 @@ public class ZombieGame extends ApplicationAdapter {
 
             batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-
+          
             for (int i = 0; i < zombies.size(); i++) {
                 batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), zombies.get(i).getWidth() / 2, zombies.get(i).getHeight() / 2, zombies.get(i).getWidth(), zombies.get(i).getHeight(), 1, 1, rotation3[i], 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
             }

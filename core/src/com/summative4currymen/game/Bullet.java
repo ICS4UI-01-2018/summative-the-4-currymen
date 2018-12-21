@@ -5,6 +5,7 @@
  */
 package com.summative4currymen.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -71,7 +72,8 @@ public class Bullet {
     }
 
     public void drawBullet(ShapeRenderer shapeBatch) {
-        shapeBatch.rect(bullet.x, bullet.y, bullet.width, bullet.height);
+        shapeBatch.setColor(Color.YELLOW);
+        shapeBatch.circle(bullet.x + (45/2), bullet.y+(45/2), bullet.width/2 /*bullet.height*/);
     }
     
     public boolean collidesWith(Zombie b){
