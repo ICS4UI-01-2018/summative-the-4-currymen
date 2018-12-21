@@ -135,12 +135,13 @@ public class ZombieGame extends ApplicationAdapter {
         g.dispose();
 
         for (int i = 0; i < 100; i++) {
-            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 2, "Zambie", 100));
+            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 1, "Zambie", 100));
         }
     }
 
     @Override
     public void render() {
+        Gdx.graphics.getDeltaTime();
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //if the game has not started yet, draw in the main menu   
@@ -381,6 +382,7 @@ public class ZombieGame extends ApplicationAdapter {
 
             }
             }else if(distance1 == distance2){
+                zombies.get(i).moveUp();
             }
             }
             
@@ -409,7 +411,7 @@ public class ZombieGame extends ApplicationAdapter {
 
             batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-
+          
             for (int i = 0; i < zombies.size(); i++) {
                 batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), 45, 45);
             }
