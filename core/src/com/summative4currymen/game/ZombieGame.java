@@ -42,6 +42,7 @@ public class ZombieGame extends ApplicationAdapter {
     private Texture obstacle4;
     private int rotation1;
     private int rotation2;
+    private int rotation3[];
     private ArrayList<Bullet> bullets;
     private ArrayList<Weapon> worldWeapons;
     private BitmapFont font;
@@ -73,7 +74,7 @@ public class ZombieGame extends ApplicationAdapter {
         instructionPic = new Texture("instruct.jpg");
         nextButton = new Texture("next.png");
         chr1IMG = new Texture("character1.png");
-        zomIMG = new Texture("thriller-zombie.png");
+        zomIMG = new Texture("zombietopview.png");
 
         bullets = new ArrayList<Bullet>();
         worldWeapons = new ArrayList<Weapon>();
@@ -114,8 +115,8 @@ public class ZombieGame extends ApplicationAdapter {
         cam.position.x = 400;
         cam.position.y = 300;
         cam.update();
-        player1 = new Player(400, 300, 45, 45, 2, 2, "Rick");
-        player2 = new Player(450, 350, 45, 45, 2, 2, "Carl");
+        player1 = new Player(400, 300, 45, 45, 2, 3, "Rick");
+        player2 = new Player(450, 350, 45, 45, 2, 3, "Carl");
 
         player1.setEquipped("AK-47");
         player2.setEquipped("ShotGun");
@@ -134,13 +135,27 @@ public class ZombieGame extends ApplicationAdapter {
         font = g.generateFont(p);
         g.dispose();
 
-        for (int i = 0; i < 100; i++) {
-            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 2, "Zambie", 100));
+        for (int i = 0; i < 1; i++) {
+            zombies.add(new Zombie(-20, -20, 45, 45, 2, 1, "Spawn 1", 100));
         }
+        
+        for (int i = 0; i < 1; i++) {
+            zombies.add(new Zombie(620, -20, 45, 45, 2, 1, "Spawn 2", 100));
+        }
+        
+        for (int i = 0; i < 1; i++) {
+            zombies.add(new Zombie(-20, 820, 45, 45, 2, 1, "Spawn 3", 100));
+        }
+        
+        for (int i = 0; i < 1; i++) {
+            zombies.add(new Zombie(620, 820, 45, 45, 2, 1, "Spawn 4", 100));
+        }
+        this.rotation3 = new int[zombies.size()];
     }
 
     @Override
     public void render() {
+        Gdx.graphics.getDeltaTime();
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //if the game has not started yet, draw in the main menu   
@@ -222,6 +237,15 @@ public class ZombieGame extends ApplicationAdapter {
 
             //if the game has begn draw in the game             
         } else if (startGame == true) {
+            
+            if(Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2)))>500){
+            cam.zoom = (float)(Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2))))/500;
+        }
+            
+        cam.position.x = (player1.getX() + player2.getX())/2;
+        cam.position.y = (player1.getY() + player2.getY())/2;
+        cam.update();
+        
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player1.moveUp();
                 rotation1 = 90;
@@ -280,28 +304,28 @@ public class ZombieGame extends ApplicationAdapter {
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 rotation2 = 315;
             }
-            if (player1.getX() < 0) {
+            if (player1.getX() < -200) {
                 player1.moveRight();
             }
-            if (player1.getX() > 755) {
+            if (player1.getX() > 1495) {
                 player1.moveLeft();
             }
-            if (player1.getY() < 0) {
+            if (player1.getY() < -200) {
                 player1.moveUp();
             }
-            if (player1.getY() > 555) {
+            if (player1.getY() > 1495) {
                 player1.moveDown();
             }
-            if (player2.getX() < 0) {
+            if (player2.getX() < -200) {
                 player2.moveRight();
             }
-            if (player2.getX() > 755) {
+            if (player2.getX() > 1495) {
                 player2.moveLeft();
             }
-            if (player2.getY() < 0) {
+            if (player2.getY() < -200) {
                 player2.moveUp();
             }
-            if (player2.getY() > 555) {
+            if (player2.getY() > 1495) {
                 player2.moveDown();
             }
             //shooting for player 1
@@ -330,67 +354,114 @@ public class ZombieGame extends ApplicationAdapter {
                 }
             }            
             
-            for(int i = 0; i < zombies.size(); i++){
-                double distance1 = Math.sqrt((Math.pow(zombies.get(i).getX() - player1.getX(), 2)) + (Math.pow(zombies.get(i).getX() - player1.getY(), 2)));
-                double distance2 = Math.sqrt((Math.pow(zombies.get(i).getY() - player2.getX(), 2)) + (Math.pow(zombies.get(i).getY() - player2.getY(), 2)));
-                
-                if(distance1 < distance2){
-                // if the zombies x value is bigger than the players x value
-            if (zombies.get(i).getX() > player1.getX()) {
-                // the zombies x value decreases using the speed integer
-                zombies.get(i).moveLeft();
-                // if the zombies x value is less than the players x value  
-            } else if (zombies.get(i).getX() < player1.getX()) {
-                // the zombies x value increases using the speed integer
-                zombies.get(i).moveRight();
-                // if the zombies x value is equal the players x value than nothing changes
-            } else if (zombies.get(i).getX() == player1.getX()) {
-            }// if the zombies y value is bigger than the players y value
-            if (zombies.get(i).getY() > player1.getY()) {
-                // the zombies y value decreases using the speed integer
-                zombies.get(i).moveDown();
-                // if the zombies y value is less than the players y value
-            } else if (zombies.get(i).getY() < player1.getY()) {
-                // the zombies y value increases using the speed integer
-                zombies.get(i).moveUp();
-                // if the zombies y value is equal to the players y value than nothing changes      
-            } else if (zombies.get(i).getY() == player1.getY()) {
+            for (int i = 0; i < zombies.size(); i++) {
+                double distance1 = Math.sqrt((Math.pow(zombies.get(i).getX() - player1.getX(), 2)) + (Math.pow(zombies.get(i).getY() - player1.getY(), 2)));
+                double distance2 = Math.sqrt((Math.pow(zombies.get(i).getX() - player2.getX(), 2)) + (Math.pow(zombies.get(i).getY() - player2.getY(), 2)));
 
-            }
-            }else if(distance1 > distance2){
-                // if the zombies x value is bigger than the players x value
-            if (zombies.get(i).getX() > player2.getX()) {
-                // the zombies x value decreases using the speed integer
-                zombies.get(i).moveLeft();
-                // if the zombies x value is less than the players x value  
-            } else if (zombies.get(i).getX() < player2.getX()) {
-                // the zombies x value increases using the speed integer
-                zombies.get(i).moveRight();
-                // if the zombies x value is equal the players x value than nothing changes
-            } else if (zombies.get(i).getX() == player2.getX()) {
-            }// if the zombies y value is bigger than the players y value
-            if (zombies.get(i).getY() > player2.getY()) {
-                // the zombies y value decreases using the speed integer
-                zombies.get(i).moveDown();
-                // if the zombies y value is less than the players y value
-            } else if (zombies.get(i).getY() < player2.getY()) {
-                // the zombies y value increases using the speed integer
-                zombies.get(i).moveUp();
-                // if the zombies y value is equal to the players y value than nothing changes      
-            } else if (zombies.get(i).getY() == player2.getY()) {
+                if (distance1 < distance2) {
+                    if (zombies.get(i).getX() < player1.getX() && zombies.get(i).getY() == player1.getY()) {
+                        rotation3[i] = 0;
+                        zombies.get(i).moveRight();
+                    }
+                    if (zombies.get(i).getX() < player1.getX() && zombies.get(i).getY() < player1.getY()) {
+                        rotation3[i] = 45;
+                        zombies.get(i).moveRight();
+                        zombies.get(i).moveUp();
 
-            }
-            }else if(distance1 == distance2){
-            }
+                    }
+                    if (zombies.get(i).getX() == player1.getX() && zombies.get(i).getY() < player1.getY()) {
+                        rotation3[i] = 90;
+                        zombies.get(i).moveUp();
+
+                    }
+                    if (zombies.get(i).getX() > player1.getX() && zombies.get(i).getY() < player1.getY()) {
+                        rotation3[i] = 135;
+                        zombies.get(i).moveLeft();
+                        zombies.get(i).moveUp();
+
+                    }
+                    if (zombies.get(i).getX() > player1.getX() && zombies.get(i).getY() == player1.getY()) {
+                        rotation3[i] = 180;
+                        zombies.get(i).moveLeft();
+                        zombies.get(i).moveDown();
+                    }
+                    if (zombies.get(i).getX() > player1.getX() && zombies.get(i).getY() > player1.getY()) {
+                        rotation3[i] = 225;
+                        zombies.get(i).moveLeft();
+                        zombies.get(i).moveDown();
+                    }
+                    if (zombies.get(i).getX() == player1.getX() && zombies.get(i).getY() > player1.getY()) {
+                        rotation3[i] = 270;
+                        zombies.get(i).moveDown();
+                    }
+
+                    if (zombies.get(i).getX() < player1.getX() && zombies.get(i).getY() > player1.getY()) {
+                        rotation3[i] = 315;
+                        zombies.get(i).moveRight();
+                        zombies.get(i).moveDown();
+
+                    }
+
+                } else if (distance1 > distance2) {
+                    if (zombies.get(i).getX() < player2.getX() && zombies.get(i).getY() == player2.getY()) {
+                        rotation3[i] = 0;
+                        zombies.get(i).moveRight();
+                    }
+                    if (zombies.get(i).getX() < player2.getX() && zombies.get(i).getY() < player2.getY()) {
+                        rotation3[i] = 45;
+                        zombies.get(i).moveRight();
+                        zombies.get(i).moveUp();
+                    }
+                    if (zombies.get(i).getX() == player2.getX() && zombies.get(i).getY() < player2.getY()) {
+                        rotation3[i] = 90;
+                        zombies.get(i).moveUp();
+
+                    }
+                    if (zombies.get(i).getX() > player2.getX() && zombies.get(i).getY() < player2.getY()) {
+                        rotation3[i] = 135;
+                        zombies.get(i).moveLeft();
+                        zombies.get(i).moveUp();
+
+                    }
+                    if (zombies.get(i).getX() > player2.getX() && zombies.get(i).getY() == player2.getY()) {
+                        rotation3[i] = 180;
+                        zombies.get(i).moveLeft();
+                        zombies.get(i).moveDown();
+                    }
+                    if (zombies.get(i).getX() > player2.getX() && zombies.get(i).getY() > player2.getY()) {
+                        rotation3[i] = 225;
+                        zombies.get(i).moveLeft();
+                        zombies.get(i).moveDown();
+
+                    }
+                    if (zombies.get(i).getX() == player2.getX() && zombies.get(i).getY() > player2.getY()) {
+                        rotation3[i] = 270;
+                        zombies.get(i).moveDown();
+                    }
+                    if (zombies.get(i).getX() < player2.getX() && zombies.get(i).getY() > player2.getY()) {
+                        rotation3[i] = 315;
+                        zombies.get(i).moveRight();
+                        zombies.get(i).moveDown();
+
+                    }
+                }
             }
             
             Iterator<Bullet> it = this.bullets.iterator();
+            Iterator<Zombie> zom = this.zombies.iterator();
             while (it.hasNext()) {
                 Bullet b = it.next();
                 b.bulletMovement();
                 if (b.getX() > 800 || b.getX() < 0 || b.getY() > 600 || b.getY() < 0) {
                     it.remove();
                     System.out.println("hey dont do that");
+                }
+                while (zom.hasNext()) {
+                    Zombie z = zom.next();
+                    if (b.getX() > z.getX() && b.getX() < z.getX() + z.getWidth() && b.getY() > z.getY() && b.getY() < z.getY() + z.getHeight()) {
+                        System.out.println(z.getHealth());
+                        zom.remove();
+                    }
                 }
 
             }
@@ -409,9 +480,9 @@ public class ZombieGame extends ApplicationAdapter {
 
             batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-
+          
             for (int i = 0; i < zombies.size(); i++) {
-                batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), 45, 45);
+                batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), zombies.get(i).getWidth() / 2, zombies.get(i).getHeight() / 2, zombies.get(i).getWidth(), zombies.get(i).getHeight(), 1, 1, rotation3[i], 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
             }
             
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
