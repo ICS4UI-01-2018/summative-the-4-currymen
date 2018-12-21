@@ -26,7 +26,7 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
     private Player player1;
     private Player player2;
     private Zombie zombie;
-    private ArrayList<Zombie> zombies;
+    private ArrayList<MattZ> zombies;
     private Texture img;
     private Texture menuPic;
     private Texture startButton;
@@ -89,7 +89,7 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
         player1 = new Player(400, 300, 45, 45, 100, 3, "Rick");
         player2 = new Player(450, 350, 45, 45, 100, 3, "Carl");
         hud = new HUD(player1, player2, viewport.getWorldWidth()); //new code
-        zombies = new ArrayList<Zombie>();
+        zombies = new ArrayList<MattZ>();
 
         FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
         FreeTypeFontParameter param = new FreeTypeFontParameter();
@@ -103,8 +103,8 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
         font = g.generateFont(p);
         g.dispose();
 
-        for (int i = 0; i < 100; i++) {
-            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 100, "Zambie", 100));
+        for (int i = 0; i < 90; i++) {
+            zombies.add(new MattZ((float) Math.floor(Math.random() * 801), (float) Math.floor(Math.random() * 601), 1.0f));
         }
     }
 
@@ -393,6 +393,9 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
                     System.out.println("" + player2.getX() + " " + player2.getY());
                     System.out.println("" + b.getX() + " " + b.getY());
                 }
+            }
+            for (int i = 0; i < zombies.size(); i++) {
+                zombies.get(i).move();
             }
             
             hud.update(player1, player2); //update HUD
