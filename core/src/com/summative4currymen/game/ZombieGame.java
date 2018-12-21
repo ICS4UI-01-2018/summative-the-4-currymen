@@ -82,8 +82,8 @@ public class ZombieGame extends ApplicationAdapter {
         cam.position.x = 400;
         cam.position.y = 300;
         cam.update();
-        player1 = new Player(400, 300, 45, 45, 2, 100, "Rick");
-        player2 = new Player(450, 350, 45, 45, 2, 100, "Carl");
+        player1 = new Player(400, 300, 45, 45, 100, 2, "Rick");
+        player2 = new Player(450, 350, 45, 45, 100, 2, "Carl");
 
         zombies = new ArrayList<Zombie>();
 
