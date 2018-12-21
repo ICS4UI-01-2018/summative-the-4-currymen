@@ -90,4 +90,11 @@ public class Zombie extends Player {
         return zombie.overlaps(zombie2.getBounds());
     }
     
+    public void avoidcollision1(){
+        zombie.y = zombie.y + 5;
+    }
+    
+    public void avoidcollision2(){
+        zombie.y = zombie.y - 5;
+    }
 }
