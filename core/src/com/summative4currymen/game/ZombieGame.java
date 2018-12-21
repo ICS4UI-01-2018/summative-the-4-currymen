@@ -237,6 +237,15 @@ public class ZombieGame extends ApplicationAdapter {
 
             //if the game has begn draw in the game             
         } else if (startGame == true) {
+            
+            if(Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2)))>500){
+            cam.zoom = (float)(Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2))))/500;
+        }
+            
+        cam.position.x = (player1.getX() + player2.getX())/2;
+        cam.position.y = (player1.getY() + player2.getY())/2;
+        cam.update();
+        
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player1.moveUp();
                 rotation1 = 90;
@@ -295,28 +304,28 @@ public class ZombieGame extends ApplicationAdapter {
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 rotation2 = 315;
             }
-            if (player1.getX() < 0) {
+            if (player1.getX() < -200) {
                 player1.moveRight();
             }
-            if (player1.getX() > 755) {
+            if (player1.getX() > 1495) {
                 player1.moveLeft();
             }
-            if (player1.getY() < 0) {
+            if (player1.getY() < -200) {
                 player1.moveUp();
             }
-            if (player1.getY() > 555) {
+            if (player1.getY() > 1495) {
                 player1.moveDown();
             }
-            if (player2.getX() < 0) {
+            if (player2.getX() < -200) {
                 player2.moveRight();
             }
-            if (player2.getX() > 755) {
+            if (player2.getX() > 1495) {
                 player2.moveLeft();
             }
-            if (player2.getY() < 0) {
+            if (player2.getY() < -200) {
                 player2.moveUp();
             }
-            if (player2.getY() > 555) {
+            if (player2.getY() > 1495) {
                 player2.moveDown();
             }
             //shooting for player 1
@@ -439,12 +448,20 @@ public class ZombieGame extends ApplicationAdapter {
             }
             
             Iterator<Bullet> it = this.bullets.iterator();
+            Iterator<Zombie> zom = this.zombies.iterator();
             while (it.hasNext()) {
                 Bullet b = it.next();
                 b.bulletMovement();
                 if (b.getX() > 800 || b.getX() < 0 || b.getY() > 600 || b.getY() < 0) {
                     it.remove();
                     System.out.println("hey dont do that");
+                }
+                while (zom.hasNext()) {
+                    Zombie z = zom.next();
+                    if (b.getX() > z.getX() && b.getX() < z.getX() + z.getWidth() && b.getY() > z.getY() && b.getY() < z.getY() + z.getHeight()) {
+                        System.out.println(z.getHealth());
+                        zom.remove();
+                    }
                 }
 
             }

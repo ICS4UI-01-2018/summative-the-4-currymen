@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.summative4currymen.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -21,7 +16,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.ArrayList;
 
-public class Temp2 extends ApplicationAdapter {
+public class Temp4 extends ApplicationAdapter { //Matt G's temp file
 
     private SpriteBatch batch;
     private ShapeRenderer shapeBatch;
@@ -31,7 +26,7 @@ public class Temp2 extends ApplicationAdapter {
     private Player player1;
     private Player player2;
     private Zombie zombie;
-    private ArrayList<Zombie> zombies;
+    private ArrayList<MattZ> zombies;
     private Texture img;
     private Texture menuPic;
     private Texture startButton;
@@ -47,20 +42,16 @@ public class Temp2 extends ApplicationAdapter {
     private ArrayList<Bullet> bullets;
     private BitmapFont font;
     private BitmapFont titleFont;
-    private BitmapFont desc;
     private Texture instructionPic;
     private Texture nextButton;
     private Texture storeButton;
-    private Texture whiteRect;
-    private Texture shotgun;
-    private Texture ak47;
-    private Texture barrett;
-    private Texture buyNow;
-    private Texture coin;
     private boolean startGame;
     private boolean goStore;
     private boolean nextScreen;
-    private boolean instructNum2;
+    //matt's variables
+    private HUD hud;
+    private boolean p1Strafe;
+    private boolean p2Strafe;
 
     private Vector3 touch = new Vector3(0, 0, 0);
 
@@ -78,12 +69,6 @@ public class Temp2 extends ApplicationAdapter {
         storeButton = new Texture("StoreButton.png");
         instructionPic = new Texture("instruct.jpg");
         nextButton = new Texture("next.png");
-        whiteRect = new Texture("whitebox copy.png");
-        ak47 = new Texture("ak.png");
-        shotgun = new Texture("shotgun.png");
-        barrett = new Texture("RSASS_Sideview.png");
-        buyNow = new Texture("BuyNow_1.png");
-        coin = new Texture("coin.png");
         chr1IMG = new Texture("character1.png");
         zomIMG = new Texture("thriller-zombie.png");
 
@@ -101,10 +86,10 @@ public class Temp2 extends ApplicationAdapter {
         cam.position.x = 400;
         cam.position.y = 300;
         cam.update();
-        player1 = new Player(400, 300, 45, 45, 100, 2, "Rick");
-        player2 = new Player(450, 350, 45, 45, 100, 2, "Carl");
-
-        zombies = new ArrayList<Zombie>();
+        player1 = new Player(400, 300, 45, 45, 100, 3, "Rick");
+        player2 = new Player(450, 350, 45, 45, 100, 3, "Carl");
+        hud = new HUD(player1, player2, viewport.getWorldWidth()); //new code
+        zombies = new ArrayList<MattZ>();
 
         FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
         FreeTypeFontParameter param = new FreeTypeFontParameter();
@@ -117,15 +102,9 @@ public class Temp2 extends ApplicationAdapter {
         p.size = 17;
         font = g.generateFont(p);
         g.dispose();
-        
-        FreeTypeFontGenerator generator2 = new FreeTypeFontGenerator(Gdx.files.internal("BEBAS___.ttf"));
-        FreeTypeFontParameter parameter2 = new FreeTypeFontParameter();
-        parameter2.size = 17;
-        desc = generator2.generateFont(parameter2);
-        generator2.dispose();
 
-        for (int i = 0; i < 100; i++) {
-            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 2, 100, "Zambie", 100));
+        for (int i = 0; i < 90; i++) {
+            zombies.add(new MattZ((float) Math.floor(Math.random() * 801), (float) Math.floor(Math.random() * 601), 1.0f));
         }
     }
 
@@ -133,7 +112,7 @@ public class Temp2 extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //if the game has not started yet, draw in the main menu  
+        //if the game has not started yet, draw in the main menu   
         if (nextScreen == false) {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
@@ -144,8 +123,9 @@ public class Temp2 extends ApplicationAdapter {
             batch.setProjectionMatrix(cam.combined);
             batch.begin();
             batch.draw(menuPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            batch.draw(startButton, 345, 210, 100, 50);
+            batch.draw(startButton, 275, 210, 100, 50);
             batch.draw(arcadeLogo, 335, 330, 125, 75);
+            batch.draw(storeButton, 425, 215, 100, 50);
             titleFont.setColor(Color.WHITE);
             titleFont.draw(batch, "ARCADE APOCALYPSE", 125, 310);
             batch.end();
@@ -153,12 +133,17 @@ public class Temp2 extends ApplicationAdapter {
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
-                if (touch.x > 345 && touch.x < 445 && touch.y > 210 && touch.y < 260) {
+                if (touch.x > 275 && touch.x < 375 && touch.y > 210 && touch.y < 260) {
                     nextScreen = true;
                 }
             }
+                    
+                    
+            //} else if (touch.x > 275 && touch.x < 375 && touch.y > 210 && touch.y < 260) {
+              //  goStore = true;
+            //}
 
-        } else if (instructNum2 == false) {
+        } else if (startGame == false) {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the instruction picture
@@ -203,80 +188,6 @@ public class Temp2 extends ApplicationAdapter {
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
-                    instructNum2 = true;
-                }
-            }
-
-        } else if (goStore == false) {
-            shapeBatch.setProjectionMatrix(cam.combined);
-            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-            //the instruction picture
-            shapeBatch.setColor(Color.GOLD);
-            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            shapeBatch.end();
-            batch.setProjectionMatrix(cam.combined);
-            batch.begin();
-            batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            batch.draw(nextButton, 680, 20, 100, 100);
-            font.setColor(Color.WHITE);
-            font.draw(batch, "Go to Store", 630, 23);
-            font.setColor(Color.WHITE);
-            font.draw(batch, "               Welcome to Arcade Apocalypse!\n \n \n"
-                    + "This game is based in a world rampant with zombies.\n \n \n"
-                    + "  But, there is hope for the remaining 1000 people.\n \n \n"
-                    + "                               That hope is … \n \n \n"
-                    + "                                    YOU!\n \n \n"
-                    + "                                Go for it!", 35, 415);
-            batch.end();
-
-            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            cam.unproject(touch);
-            if (Gdx.input.justTouched()) {
-                if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
-                    goStore = true;
-                }
-            }
-
-        } else if (startGame == false) {
-            shapeBatch.setProjectionMatrix(cam.combined);
-            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-            //the instruction picture
-            shapeBatch.setColor(Color.GOLD);
-            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            shapeBatch.end();
-            batch.setProjectionMatrix(cam.combined);
-            batch.begin();
-            batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            batch.draw(nextButton, 680, 20, 100, 100);
-            batch.draw(whiteRect, 20, 375, 150, 150);
-            batch.draw(whiteRect, 20, 225, 150, 150);
-            batch.draw(whiteRect, 20, 75, 150, 150);
-            font.setColor(Color.WHITE);
-            font.draw(batch, "AK47", 160, 510);
-            batch.draw(coin, 310, 493, 35, 25);
-            desc.draw(batch, "100", 345, 513);
-            desc.draw(batch, "A reliable weapon with a high rate of fire and \n consistant damage.", 160, 490);
-            desc.draw(batch, "STATS: \n Bullet Speed: Average      Reload Speed: Fast \n Damage: 50", 160, 445);
-            batch.draw(buyNow, 615, 420, 150, 50);
-            batch.draw(ak47, 45, 420, 100, 50);
-            font.draw(batch, "Barrett", 160, 360);
-            batch.draw(coin, 310, 493, 35, 25);
-            desc.draw(batch, "250", 345, 513);
-            desc.draw(batch, "Packs a punch. Take on the hoard with a low magazine, but \n high damage sniper rifle.", 160, 340);
-            desc.draw(batch, "STATS: \n Bullet Speed: Fast      Reload Speed: Slow \n Damage: 150", 160, 295);
-            batch.draw(buyNow, 615, 270, 150, 50);
-            batch.draw(barrett, 45, 280, 100, 40);
-            font.draw(batch, "Shotgun", 160, 210);
-            desc.draw(batch, "Is one bullet not enough? Eliminate the zombies \n with a spread shot shotgun.", 160, 190);
-            desc.draw(batch, "STATS: \n Bullet Speed: Slow      Reload Speed: Average \n Damage: 70", 160, 145);
-            batch.draw(shotgun, 45, 130, 100, 40);
-            batch.draw(buyNow, 615, 120, 150, 50);
-            batch.end();
-
-            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            cam.unproject(touch);
-            if (Gdx.input.justTouched()) {
-                if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
                     startGame = true;
                 }
             }
@@ -286,6 +197,7 @@ public class Temp2 extends ApplicationAdapter {
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player1.moveUp();
                 rotation1 = 90;
+
             }
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 player1.moveDown();
@@ -372,6 +284,7 @@ public class Temp2 extends ApplicationAdapter {
                     bullets.add(b);
                     System.out.println("" + player1.getX() + " " + player1.getY());
                     System.out.println("" + b.getX() + " " + b.getY());
+                    player1.hit(5);
                 }
                 if (rotation1 == 45) {
                     System.out.println("45");
@@ -481,9 +394,13 @@ public class Temp2 extends ApplicationAdapter {
                     System.out.println("" + b.getX() + " " + b.getY());
                 }
             }
-
+            for (int i = 0; i < zombies.size(); i++) {
+                zombies.get(i).move();
+            }
+            
+            hud.update(player1, player2); //update HUD
+            
             for (Bullet b : this.bullets) {
-
                 b.bulletMovement();
             }
             shapeBatch.setProjectionMatrix(cam.combined);
@@ -508,12 +425,20 @@ public class Temp2 extends ApplicationAdapter {
 
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();
+            
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             shapeBatch.setColor(Color.WHITE);
             for (Bullet b : this.bullets) {
                 b.drawBullet(shapeBatch);
             }
+            //mattG
+            
+            
             shapeBatch.end();
+            
+            hud.draw(shapeBatch, batch);       //DRAW THE HUD
+            
+            
         }
     }
 

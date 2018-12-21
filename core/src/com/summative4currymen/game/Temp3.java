@@ -423,8 +423,8 @@ public class Temp3 extends ApplicationAdapter {
             //the menu picture
             /* shapeBatch.setColor(Color.WHITE);
             shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());*/
-            shapeBatch.setColor(Color.YELLOW);
-            shapeBatch.circle(player1.getX(), player1.getY(), 45, 45);
+            /*shapeBatch.setColor(Color.YELLOW);
+            shapeBatch.circle(player1.getX(), player1.getY(), 45, 45);*/
             //player1.draw(shapeBatch);
             shapeBatch.end();
             batch.setProjectionMatrix(cam.combined);
