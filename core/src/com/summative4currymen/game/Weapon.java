@@ -76,7 +76,7 @@ public class Weapon {
 
         if (rotation == 0) {
             if (numBullets == 1) {
-                Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float)0.5, 0);
+                Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float)1, 0);
                 System.out.println("Made bullet");       
                 bullets.clear();
                 bullets.add(b);
