@@ -58,8 +58,8 @@ public class Player {
     }
     
     /** 
+     * Setter for the Player's weapon
      * 
-     * setter for players gun
      * @param name 
      */
     public void setEquipped(String name){
