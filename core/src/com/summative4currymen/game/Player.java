@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 
 /**
- * The class represents the player that will be used by the user
+ * This class represents the player that will be used by the user
  *
  * @author nagra2700
  */
