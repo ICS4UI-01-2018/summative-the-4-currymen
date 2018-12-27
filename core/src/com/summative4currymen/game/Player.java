@@ -111,9 +111,12 @@ public class Player {
     public void hit(int damage){
         health = health - damage;
         if(health <= 0){
-            alive = false;
-            name = "dead";
+            this.die();            
         }
+    }
+    
+    public void die(){
+        this.alive = false;
     }
     
     /**
@@ -135,7 +138,7 @@ public class Player {
      * @return the boolean alive
      */
     public Boolean getAlive() {
-        return alive;
+        return this.alive;
     }
     
     /**

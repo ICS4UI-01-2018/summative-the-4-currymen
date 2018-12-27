@@ -17,7 +17,7 @@ public class Zombie extends Player {
     
     private Rectangle zombie;
     private String name;
-    private Boolean alive;
+    //private Boolean alive;
     private int direction;
     private int damage;
     
@@ -37,7 +37,7 @@ public class Zombie extends Player {
         super(x, y, width, height, health, speed, name);
         this.speed = speed;
         this.damage = damage;
-        alive = true;
+        //alive = true;
         zombie = new Rectangle(x, y, width, height);
     }
     
@@ -51,24 +51,7 @@ public class Zombie extends Player {
     }
     public int getHealth(){
         return super.getHealth();
-    }
-    
-    /**
-     * The method when the zombie is being hit
-     * 
-     * @param damage the amount of damage the zombie is taking
-     */
-    public void hit(int damage){
-        super.setHealth(damage);
-        if(super.getHealth()<= 0){
-            alive = false;             
-        }
     }   
-    
-    
-    public void die(){
-        
-    }
     
     /**
      * The method returns how much damage the zombie will give when attacking

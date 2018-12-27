@@ -70,6 +70,15 @@ public class Bullet {
     }
     
     /**
+    * Getter for the bullets damage
+    *
+    * @return the value of the damage
+    */
+    public int getDamage(){
+        return this.damage;
+    }
+    
+    /**
     * Getter for the x position of the Bullet or the left side of the bullet
     *
     * @return the x position of the Bullet
