@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import java.util.ArrayList;
 
 /**
+ * This class represents the Weapons that will be used by the User
  *
  * @author riepj9547
  */
@@ -26,7 +27,18 @@ public class Weapon {
     private Texture gun1Texture;
     private int numBullets;
     private ArrayList<Bullet> bullets;
-
+    
+    /**
+    * Initializes Weapon data
+    *
+    * @param name The name of the weapon
+    * @param bulletSpeed The speed at which the bullets will travel
+    * @param fireRate How queckly bullets will exit the weapon
+    * @param damage The amount of damage the weapon will do on contact with an enemy
+    * @param numBullets The number of bullets the weapon is capable of firing
+    * @param x The x position of the weapon
+    * @param y The y position of te weapon
+    */
     public Weapon(String name, int bulletSpeed, int fireRate, int damage, int numBullets, float x, float y) {
         this.name = name;
         this.x = x;
@@ -39,31 +51,66 @@ public class Weapon {
         bullets = new ArrayList<Bullet>();
 
     }
-
+    
+    /**
+    * A getter for the name of the weapon
+    *
+    * @return the name of the weapon
+    */
     public String getName() {
         return this.name;
     }
-
+    
+    /**
+    * A getter for the amount of bullets the weapon has
+    *
+    * @return the number of bullets of the weapon
+    */
     public int numBullets() {
         return this.numBullets;
     }
-
+    
+    /**
+    * A getter for the bullets speed 
+    *
+    * @return the bullets speed of the weapon
+    */
     public int bulletSpeed() {
         return this.bulletSpeed;
     }
-
+    
+    /**
+    * A getter for the fire rate of the weapon
+    *
+    * @return the fire rate of the weapon
+    */
     public int fireRate() {
         return this.fireRate;
     }
-
+    
+    /**
+    * A getter for the damage of the weapon
+    *
+    * @return the damage of the weapon
+    */
     public int damage() {
         return this.damage;
     }
-
+    
+    /**
+    * A getter for the x position of the weapon
+    *
+    * @return the x position of the weapon
+    */
     public float getX() {
         return this.x;
     }
-
+    
+    /**
+    * A getter for the y position of the weapon
+    *
+    * @return the y position of the weapon
+    */
     public float getY() {
         return this.y;
     }
