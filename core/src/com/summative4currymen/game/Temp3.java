@@ -139,7 +139,7 @@ public class Temp3 extends ApplicationAdapter {
         g.dispose();
 
         for (int i = 0; i < 50; i++) {
-            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 100));
+            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 100, 0));
         }
         this.rotation3 = new int[zombies.size()];
 
@@ -239,46 +239,6 @@ public class Temp3 extends ApplicationAdapter {
             cam.position.y = (player1.getY() + player2.getY()) / 2;
             cam.update();
 
-            //player collition with furniture
-            for (Furniture f : map.getObjects()) {
-                if (player1.collides(f.f)) {
-                    while (Gdx.input.isKeyPressed(Input.Keys.W)) {                        
-                        player1.moveDown();
-                        //player1.moveDown();
-                        
-                    }
-                    while (Gdx.input.isKeyPressed(Input.Keys.S)) {                        
-                        player1.moveUp();
-                        //player1.moveUp();
-                    }
-                    while (Gdx.input.isKeyPressed(Input.Keys.A)) {                        
-                        player1.moveRight();
-                        //player1.moveRight();
-                    }
-                    while (Gdx.input.isKeyPressed(Input.Keys.D)) {                       
-                        player1.moveLeft();
-                        //player1.moveLeft();
-                    }
-                }
-                if (player2.collides(f.f)) {
-                    while (Gdx.input.isKeyPressed(Input.Keys.UP)) {                       
-                        player2.moveDown();
-                       //player2.moveDown();
-                    }
-                    while (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {                        
-                        player2.moveUp();
-                    // player2.moveUp();
-                    }
-                    while (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {                       
-                        player2.moveRight();
-                 // player2.moveRight();
-                    }
-                    while (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {                        
-                        player2.moveLeft();
-                      // player2.moveLeft();
-                    }
-                }
-            }
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player1.moveUp();
                 rotation1 = 90;
@@ -336,6 +296,37 @@ public class Temp3 extends ApplicationAdapter {
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 rotation2 = 315;
             }
+            //player collition with furniture
+            for (Furniture f : map.getObjects()) {
+                if (player1.collides(f.f)) {
+                    if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                        player1.moveDown();
+                    }
+                    if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                        player1.moveUp();
+                    }
+                    if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                        player1.moveRight();
+                    }
+                    if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                        player1.moveLeft();
+                    }
+                }
+                if (player2.collides(f.f)) {
+                    if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                        player2.moveDown();
+                    }
+                    if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                        player2.moveUp();
+                    }
+                    if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                        player2.moveRight();
+                    }
+                    if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                        player2.moveLeft();
+                    }
+                }
+            }
 
             //shooting for player 1
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
@@ -363,97 +354,111 @@ public class Temp3 extends ApplicationAdapter {
                 }
             }
 
-            for (int i = 0; i < zombies.size(); i++) {
-                double distance1 = Math.sqrt((Math.pow(zombies.get(i).getX() - player1.getX(), 2)) + (Math.pow(zombies.get(i).getY() - player1.getY(), 2)));
-                double distance2 = Math.sqrt((Math.pow(zombies.get(i).getX() - player2.getX(), 2)) + (Math.pow(zombies.get(i).getY() - player2.getY(), 2)));
+            for (Zombie z : zombies) {
+                double distance1 = Math.sqrt((Math.pow(z.getX() - player1.getX(), 2)) + (Math.pow(z.getY() - player1.getY(), 2)));
+                double distance2 = Math.sqrt((Math.pow(z.getX() - player2.getX(), 2)) + (Math.pow(z.getY() - player2.getY(), 2)));
 
                 if (distance1 < distance2) {
-                    if (zombies.get(i).getX() < player1.getX() && zombies.get(i).getY() == player1.getY()) {
-                        rotation3[i] = 0;
-                        zombies.get(i).moveRight();
+                    if (z.getX() < player1.getX() && z.getY() == player1.getY()) {
+                        z.setRotation(0);
+                        z.moveRight();
                     }
-                    if (zombies.get(i).getX() < player1.getX() && zombies.get(i).getY() < player1.getY()) {
-                        rotation3[i] = 45;
-                        zombies.get(i).moveRight();
-                        zombies.get(i).moveUp();
+                    if (z.getX() < player1.getX() && z.getY() < player1.getY()) {
+                        z.setRotation(45);
+                        z.moveRight();
+                        z.moveUp();
 
                     }
-                    if (zombies.get(i).getX() == player1.getX() && zombies.get(i).getY() < player1.getY()) {
-                        rotation3[i] = 90;
-                        zombies.get(i).moveUp();
+                    if (z.getX() == player1.getX() && z.getY() < player1.getY()) {
+                        z.setRotation(90);
+                        z.moveUp();
 
                     }
-                    if (zombies.get(i).getX() > player1.getX() && zombies.get(i).getY() < player1.getY()) {
-                        rotation3[i] = 135;
-                        zombies.get(i).moveLeft();
-                        zombies.get(i).moveUp();
+                    if (z.getX() > player1.getX() && z.getY() < player1.getY()) {
+                        z.setRotation(135);
+                        z.moveLeft();
+                        z.moveUp();
 
                     }
-                    if (zombies.get(i).getX() > player1.getX() && zombies.get(i).getY() == player1.getY()) {
-                        rotation3[i] = 180;
-                        zombies.get(i).moveLeft();
-                        zombies.get(i).moveDown();
+                    if (z.getX() > player1.getX() && z.getY() == player1.getY()) {
+                        z.setRotation(180);
+                        z.moveLeft();
+                        z.moveDown();
                     }
-                    if (zombies.get(i).getX() > player1.getX() && zombies.get(i).getY() > player1.getY()) {
-                        rotation3[i] = 225;
-                        zombies.get(i).moveLeft();
-                        zombies.get(i).moveDown();
+                    if (z.getX() > player1.getX() && z.getY() > player1.getY()) {
+                        z.setRotation(225);
+                        z.moveLeft();
+                        z.moveDown();
                     }
-                    if (zombies.get(i).getX() == player1.getX() && zombies.get(i).getY() > player1.getY()) {
-                        rotation3[i] = 270;
-                        zombies.get(i).moveDown();
+                    if (z.getX() == player1.getX() && z.getY() > player1.getY()) {
+                        z.setRotation(270);
+                        z.moveDown();
                     }
 
-                    if (zombies.get(i).getX() < player1.getX() && zombies.get(i).getY() > player1.getY()) {
-                        rotation3[i] = 315;
-                        zombies.get(i).moveRight();
-                        zombies.get(i).moveDown();
+                    if (z.getX() < player1.getX() && z.getY() > player1.getY()) {
+                        z.setRotation(315);
+                        z.moveRight();
+                        z.moveDown();
 
                     }
 
                 } else if (distance1 > distance2) {
-                    if (zombies.get(i).getX() < player2.getX() && zombies.get(i).getY() == player2.getY()) {
-                        rotation3[i] = 0;
-                        zombies.get(i).moveRight();
+                    if (z.getX() < player2.getX() && z.getY() == player2.getY()) {
+                        z.setRotation(0);
+                        z.moveRight();
                     }
-                    if (zombies.get(i).getX() < player2.getX() && zombies.get(i).getY() < player2.getY()) {
-                        rotation3[i] = 45;
-                        zombies.get(i).moveRight();
-                        zombies.get(i).moveUp();
+                    if (z.getX() < player2.getX() && z.getY() < player2.getY()) {
+                        z.setRotation(45);
+                        z.moveRight();
+                        z.moveUp();
                     }
-                    if (zombies.get(i).getX() == player2.getX() && zombies.get(i).getY() < player2.getY()) {
-                        rotation3[i] = 90;
-                        zombies.get(i).moveUp();
+                    if (z.getX() == player2.getX() && z.getY() < player2.getY()) {
+                        z.setRotation(90);
+                        z.moveUp();
 
                     }
-                    if (zombies.get(i).getX() > player2.getX() && zombies.get(i).getY() < player2.getY()) {
-                        rotation3[i] = 135;
-                        zombies.get(i).moveLeft();
-                        zombies.get(i).moveUp();
+                    if (z.getX() > player2.getX() && z.getY() < player2.getY()) {
+                        z.setRotation(135);
+                        z.moveLeft();
+                        z.moveUp();
 
                     }
-                    if (zombies.get(i).getX() > player2.getX() && zombies.get(i).getY() == player2.getY()) {
-                        rotation3[i] = 180;
-                        zombies.get(i).moveLeft();
-                        zombies.get(i).moveDown();
+                    if (z.getX() > player2.getX() && z.getY() == player2.getY()) {
+                        z.setRotation(180);
+                        z.moveLeft();
+                        z.moveDown();
                     }
-                    if (zombies.get(i).getX() > player2.getX() && zombies.get(i).getY() > player2.getY()) {
-                        rotation3[i] = 225;
-                        zombies.get(i).moveLeft();
-                        zombies.get(i).moveDown();
+                    if (z.getX() > player2.getX() && z.getY() > player2.getY()) {
+                        z.setRotation(225);
+                        z.moveLeft();
+                        z.moveDown();
 
                     }
-                    if (zombies.get(i).getX() == player2.getX() && zombies.get(i).getY() > player2.getY()) {
-                        rotation3[i] = 270;
-                        zombies.get(i).moveDown();
+                    if (z.getX() == player2.getX() && z.getY() > player2.getY()) {
+                        z.setRotation(270);
+                        z.moveDown();
                     }
-                    if (zombies.get(i).getX() < player2.getX() && zombies.get(i).getY() > player2.getY()) {
-                        rotation3[i] = 315;
-                        zombies.get(i).moveRight();
-                        zombies.get(i).moveDown();
+                    if (z.getX() < player2.getX() && z.getY() > player2.getY()) {
+                        z.setRotation(315);
+                        z.moveRight();
+                        z.moveDown();
 
                     }
                 }
+                for (Furniture f : map.getObjects()) {
+                    if (z.collides(f.f)) {
+                        z.setSpeed(0.4);
+                        break;
+                    } else {
+                        z.setSpeed(1);
+                    }
+                }
+                //This can detect if a zombie collides with another zombie
+                /*for (Zombie z2 : zombies) {
+                    if (z.collidesWith(z2)){
+                        
+                    }
+                }*/
             }
 
             Iterator<Bullet> it = this.bullets.iterator();
@@ -479,28 +484,16 @@ public class Temp3 extends ApplicationAdapter {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             map.draw(shapeBatch);
-
-            //the menu picture
-            /* shapeBatch.setColor(Color.WHITE);
-            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());*/
- /*shapeBatch.setColor(Color.YELLOW);
-            shapeBatch.circle(player1.getX(), player1.getY(), 45, 45);*/
-            //player1.draw(shapeBatch);
             shapeBatch.end();
             batch.setProjectionMatrix(cam.combined);
             batch.begin();
-            //batch.draw(obstacle1, -200, -200, 1500, 1500);
-
             batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-            //batch.draw(treePic,(int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 65,65);
-            for (int i = 0; i < zombies.size(); i++) {
-                if (zombies.get(i).getAlive() == true) {
-                    batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), zombies.get(i).getWidth() / 2, zombies.get(i).getHeight() / 2, zombies.get(i).getWidth(), zombies.get(i).getHeight(), 1, 1, rotation3[i], 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
-                    // System.out.println("Zombie: "+ zombies.get(i).getX() + " "+ zombies.get(i).getY());
+            for (Zombie z : zombies) {
+                if (z.getAlive() == true) {
+                    batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
                 }
             }
-
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);

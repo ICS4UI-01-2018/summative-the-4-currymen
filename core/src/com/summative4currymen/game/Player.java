@@ -49,11 +49,12 @@ public class Player {
     }
     
     public boolean collides(Rectangle r){
-        if(player.overlaps(r)){
-            return true;
-        }else{
-            return false;
-        }
+        return player.overlaps(r);
+                
+    }
+    
+    public Rectangle getBounds(){
+        return this.player;
     }
     
     /**
@@ -173,7 +174,7 @@ public class Player {
      * @return the player's speed
      */
     public double getSpeed() {
-        return speed;
+        return this.speed;
     }
     
     /**
@@ -181,8 +182,8 @@ public class Player {
      * 
      * 
      */
-    public void setSpeed(int s) {
-       speed = s;
+    public void setSpeed(double s) {
+       this.speed = s;
     }
     
     /**

@@ -155,19 +155,19 @@ public class ZombieGame extends ApplicationAdapter {
         generator2.dispose();
 
         for (int i = 0; i < 1; i++) {
-            zombies.add(new Zombie(-20, -20, 45, 45, 2, 1, "Spawn 1", 100));
+            zombies.add(new Zombie(-20, -20, 45, 45, 2, 1, "Spawn 1", 100,0));
         }
 
         for (int i = 0; i < 1; i++) {
-            zombies.add(new Zombie(620, -20, 45, 45, 2, 1, "Spawn 2", 100));
+            zombies.add(new Zombie(620, -20, 45, 45, 2, 1, "Spawn 2", 100,0));
         }
 
         for (int i = 0; i < 1; i++) {
-            zombies.add(new Zombie(-20, 820, 45, 45, 2, 1, "Spawn 3", 100));
+            zombies.add(new Zombie(-20, 820, 45, 45, 2, 1, "Spawn 3", 100,0));
         }
 
         for (int i = 0; i < 1; i++) {
-            zombies.add(new Zombie(620, 820, 45, 45, 2, 1, "Spawn 4", 100));
+            zombies.add(new Zombie(620, 820, 45, 45, 2, 1, "Spawn 4", 100,0));
         }
         this.rotation3 = new int[zombies.size()];
     }

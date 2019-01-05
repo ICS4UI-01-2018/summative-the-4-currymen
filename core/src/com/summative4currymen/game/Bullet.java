@@ -140,8 +140,9 @@ public class Bullet {
     * @param b a zombie whom is being checked to see whether or not the Bullet is colliding with it
     * @return whether or not the Bullet is colliding with the zombie
     */
+    /*
     public boolean collidesWith(Zombie b){
         return bullet.overlaps(b.getBounds());
     }
-
+*/
 }

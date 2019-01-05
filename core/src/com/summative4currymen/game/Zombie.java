@@ -15,10 +15,10 @@ import com.badlogic.gdx.math.Rectangle;
 public class Zombie extends Player {
     private int speed;
     
-    private Rectangle zombie;
+   // private Rectangle zombie;
     private String name;
     //private Boolean alive;
-    private int direction;
+    private int rotation;
     private int damage;
     
     /**
@@ -33,25 +33,25 @@ public class Zombie extends Player {
      * @param name The name of the zombie
      * @param damage The amount of damage the zombie can attack with
      */
-    public Zombie(float x, float y, int width, int height, int health, int speed, String name, int damage) {
+    public Zombie(float x, float y, int width, int height, int health, int speed, String name, int damage, int rotation) {
         super(x, y, width, height, health, speed, name);
-        this.speed = speed;
+        //this.speed = speed;
         this.damage = damage;
+        this.rotation = rotation;
         //alive = true;
-        zombie = new Rectangle(x, y, width, height);
+        //zombie = new Rectangle(x, y, width, height);
     }
     
-    /**
-     * This method is used when the parameters of the zombie are needed
-     * 
-     * @return The parameters of the zombie
-     */
-    public Rectangle getBounds() {
-        return zombie;
-    }
+    
     public int getHealth(){
         return super.getHealth();
     }   
+    public int getRotation(){
+        return this.rotation;
+    }
+    public void setRotation(int num){
+        this.rotation = num; 
+    }
     
     /**
      * The method returns how much damage the zombie will give when attacking
@@ -70,14 +70,7 @@ public class Zombie extends Player {
      * @return True if there is overlap and false if there is not overlap
      */
     public boolean collidesWith(Zombie zombie2){
-        return zombie.overlaps(zombie2.getBounds());
+        return super.collides(zombie2.getBounds());
     }
     
-    public void avoidcollision1(){
-        zombie.y = zombie.y + 5;
-    }
-    
-    public void avoidcollision2(){
-        zombie.y = zombie.y - 5;
-    }
 }

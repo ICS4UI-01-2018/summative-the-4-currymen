@@ -178,7 +178,13 @@ public class Room {
     }
 
     public ArrayList<Furniture> getFurniture(){
-        return this.furniture;
+    ArrayList<Furniture> objects = new ArrayList<Furniture>();
+        for(Furniture f: furniture){            
+            if(!f.getName().equals("carpet")){
+                objects.add(f);
+            } 
+        }
+        return objects;
     }
     public void draw(ShapeRenderer shapeBatch) {
 
