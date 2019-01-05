@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -141,8 +142,8 @@ public class Temp3 extends ApplicationAdapter {
             zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 100));
         }
         this.rotation3 = new int[zombies.size()];
-        
-        map = new Map();       
+
+        map = new Map();
     }
 
     @Override
@@ -238,6 +239,46 @@ public class Temp3 extends ApplicationAdapter {
             cam.position.y = (player1.getY() + player2.getY()) / 2;
             cam.update();
 
+            //player collition with furniture
+            for (Furniture f : map.getObjects()) {
+                if (player1.collides(f.f)) {
+                    while (Gdx.input.isKeyPressed(Input.Keys.W)) {                        
+                        player1.moveDown();
+                        //player1.moveDown();
+                        
+                    }
+                    while (Gdx.input.isKeyPressed(Input.Keys.S)) {                        
+                        player1.moveUp();
+                        //player1.moveUp();
+                    }
+                    while (Gdx.input.isKeyPressed(Input.Keys.A)) {                        
+                        player1.moveRight();
+                        //player1.moveRight();
+                    }
+                    while (Gdx.input.isKeyPressed(Input.Keys.D)) {                       
+                        player1.moveLeft();
+                        //player1.moveLeft();
+                    }
+                }
+                if (player2.collides(f.f)) {
+                    while (Gdx.input.isKeyPressed(Input.Keys.UP)) {                       
+                        player2.moveDown();
+                       //player2.moveDown();
+                    }
+                    while (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {                        
+                        player2.moveUp();
+                    // player2.moveUp();
+                    }
+                    while (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {                       
+                        player2.moveRight();
+                 // player2.moveRight();
+                    }
+                    while (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {                        
+                        player2.moveLeft();
+                      // player2.moveLeft();
+                    }
+                }
+            }
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player1.moveUp();
                 rotation1 = 90;
@@ -253,6 +294,18 @@ public class Temp3 extends ApplicationAdapter {
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 player1.moveRight();
                 rotation1 = 0;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
+                rotation1 = 135;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.D)) {
+                rotation1 = 45;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.A)) {
+                rotation1 = 225;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.D)) {
+                rotation1 = 315;
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
@@ -271,22 +324,6 @@ public class Temp3 extends ApplicationAdapter {
                 player2.moveRight();
                 rotation2 = 0;
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.F)) {
-                player1.setEquipped("Barret50");
-            }
-
-            if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
-                rotation1 = 135;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.D)) {
-                rotation1 = 45;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.A)) {
-                rotation1 = 225;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.D)) {
-                rotation1 = 315;
-            }
             if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 rotation2 = 135;
             }
@@ -298,32 +335,8 @@ public class Temp3 extends ApplicationAdapter {
             }
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 rotation2 = 315;
-            }/*
-            if (player1.getX() < 0) {
-                player1.moveRight();
             }
-            if (player1.getX() > 755) {
-                player1.moveLeft();
-            }
-            if (player1.getY() < 0) {
-                player1.moveUp();
-            }
-            if (player1.getY() > 555) {
-                player1.moveDown();
-            }
-            if (player2.getX() < 0) {
-                player2.moveRight();
-            }
-            if (player2.getX() > 755) {
-                player2.moveLeft();
-            }
-            if (player2.getY() < 0) {
-                player2.moveUp();
-            }
-            if (player2.getY() > 555) {
-                player2.moveDown();
-            }
-             */
+
             //shooting for player 1
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 for (Weapon w : this.worldWeapons) {
@@ -453,7 +466,7 @@ public class Temp3 extends ApplicationAdapter {
                 } else {
                     for (Zombie z : this.zombies) {
                         if (z.getAlive() == true) {
-                            if (colidesWithZombie(b.getX(),b.getY(),z) == true) {
+                            if (colidesWithZombie(b.getX(), b.getY(), z) == true) {
                                 z.hit(b.getDamage());
                                 System.out.println(z.getHealth());
                                 it.remove();
@@ -466,6 +479,7 @@ public class Temp3 extends ApplicationAdapter {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             map.draw(shapeBatch);
+
             //the menu picture
             /* shapeBatch.setColor(Color.WHITE);
             shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());*/
@@ -483,13 +497,13 @@ public class Temp3 extends ApplicationAdapter {
             for (int i = 0; i < zombies.size(); i++) {
                 if (zombies.get(i).getAlive() == true) {
                     batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), zombies.get(i).getWidth() / 2, zombies.get(i).getHeight() / 2, zombies.get(i).getWidth(), zombies.get(i).getHeight(), 1, 1, rotation3[i], 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
-                   // System.out.println("Zombie: "+ zombies.get(i).getX() + " "+ zombies.get(i).getY());
+                    // System.out.println("Zombie: "+ zombies.get(i).getX() + " "+ zombies.get(i).getY());
                 }
             }
 
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();
-            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);            
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             shapeBatch.setColor(Color.WHITE);
             for (Bullet b : this.bullets) {
                 b.drawBullet(shapeBatch);
@@ -502,11 +516,12 @@ public class Temp3 extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
     }
-    public boolean colidesWithZombie(float bX, float bY, Zombie z){      
-         if(bX+10 >= z.getX() && bX <= z.getX() + z.getWidth()/2 && bY+10 >= z.getY()  && bY <= z.getY() + z.getHeight()/2){             
-            return true; 
-         }
-        return false;        
+
+    public boolean colidesWithZombie(float bX, float bY, Zombie z) {
+        if (bX + 10 >= z.getX() && bX <= z.getX() + z.getWidth() / 2 && bY + 10 >= z.getY() && bY <= z.getY() + z.getHeight() / 2) {
+            return true;
+        }
+        return false;
     }
 
 }

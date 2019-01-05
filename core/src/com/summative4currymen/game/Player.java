@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @author nagra2700
  */
 public class Player {
-    private int speed;
+    private double speed;
     private int health;
     private Rectangle player;
     private String name;
@@ -38,14 +38,22 @@ public class Player {
      * @param speed The speed the player will move at
      * @param name The name of the player
      */
-    public Player(float x, float y, int width, int height, int health, int speed, String name) {
-        this.speed = speed;
+    public Player(float x, float y, int width, int height, int health, double speed, String name) {
+        this.speed = speed;        
         this.health = health;
         alive = true;
         this.name = name;
         player = new Rectangle(x, y, width, height);
         this.width = width;
         this.height = height;
+    }
+    
+    public boolean collides(Rectangle r){
+        if(player.overlaps(r)){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     /**
@@ -70,28 +78,28 @@ public class Player {
      * Using the speed integer to increase the player's y value
      */
     public void moveUp() {
-        player.y = player.y + speed;
+        player.y = (float)(player.y + speed);
     }
     
     /**
      * Using the speed integer to decrease the player's x value
      */
     public void moveLeft() {
-        player.x = player.x - speed;
+        player.x = (float)(player.x - speed);
     }
     
     /**
      * Using the speed integer to decrease the player's y value
      */
     public void moveDown() {
-        player.y = player.y - speed;
+        player.y = (float)(player.y - speed);
     }
     
     /**
      * Using the speed integer to increase the player's x value
      */
     public void moveRight() {
-        player.x = player.x + speed;
+        player.x = (float)(player.x + speed);
     }
     
     /**
@@ -164,8 +172,17 @@ public class Player {
      * 
      * @return the player's speed
      */
-    public int getSpeed() {
+    public double getSpeed() {
         return speed;
+    }
+    
+    /**
+     * A method to set the players speed
+     * 
+     * 
+     */
+    public void setSpeed(int s) {
+       speed = s;
     }
     
     /**
