@@ -115,12 +115,16 @@ public class Player {
     /**
      * The method when the player is being hit
      * 
-     * @param damage the amount of damage the zombie is taking
+     * @param damage the amount of damage the player is taking
+     * @return if the player is dead or not
      */
-    public void hit(int damage){
+    public boolean hit(int damage){
         health = health - damage;
         if(health <= 0){
-            this.die();            
+            this.die();   
+            return true;
+        }else{
+            return false;
         }
     }
     
@@ -137,8 +141,8 @@ public class Player {
         return health;
     }
     
-    public void setHealth(int damage){
-        this.health = this.health - damage;
+    public void setHealth(int health){
+        this.health = health;
     }
     
     /**

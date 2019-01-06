@@ -52,6 +52,22 @@ public class Zombie extends Player {
     public void setRotation(int num){
         this.rotation = num; 
     }
+    /**
+     * The method when the player is being hit
+     * 
+     * @param damage the amount of damage the zombie is taking
+     * @return if the zombie has died or not
+     */
+    @Override
+    public boolean hit(int damage){
+        super.setHealth(super.getHealth() - damage);
+        if(super.getHealth() <= 0){
+            this.die();
+            return false;
+        }else{
+            return true;
+        }
+    }
     
     /**
      * The method returns how much damage the zombie will give when attacking

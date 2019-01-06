@@ -6,6 +6,8 @@
 package com.summative4currymen.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.util.ArrayList;
 
@@ -22,6 +24,17 @@ public class Room {
     private int roomType;
     private ArrayList<Furniture> furniture;
 
+    private Texture bigTable;
+    private Texture smallTable;
+    private Texture bed;
+    private Texture couch;
+    private Texture chair;
+    private Texture carpet;
+    private Texture rock;
+
+    private Texture cactus;
+    private Texture blackGround;
+
     public Room(float x, float y, float width, float height) {
         this.x = x;
         this.y = y;
@@ -29,6 +42,17 @@ public class Room {
         this.height = height;
         this.roomType = 0;
         furniture = new ArrayList<Furniture>();
+        bigTable = new Texture("BigTable.png");
+        smallTable = new Texture("smallTable.png");
+        couch = new Texture("couch.png");
+        bed = new Texture("bed.png");
+        carpet = new Texture("carpet.png");
+        chair = new Texture("chair.png");
+        rock = new Texture("rock.png");
+
+        cactus = new Texture("cactus.png");
+        blackGround = new Texture("blackGround.png");
+
     }
 
     public void setRoomType(int num) {
@@ -40,6 +64,53 @@ public class Room {
     }
 
     public void buildRoom() {
+        switch (roomType) {
+            case 1:
+                int upper = 13;
+                int lower = 6;
+                //6 to 12 couchs
+                int num = (int) (Math.random() * (upper - lower)) + lower;
+                for (int i = 0; i < num; i++) {
+                    float upperw = 65;
+                    float lowerw = 35;
+                    float fWidth = (int) (Math.random() * (upperw - lowerw)) + lowerw;
+                    float fHeight = fWidth - fWidth / 8;
+                    float upperx = this.x + this.width - fWidth;//the size of the room - the width of the cactus
+                    float lowerx = this.x;
+                    float posX = (int) (Math.random() * (upperx - lowerx)) + lowerx;
+                    float uppery = this.y + this.height - fHeight;//the size of the room - the height of the cactus
+                    float lowery = this.y;
+                    float posY = (int) (Math.random() * (uppery - lowery)) + lowery;
+                    Furniture c = new Furniture("cactus", posX, posY, fWidth, fHeight);
+                    furniture.add(c);
+                }
+                break;
+            case 2:
+                upper = 8;
+                lower = 4;
+                //6 to 12 couchs
+                num = (int) (Math.random() * (upper - lower)) + lower;
+                for (int i = 0; i < num; i++) {
+                    float upperx = this.x + this.width - 125;//the size of the room - the width of the cactus
+                    float lowerx = this.x;
+                    float posX = (int) (Math.random() * (upperx - lowerx)) + lowerx;
+                    float uppery = this.y + this.height - 125;//the size of the room - the height of the cactus
+                    float lowery = this.y;
+                    float posY = (int) (Math.random() * (uppery - lowery)) + lowery;
+                    Furniture c = new Furniture("block", posX, posY, 125, 125);
+                    furniture.add(c);
+                }
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void buildRoomOLD() {
         if (roomType == 1) {
             //living room
             float upperx = this.x + this.width - 90;//the size of the room - the width of the carpet
@@ -48,7 +119,7 @@ public class Room {
             float uppery = this.y + this.height - 125;//the size of the room - the height of the carpet
             float lowery = this.y;
             float posY = (int) (Math.random() * (uppery - lowery)) + lowery;
-            Furniture c = new Furniture("carpet", posX, posY);
+            Furniture c = new Furniture("carpet", posX, posY, 0, 0);
             furniture.add(c);
             int upper = 3;
             int lower = 1;
@@ -61,7 +132,7 @@ public class Room {
                 uppery = this.y + this.height - 45;//the size of the room - the height of the couch
                 lowery = this.y;
                 posY = (int) (Math.random() * (uppery - lowery)) + lowery;
-                c = new Furniture("couch", posX, posY);
+                c = new Furniture("couch", posX, posY, 0, 0);
                 furniture.add(c);
             }
             upper = 5;
@@ -75,7 +146,7 @@ public class Room {
                 uppery = this.y + this.height - 30;//the size of the room - the height of the chair
                 lowery = this.y;
                 posY = (int) (Math.random() * (uppery - lowery)) + lowery;
-                c = new Furniture("chair", posX, posY);
+                c = new Furniture("chair", posX, posY, 0, 0);
                 furniture.add(c);
             }
 
@@ -92,7 +163,7 @@ public class Room {
                 float uppery = this.y + this.height - 30;//the size of the room - the height of the chair
                 float lowery = this.y;
                 float posY = (int) (Math.random() * (uppery - lowery)) + lowery;
-                Furniture c = new Furniture("chair", posX, posY);
+                Furniture c = new Furniture("chair", posX, posY, 0, 0);
                 furniture.add(c);
             }
             upper = 4;
@@ -106,7 +177,7 @@ public class Room {
                 float uppery = this.y + this.height - 60;//the size of the room - the height of the table
                 float lowery = this.y;
                 float posY = (int) (Math.random() * (uppery - lowery)) + lowery;
-                Furniture t = new Furniture("small table", posX, posY);
+                Furniture t = new Furniture("small table", posX, posY, 0, 0);
                 furniture.add(t);
             }
         } else if (roomType == 3) {
@@ -117,8 +188,8 @@ public class Room {
             float uppery = this.y + this.height - 125;//the size of the room - the height of the carpet
             float lowery = this.y;
             float posY = (int) (Math.random() * (uppery - lowery)) + lowery;
-            Furniture c = new Furniture("carpet", posX, posY);
-            furniture.add(c);            
+            Furniture c = new Furniture("carpet", posX, posY, 0, 0);
+            furniture.add(c);
             int upper = 3;
             int lower = 1;
             //1 to 2 beds
@@ -130,7 +201,7 @@ public class Room {
                 uppery = this.y + this.height - 140;//the size of the room - the height of the bed
                 lowery = this.y;
                 posY = (int) (Math.random() * (uppery - lowery)) + lowery;
-                Furniture b = new Furniture("bed", posX, posY);
+                Furniture b = new Furniture("bed", posX, posY, 0, 0);
                 furniture.add(b);
             }
             upper = 3;
@@ -144,12 +215,12 @@ public class Room {
                 uppery = this.y + this.height - 60;//the size of the room - the height of the table
                 lowery = this.y;
                 posY = (int) (Math.random() * (uppery - lowery)) + lowery;
-                Furniture t = new Furniture("small table", posX, posY);
+                Furniture t = new Furniture("small table", posX, posY, 0, 0);
                 furniture.add(t);
             }
         } else if (roomType == 4) {
             //disco room
-            
+
         } else if (roomType == 5) {
             //dinning room
             float upperx = this.x + this.width - 70;//the size of the room - the width of the carpet
@@ -158,8 +229,8 @@ public class Room {
             float uppery = this.y + this.height - 150;//the size of the room - the height of the carpet
             float lowery = this.y;
             float posY = (int) (Math.random() * (uppery - lowery)) + lowery;
-            Furniture t = new Furniture("big table", posX, posY);
-            furniture.add(t);  
+            Furniture t = new Furniture("big table", posX, posY, 0, 0);
+            furniture.add(t);
             int upper = 8;
             int lower = 3;
             //3 to 7 chairs
@@ -171,30 +242,43 @@ public class Room {
                 uppery = this.y + this.height - 30;//the size of the room - the height of the chair
                 lowery = this.y;
                 posY = (int) (Math.random() * (uppery - lowery)) + lowery;
-                Furniture c = new Furniture("chair", posX, posY);
+                Furniture c = new Furniture("chair", posX, posY, 0, 0);
                 furniture.add(c);
             }
         }
     }
 
-    public ArrayList<Furniture> getFurniture(){
-    ArrayList<Furniture> objects = new ArrayList<Furniture>();
-        for(Furniture f: furniture){            
-            if(!f.getName().equals("carpet")){
+    public ArrayList<Furniture> getFurniture() {
+        ArrayList<Furniture> objects = new ArrayList<Furniture>();
+        for (Furniture f : furniture) {
+            if (!f.getName().equals("carpet")) {
                 objects.add(f);
-            } 
+            }
         }
         return objects;
     }
-    public void draw(ShapeRenderer shapeBatch) {
+
+    public void draw(SpriteBatch batch) {
 
         for (Furniture f : furniture) {
             if (f.getName().equals("carpet")) {
-                shapeBatch.setColor(Color.PINK);
-            } else {
-                shapeBatch.setColor(Color.BLACK);
+                batch.draw(carpet, f.f.x, f.f.y, f.f.width, f.f.height);
+            } else if (f.getName().equals("big table")) {
+                batch.draw(bigTable, f.f.x, f.f.y, f.f.width, f.f.height);
+            } else if (f.getName().equals("small table")) {
+                batch.draw(smallTable, f.f.x, f.f.y, f.f.width, f.f.height);
+            } else if (f.getName().equals("chair")) {
+                batch.draw(chair, f.f.x, f.f.y, f.f.width, f.f.height);
+            } else if (f.getName().equals("bed")) {
+                batch.draw(bed, f.f.x, f.f.y, f.f.width, f.f.height);
+            } else if (f.getName().equals("couch")) {
+                batch.draw(couch, f.f.x, f.f.y, f.f.width, f.f.height);
+            } else if (f.getName().equals("cactus")) {
+                batch.draw(cactus, f.f.x, f.f.y, f.f.width, f.f.height);
+            } else if (f.getName().equals("block")) {
+                batch.draw(blackGround, f.f.x, f.f.y, f.f.width, f.f.height);
             }
-            shapeBatch.rect(f.f.x,f.f.y,f.f.width,f.f.height);
+
         }
     }
 }

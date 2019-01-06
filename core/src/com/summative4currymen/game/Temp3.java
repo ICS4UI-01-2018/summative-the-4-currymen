@@ -49,13 +49,23 @@ public class Temp3 extends ApplicationAdapter {
     private ArrayList<Weapon> worldWeapons;
     private BitmapFont font;
     private BitmapFont titleFont;
+    private BitmapFont desc;
     private Texture instructionPic;
     private Texture nextButton;
     private Texture storeButton;
+    private Texture whiteRect;
+    private Texture shotgun;
+    private Texture ak47;
+    private Texture barrett;
+    private Texture buyNow;
+    private Texture coin;
     private Texture treePic;
     private boolean startGame;
     private boolean goStore;
     private boolean nextScreen;
+    private boolean instructNum2;
+    private int totalZombies;
+    private int zombiesKilled;
 
     private long previousTime;
     private long previousTime2;
@@ -76,6 +86,12 @@ public class Temp3 extends ApplicationAdapter {
         storeButton = new Texture("StoreButton.png");
         instructionPic = new Texture("instruct.jpg");
         nextButton = new Texture("next.png");
+        whiteRect = new Texture("whitebox copy.png");
+        ak47 = new Texture("ak.png");
+        shotgun = new Texture("shotgun.png");
+        barrett = new Texture("RSASS_Sideview.png");
+        buyNow = new Texture("BuyNow_1.png");
+        coin = new Texture("coin.png");
         chr1IMG = new Texture("character1.png");
         zomIMG = new Texture("zombietopview.png");
         treePic = new Texture("treetop.png");
@@ -138,12 +154,12 @@ public class Temp3 extends ApplicationAdapter {
         font = g.generateFont(p);
         g.dispose();
 
-        for (int i = 0; i < 50; i++) {
-            zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 100, 0));
-        }
-        this.rotation3 = new int[zombies.size()];
+        FreeTypeFontGenerator generator2 = new FreeTypeFontGenerator(Gdx.files.internal("BEBAS___.ttf"));
+        FreeTypeFontParameter parameter2 = new FreeTypeFontParameter();
+        parameter2.size = 17;
+        desc = generator2.generateFont(parameter2);
+        generator2.dispose();
 
-        map = new Map();
     }
 
     @Override
@@ -175,8 +191,7 @@ public class Temp3 extends ApplicationAdapter {
                     nextScreen = true;
                 }
             }
-
-        } else if (startGame == false) {
+        } else if (instructNum2 == false) {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the instruction picture
@@ -221,12 +236,100 @@ public class Temp3 extends ApplicationAdapter {
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
+                    instructNum2 = true;
+                }
+            }
+
+        } else if (goStore == false) {            
+            shapeBatch.setProjectionMatrix(cam.combined);
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            //the instruction picture
+            shapeBatch.setColor(Color.GOLD);
+            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            shapeBatch.end();
+            batch.setProjectionMatrix(cam.combined);
+            batch.begin();
+            batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            batch.draw(nextButton, 680, 20, 100, 100);
+            font.setColor(Color.WHITE);
+            font.draw(batch, "Go to Store", 630, 23);
+            font.setColor(Color.WHITE);
+            font.draw(batch, "               Welcome to Arcade Apocalypse!\n \n \n"
+                    + "This game is based in a world rampant with zombies.\n \n \n"
+                    + "  But, there is hope for the remaining 1000 people.\n \n \n"
+                    + "                               That hope is … \n \n \n"
+                    + "                                    YOU!\n \n \n"
+                    + "                                Go for it!", 35, 415);
+            batch.end();
+
+            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            cam.unproject(touch);
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
+                    goStore = true;
+                }
+            }
+
+        } else if (startGame == false) {
+            cam.zoom = 1;
+            cam.position.x = 400;
+            cam.position.y = 300;
+            cam.update();
+            shapeBatch.setProjectionMatrix(cam.combined);
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            //the instruction picture
+            shapeBatch.setColor(Color.GOLD);
+            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            shapeBatch.end();
+            batch.setProjectionMatrix(cam.combined);
+            batch.begin();
+            batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            batch.draw(nextButton, 680, 20, 100, 100);
+            batch.draw(whiteRect, 20, 375, 150, 150);
+            batch.draw(whiteRect, 20, 225, 150, 150);
+            batch.draw(whiteRect, 20, 75, 150, 150);
+            font.setColor(Color.WHITE);
+            font.draw(batch, "AK47", 160, 510);
+            batch.draw(coin, 310, 493, 35, 25);
+            desc.draw(batch, "100", 345, 513);
+            desc.draw(batch, "A reliable weapon with a high rate of fire and \n consistant damage.", 160, 490);
+            desc.draw(batch, "STATS: \n Bullet Speed: Average      Reload Speed: Fast \n Damage: 50", 160, 445);
+            batch.draw(buyNow, 615, 420, 150, 50);
+            batch.draw(ak47, 45, 420, 100, 50);
+            font.draw(batch, "Barrett", 160, 360);
+            batch.draw(coin, 310, 493, 35, 25);
+            desc.draw(batch, "250", 345, 513);
+            desc.draw(batch, "Packs a punch. Take on the hoard with a low magazine, but \n high damage sniper rifle.", 160, 340);
+            desc.draw(batch, "STATS: \n Bullet Speed: Fast      Reload Speed: Slow \n Damage: 150", 160, 295);
+            batch.draw(buyNow, 615, 270, 150, 50);
+            batch.draw(barrett, 45, 280, 100, 40);
+            font.draw(batch, "Shotgun", 160, 210);
+            desc.draw(batch, "Is one bullet not enough? Eliminate the zombies \n with a spread shot shotgun.", 160, 190);
+            desc.draw(batch, "STATS: \n Bullet Speed: Slow      Reload Speed: Average \n Damage: 70", 160, 145);
+            batch.draw(shotgun, 45, 130, 100, 40);
+            batch.draw(buyNow, 615, 120, 150, 50);
+            batch.end();
+
+            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            cam.unproject(touch);
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
+                    zombiesKilled = 0;
+                    totalZombies = 50;
+                    for (int i = 0; i < totalZombies; i++) {
+                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 100, 0));
+                    }
+                    this.rotation3 = new int[zombies.size()];
+                    map = new Map();
                     startGame = true;
                 }
             }
 
             //if the game has begn draw in the game             
         } else if (startGame == true) {
+            if (zombiesKilled == totalZombies) {                
+                startGame = false;
+            }
             //update camera to players positions and zoom in or out accordingly
             //viewport.setScreenSize(800 -(int)(1.3*(int)((Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2))))/2)), (int)(viewport.getScreenWidth() / 1.333));
             //viewport.apply();
@@ -234,9 +337,24 @@ public class Temp3 extends ApplicationAdapter {
             if (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2))) > 400) {
                 cam.zoom = (float) (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2)))) / 400;
             }
-
-            cam.position.x = (player1.getX() + player2.getX()) / 2;
-            cam.position.y = (player1.getY() + player2.getY()) / 2;
+            if (cam.position.x - cam.viewportWidth / 2 >= 0 && cam.position.x + cam.viewportWidth / 2 <= map.getWorldWidth()) {
+                cam.position.x = (player1.getX() + player2.getX()) / 2;
+            }
+            if (cam.position.y - cam.viewportHeight / 2 >= 0 && cam.position.y + cam.viewportHeight / 2 <= map.getWorldHeight()) {
+                cam.position.y = (player1.getY() + player2.getY()) / 2;
+            }
+            if (cam.position.x - cam.viewportWidth / 2 < 0) {
+                cam.position.x = cam.viewportWidth / 2;
+            }
+            if (cam.position.x + cam.viewportWidth / 2 > map.getWorldWidth()) {
+                cam.position.x = map.getWorldWidth() - cam.viewportWidth / 2;
+            }
+            if (cam.position.y - cam.viewportHeight / 2 < 0) {
+                cam.position.y = 0 + cam.viewportHeight / 2;
+            }
+            if (cam.position.y + cam.viewportHeight / 2 > map.getWorldHeight()) {
+                cam.position.y = map.getWorldHeight() - cam.viewportHeight / 2;
+            }
             cam.update();
 
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
@@ -328,12 +446,36 @@ public class Temp3 extends ApplicationAdapter {
                 }
             }
 
+            if (player1.getX() < 0) {
+                player1.moveRight();
+            }
+            if (player1.getX() > map.getWorldWidth() - player1.getWidth()) {
+                player1.moveLeft();
+            }
+            if (player1.getY() < 0) {
+                player1.moveUp();
+            }
+            if (player1.getY() > map.getWorldHeight() - player1.getHeight()) {
+                player1.moveDown();
+            }
+            if (player2.getX() < 0) {
+                player2.moveRight();
+            }
+            if (player2.getX() > map.getWorldWidth() - player2.getWidth()) {
+                player2.moveLeft();
+            }
+            if (player2.getY() < 0) {
+                player2.moveUp();
+            }
+            if (player2.getY() > map.getWorldHeight() - player2.getHeight()) {
+                player2.moveDown();
+            }
+
             //shooting for player 1
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 for (Weapon w : this.worldWeapons) {
                     if (w.getName().equals(player1.getEquipped())) {
                         if (TimeUtils.millis() - previousTime > w.fireRate()) {
-                            System.out.println(w.numBullets());
                             bullets.addAll(w.shootWeapon(w.getName(), rotation1, player1.getX(), player1.getY(), w.bulletSpeed(), w.damage(), w.fireRate(), w.numBullets()));
                             previousTime = TimeUtils.millis();
 
@@ -346,7 +488,6 @@ public class Temp3 extends ApplicationAdapter {
                 for (Weapon w : this.worldWeapons) {
                     if (w.getName().equals(player2.getEquipped())) {
                         if (TimeUtils.millis() - previousTime2 > w.fireRate()) {
-                            System.out.println(w.numBullets());
                             bullets.addAll(w.shootWeapon(w.getName(), rotation2, player2.getX(), player2.getY(), w.bulletSpeed(), w.damage(), w.fireRate(), w.numBullets()));
                             previousTime2 = TimeUtils.millis();
                         }
@@ -466,14 +607,16 @@ public class Temp3 extends ApplicationAdapter {
             while (it.hasNext()) {
                 Bullet b = it.next();
                 b.bulletMovement();
-                if (b.getX() > 1500 || b.getX() < -200 || b.getY() > 1500 || b.getY() < -200) {
+                if (b.getX() > map.getWorldWidth() || b.getX() < 0 || b.getY() > map.getWorldHeight() || b.getY() < 0) {
                     it.remove();
                 } else {
                     for (Zombie z : this.zombies) {
                         if (z.getAlive() == true) {
                             if (colidesWithZombie(b.getX(), b.getY(), z) == true) {
-                                z.hit(b.getDamage());
-                                System.out.println(z.getHealth());
+                                if (z.hit(b.getDamage())) {
+                                    zombiesKilled++;
+                                    System.out.println(zombiesKilled);
+                                }
                                 it.remove();
                                 break;
                             }
@@ -483,10 +626,11 @@ public class Temp3 extends ApplicationAdapter {
             }
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-            map.draw(shapeBatch);
+
             shapeBatch.end();
             batch.setProjectionMatrix(cam.combined);
             batch.begin();
+            map.draw(batch);
             batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             for (Zombie z : zombies) {

@@ -5,6 +5,7 @@
  */
 package com.summative4currymen.game;
 
+
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -12,9 +13,10 @@ import com.badlogic.gdx.math.Rectangle;
  * @author Jared
  */
 public class Furniture {
-    public Rectangle f;    
+    public Rectangle f;  
+    
     private String name;
-    public Furniture(String name ,float x, float y){
+    public Furniture(String name ,float x, float y, float width, float height){
         this.name = name;
         f = new Rectangle(x, y, 0, 0);
         f.x = x;
@@ -40,6 +42,12 @@ public class Furniture {
         }else if(name.equals("carpet")){
             f.width = 90;
             f.height = 125;
+        }else if(name.equals("cactus")){
+            f.width = width;
+            f.height = height;
+        }else if(name.equals("block")){
+            f.width = width;
+            f.height = height;
         }
     }
     public String getName(){
