@@ -82,8 +82,8 @@ public class Temp extends ApplicationAdapter {
         cam.position.x = 400;
         cam.position.y = 300;
         cam.update();
-        player1 = new Player(400, 300, 45, 45, 2, 3, "Rick");
-        player2 = new Player(450, 350, 45, 45, 2, 3, "Carl");
+        player1 = new Player(400, 300, 45, 45, 100, 3, "Rick");
+        player2 = new Player(450, 350, 45, 45, 100, 3, "Carl");
 
         zombies = new ArrayList<Zombie>();
 
@@ -98,7 +98,9 @@ public class Temp extends ApplicationAdapter {
         p.size = 17;
         font = g.generateFont(p);
         g.dispose();
-
+        
+        Math.Random()
+        
         for (int i = 0; i < 1; i++) {
             zombies.add(new Zombie(-20, -20, 45, 45, 2, 1, "Spawn 1", 100));
         }
