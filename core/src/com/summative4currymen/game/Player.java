@@ -10,12 +10,12 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 
 /**
- * The class represents the player that will be used by the user
+ * This class represents the player that will be used by the user
  *
  * @author nagra2700
  */
 public class Player {
-    private int speed;
+    private double speed;
     private int health;
     private Rectangle player;
     private String name;
@@ -38,14 +38,23 @@ public class Player {
      * @param speed The speed the player will move at
      * @param name The name of the player
      */
-    public Player(float x, float y, int width, int height, int health, int speed, String name) {
-        this.speed = speed;
+    public Player(float x, float y, int width, int height, int health, double speed, String name) {
+        this.speed = speed;        
         this.health = health;
         alive = true;
         this.name = name;
         player = new Rectangle(x, y, width, height);
         this.width = width;
         this.height = height;
+    }
+    
+    public boolean collides(Rectangle r){
+        return player.overlaps(r);
+                
+    }
+    
+    public Rectangle getBounds(){
+        return this.player;
     }
     
     /**
@@ -58,8 +67,8 @@ public class Player {
     }
     
     /** 
+     * Setter for the Player's weapon
      * 
-     * setter for players gun
      * @param name 
      */
     public void setEquipped(String name){
@@ -70,28 +79,28 @@ public class Player {
      * Using the speed integer to increase the player's y value
      */
     public void moveUp() {
-        player.y = player.y + speed;
+        player.y = (float)(player.y + speed);
     }
     
     /**
      * Using the speed integer to decrease the player's x value
      */
     public void moveLeft() {
-        player.x = player.x - speed;
+        player.x = (float)(player.x - speed);
     }
     
     /**
      * Using the speed integer to decrease the player's y value
      */
     public void moveDown() {
-        player.y = player.y - speed;
+        player.y = (float)(player.y - speed);
     }
     
     /**
      * Using the speed integer to increase the player's x value
      */
     public void moveRight() {
-        player.x = player.x + speed;
+        player.x = (float)(player.x + speed);
     }
     
     /**
@@ -106,14 +115,21 @@ public class Player {
     /**
      * The method when the player is being hit
      * 
-     * @param damage the amount of damage the zombie is taking
+     * @param damage the amount of damage the player is taking
+     * @return if the player is dead or not
      */
-    public void hit(int damage){
+    public boolean hit(int damage){
         health = health - damage;
         if(health <= 0){
-            alive = false;
-            name = "dead";
+            this.die();   
+            return true;
+        }else{
+            return false;
         }
+    }
+    
+    public void die(){
+        this.alive = false;
     }
     
     /**
@@ -125,8 +141,8 @@ public class Player {
         return health;
     }
     
-    public void setHealth(int damage){
-        this.health = this.health - damage;
+    public void setHealth(int health){
+        this.health = health;
     }
     
     /**
@@ -135,7 +151,7 @@ public class Player {
      * @return the boolean alive
      */
     public Boolean getAlive() {
-        return alive;
+        return this.alive;
     }
     
     /**
@@ -161,8 +177,17 @@ public class Player {
      * 
      * @return the player's speed
      */
-    public int getSpeed() {
-        return speed;
+    public double getSpeed() {
+        return this.speed;
+    }
+    
+    /**
+     * A method to set the players speed
+     * 
+     * 
+     */
+    public void setSpeed(double s) {
+       this.speed = s;
     }
     
     /**
