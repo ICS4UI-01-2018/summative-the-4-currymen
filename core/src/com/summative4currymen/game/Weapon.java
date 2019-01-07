@@ -33,12 +33,12 @@ public class Weapon {
      *
      * @param name The name of the weapon
      * @param bulletSpeed The speed at which the bullets will travel
-     * @param fireRate How queckly bullets will exit the weapon
+     * @param fireRate How quickly bullets will exit the weapon
      * @param damage The amount of damage the weapon will do on contact with an
      * enemy
      * @param numBullets The number of bullets the weapon is capable of firing
      * @param x The x position of the weapon
-     * @param y The y position of te weapon
+     * @param y The y position of the weapon
      */
     public Weapon(String name, int bulletSpeed, int fireRate, int damage, int numBullets, float x, float y) {
         this.name = name;
@@ -132,8 +132,11 @@ public class Weapon {
                 bullets.clear();
                 Bullet[] bArray = new Bullet[numBullets - 1];
                 for (int i = 0; i < numBullets; i++) {
-                    Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (1 - 0.5)) + (float) 0.5, (float) (Math.random() * (0.25 - 0)) + 0);
+                    Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (1 - 0.5)) + (float) 0.5, (float) (Math.random() * (0.35 - 0.15)) + 0);
+                    Bullet b2 = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (1 - 0.5)) + (float) 0.5, (float) (Math.random() * (-0.35 + 0.15)) + 0);
+                    bullets.add(b2);
                     bullets.add(b);
+                    
                 }
                 return bullets;
             }
@@ -147,7 +150,9 @@ public class Weapon {
             } else {
                 bullets.clear();
                 for (int i = 0; i < numBullets; i++) {
-                    Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (1 - 0.25)) + (float) 0.5, (float) (Math.random() * (1 - 0.25)) + (float) 0.5);
+                    Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (1 - 0.25)) + (float) 0.5, (float) (Math.random() * (0.35 - 0.15)) + (float)0.5);
+                    Bullet b2 = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (1 - 0.5)) + (float) 0.5, (float) (Math.random() * (-0.35 + 0.15)) + (float)0.5);
+                    bullets.add(b2);
                     bullets.add(b);
                 }
                 return bullets;
@@ -162,7 +167,9 @@ public class Weapon {
             } else {
                 bullets.clear();
                 for (int i = 0; i < numBullets; i++) {
-                    Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (0.25 - 0)) + 0, (float) (Math.random() * (1.15 - 0.85)) + (float) 1);
+                    Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (0.5 - 0))+ (float) -0.25, (float) (Math.random() * (0.35 - 0.15)) + (float) 1);
+                    Bullet b2 = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (-0 + 0.5)) + (float) 0.25, (float) (Math.random() * (-0.35 + 0.15)) +(float) 1);
+                    bullets.add(b2);
                     bullets.add(b);
                 }
                 return bullets;
@@ -177,7 +184,9 @@ public class Weapon {
             } else {
                 bullets.clear();
                 for (int i = 0; i < numBullets; i++) {
-                    Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (-1.25 + 0.75)) - 1, (float) (Math.random() * (1.25 - 0.75)) + 1);
+                    Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (-1.25 + 0.75)) + (float) -0.5, (float) (Math.random() * (1.35 - 1.15)) + 1);
+                    Bullet b2 = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (1 - 0.5)) + (float) -0.5, (float) (Math.random() * (-1.35 + 1.15)) + 1);
+                    bullets.add(b2);
                     bullets.add(b);
                 }
                 return bullets;
@@ -192,7 +201,9 @@ public class Weapon {
             } else {
                 bullets.clear();
                 for (int i = 0; i < numBullets; i++) {
-                    Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, -1, (float) (Math.random() * (0.25 - 0)) + 0);
+                    Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed+20, damage, (float) (Math.random() * (0.25 + 0.25)) - (float) 0.5, (float) (Math.random() * (-0.20 + 0.25)) - 0);
+                    Bullet b2 = new Bullet((int) x, (int) y, 10, 10, bulletSpeed+20, damage, (float) (Math.random() * (0.25 + 0.25)) - (float) 0.5, (float) (Math.random() * (0.20 - 0.25)) - 0);
+                    bullets.add(b2);
                     bullets.add(b);
                 }
                 return bullets;
@@ -207,7 +218,9 @@ public class Weapon {
             } else {
                 bullets.clear();
                 for (int i = 0; i < numBullets; i++) {
-                    Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (-1.25 + 0.75)) - 1, (float) (Math.random() * (-1.25 + 0.75)) - 1);
+                    Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (-1.25 + 0.75)) +(float) 0.5, (float) (Math.random() * (0.35 - 0.15)) - 1);
+                    Bullet b2 = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (1 - 0.5)) + (float) 0.5, (float) (Math.random() * (-0.35 + 0.15)) -1);
+                    bullets.add(b2);
                     bullets.add(b);
                 }
                 return bullets;
@@ -237,7 +250,9 @@ public class Weapon {
             } else {
                 bullets.clear();
                 for (int i = 0; i < numBullets; i++) {
-                    Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (1.25 - 0.75)) + 1, (float) (Math.random() * (-1.25 + 0.75)) - 1);
+                    Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (1.25 - 0.75)) +(float) 0.5, (float) (Math.random() * (0.35 - 0.15)) - 1);
+                    Bullet b2 = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) (Math.random() * (1 - 0.5)) + (float) 0.5, (float) (Math.random() * (-0.35 + 0.15)) -1);
+                    bullets.add(b2);
                     bullets.add(b);
                 }
                 return bullets;
