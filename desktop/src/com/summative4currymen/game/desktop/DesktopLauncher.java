@@ -2,12 +2,12 @@ package com.summative4currymen.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.summative4currymen.game.ZombieGame;
-import com.summative4currymen.game.Temp3;
+import com.summative4currymen.game.Temp5;
+
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new ZombieGame  (), config);
+		new LwjglApplication(new Temp5(), config);
 	}
 }
