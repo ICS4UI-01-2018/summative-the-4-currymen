@@ -12,29 +12,33 @@ import com.badlogic.gdx.math.Vector2;
  * @author goodm9679
  */
 public class Pickup {
+
     private Vector2 position;
     private int type;
     private boolean active;
-    
-    public Pickup(float x, float y, int type){
+
+    public Pickup(float x, float y, int type) {
         this.position.set(x, y);
-        this.type = type;
+        this.type = type; //1 ammo, 2 coin
         this.active = true;
     }
-    
-    public float getX(){
+
+    public float getX() {
         return this.position.x;
     }
-    
-     public float getY(){
+
+    public float getY() {
         return this.position.y;
     }
-     
-     public Vector2 getVector(){
-         return this.position;
-     }
-     
-    public void deactivate(){
+    
+    public int getType(){
+        return this.type;
+    }
+    public Vector2 getVector() {
+        return this.position;
+    }
+
+    public void deactivate() {
         this.active = false;
     }
 }
