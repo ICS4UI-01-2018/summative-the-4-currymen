@@ -19,7 +19,7 @@ public class Pickup {
 
     public Pickup(float x, float y, int type) {
         this.position.set(x, y);
-        this.type = type; //1 ammo, 2 coin
+        this.type = type; //0 ammo, 1 coin
         this.active = true;
     }
 
