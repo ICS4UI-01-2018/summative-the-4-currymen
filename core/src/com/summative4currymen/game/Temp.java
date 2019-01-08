@@ -15,6 +15,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Temp extends ApplicationAdapter {
 
@@ -48,6 +51,8 @@ public class Temp extends ApplicationAdapter {
     private boolean startGame;
     private boolean goStore;
     private boolean nextScreen;
+    private int wave;
+    private Timer yourtimer;
 
     private Vector3 touch = new Vector3(0, 0, 0);
 
@@ -67,7 +72,8 @@ public class Temp extends ApplicationAdapter {
         nextButton = new Texture("next.png");
         chr1IMG = new Texture("character1.png");
         zomIMG = new Texture("zombietopview.png");
-
+        yourtimer = new Timer(true);
+        
         bullets = new ArrayList<Bullet>();
 
         obstacle1 = new Texture("Concrete_Roof.jpg");
@@ -98,29 +104,18 @@ public class Temp extends ApplicationAdapter {
         p.size = 17;
         font = g.generateFont(p);
         g.dispose();
-        
-        Math.Random()
-        
+
+        double spawn = Math.ceil(Math.random() * 2);
+        double spawn1 = Math.ceil(Math.random() * 2);
+
         for (int i = 0; i < 1; i++) {
-            zombies.add(new Zombie(-20, -20, 45, 45, 2, 1, "Spawn 1", 100,0));
-        }
-        
-        for (int i = 0; i < 1; i++) {
-            zombies.add(new Zombie(620, -20, 45, 45, 2, 1, "Spawn 2", 100,0));
-        }
-        
-        for (int i = 0; i < 1; i++) {
-            zombies.add(new Zombie(-20, 820, 45, 45, 2, 1, "Spawn 3", 100,0));
-        }
-        
-        for (int i = 0; i < 1; i++) {
-            zombies.add(new Zombie(620, 820, 45, 45, 2, 1, "Spawn 4", 100,0));
+            zombies.add(new Zombie(-220, -500, 45, 45, 2, 1, "Spawn 1", 100, 0));
         }
 
         this.rotation3 = new int[zombies.size()];
 
     }
-
+    
     @Override
     public void render() {
         Gdx.gl.glClearColor(1, 0, 0, 1);
@@ -401,8 +396,19 @@ public class Temp extends ApplicationAdapter {
                     System.out.println("" + b.getX() + " " + b.getY());
                 }
             }
-
-            for (int i = 0; i < zombies.size(); i++) {
+            
+            
+            if(zombies.size() > wave){
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Temp.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    wave = 1;
+                    
+            }
+            System.out.println(wave);
+            for (int i = 0; i < wave; i++) {
                 double distance1 = Math.sqrt((Math.pow(zombies.get(i).getX() - player1.getX(), 2)) + (Math.pow(zombies.get(i).getY() - player1.getY(), 2)));
                 double distance2 = Math.sqrt((Math.pow(zombies.get(i).getX() - player2.getX(), 2)) + (Math.pow(zombies.get(i).getY() - player2.getY(), 2)));
 
@@ -494,7 +500,9 @@ public class Temp extends ApplicationAdapter {
                     }
                 }
             }
-            
+
+            System.out.println(wave);
+            System.out.println(zombies.size());
             /*
                 if(zombies.get(0).collidesWith(zombies.get(1))){
                 zombies.get(0).avoidcollision1();
@@ -503,8 +511,7 @@ public class Temp extends ApplicationAdapter {
                 }else{
                     System.out.println("lamb");    
                 }    
-            */
-            
+             */
             for (Bullet b : this.bullets) {
                 b.bulletMovement();
             }
@@ -527,7 +534,7 @@ public class Temp extends ApplicationAdapter {
             for (int i = 0; i < zombies.size(); i++) {
                 batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), zombies.get(i).getWidth() / 2, zombies.get(i).getHeight() / 2, zombies.get(i).getWidth(), zombies.get(i).getHeight(), 1, 1, rotation3[i], 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
             }
-            
+
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
