@@ -34,10 +34,15 @@ public class Pickup {
     public int getType(){
         return this.type;
     }
+    
     public Vector2 getVector() {
         return this.position;
     }
-
+    
+    public boolean getActive() {
+        return this.active;
+    }
+    
     public void deactivate() {
         this.active = false;
     }

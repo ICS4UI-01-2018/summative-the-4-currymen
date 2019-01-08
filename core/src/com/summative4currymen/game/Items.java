@@ -22,20 +22,29 @@ public class Items {
     }
 
     public void clear() {
-
+    
     }
 
     public int updateAmmo(Vector2 player) {
         int collected = 0;
         for (int i = 0; i < pickups.size(); i++) {
-            if (pickups.get(i).getType() == 1) {
+            if (pickups.get(i).getType() == 1 && pickups.get(i).getActive() == true) {
                 if (collect(player, pickups.get(i).getVector()) == true) {
                     pickups.get(i).deactivate();
-                    collected += (int)Math.random();
+                    collected += (int)((Math.random() * (maxAmmo - minAmmo)) + minAmmo);
                 }
             }
         }
         return collected;
+    }
+    
+    public void dispose(){
+        ArrayList<Pickup> temp;
+        for (int i = 0; i < pickups.size(); i++) {
+            if(pickups.get(i).getActive() == false){
+                
+            }
+        }
     }
 
     public boolean collect(Vector2 player, Vector2 pickup) {
