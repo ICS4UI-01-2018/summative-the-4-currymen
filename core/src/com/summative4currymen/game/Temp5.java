@@ -578,7 +578,7 @@ public class Temp5 extends ApplicationAdapter {
                 }
                 for (Furniture f : map.getObjects()) {
                     if (z.collides(f.f)) {
-                        z.setSpeed(0.4);
+                        z.setSpeed(3);
                         break;
                     } else {
                         z.setSpeed(3);
