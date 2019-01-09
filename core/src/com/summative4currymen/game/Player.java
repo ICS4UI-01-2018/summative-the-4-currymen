@@ -130,6 +130,7 @@ public class Player {
     
     public void die(){
         this.alive = false;
+        this.speed = 0;
     }
     
     /**

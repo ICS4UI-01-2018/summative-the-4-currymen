@@ -13,7 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
  * @author riepj9547
  */
 public class Zombie extends Player {
-    private int speed;
+    private double speed;
     
    // private Rectangle zombie;
     private String name;
@@ -33,7 +33,7 @@ public class Zombie extends Player {
      * @param name The name of the zombie
      * @param damage The amount of damage the zombie can attack with
      */
-    public Zombie(float x, float y, int width, int height, int health, int speed, String name, int damage, int rotation) {
+    public Zombie(float x, float y, int width, int height, int health, double speed, String name, int damage, int rotation) {
         super(x, y, width, height, health, speed, name);
         //this.speed = speed;
         this.damage = damage;
@@ -53,7 +53,7 @@ public class Zombie extends Player {
         this.rotation = num; 
     }
     /**
-     * The method when the player is being hit
+     * The method when the zombie is being hit
      * 
      * @param damage the amount of damage the zombie is taking
      * @return if the zombie has died or not
