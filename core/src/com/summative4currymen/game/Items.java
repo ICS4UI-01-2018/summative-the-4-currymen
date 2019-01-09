@@ -12,16 +12,12 @@ public class Items {
 
     private ArrayList<Pickup> pickups;
     private final float pickupDistance = 5;
-    private static int maxAmmo;
-    private static int minAmmo;
-    private static int maxCoin;
-    private static int minCoin;
+    private final int maxAmmo = 6;
+    private final int minAmmo = 2;
+    private final int maxCoin = 10;
+    private final int minCoin = 5;
     private final int ammoPercent = 25;
     private final int coinPercent = 75;
-
-    public Items(int maxAmmo, int minAmmo, int maxCoin, int minCoin) {
-        
-    }
 
     public void clear() {
         pickups.clear();
@@ -41,6 +37,19 @@ public class Items {
         int collected = 0;
         for (int i = 0; i < pickups.size(); i++) {
             if (pickups.get(i).getType() == 0 && pickups.get(i).getActive() == true) {
+                if (collect(player, pickups.get(i).getVector()) == true) {
+                    pickups.get(i).deactivate();
+                    collected += (int) ((Math.random() * (maxAmmo - minAmmo)) + minAmmo);
+                }
+            }
+        }
+        return collected;
+    }
+    
+    public int updateCoin(Vector2 player) {
+        int collected = 0;
+        for (int i = 0; i < pickups.size(); i++) {
+            if (pickups.get(i).getType() == 1 && pickups.get(i).getActive() == true) {
                 if (collect(player, pickups.get(i).getVector()) == true) {
                     pickups.get(i).deactivate();
                     collected += (int) ((Math.random() * (maxAmmo - minAmmo)) + minAmmo);
