@@ -38,10 +38,6 @@ public class Temp5 extends ApplicationAdapter {
     private Texture chr1IMG;
     private Texture zomIMG;
     private Texture arcadeLogo;
-    private Texture obstacle1;
-    private Texture obstacle2;
-    private Texture obstacle3;
-    private Texture obstacle4;
     private int rotation1;
     private int rotation2;
     private int rotation3[];
@@ -121,11 +117,6 @@ public class Temp5 extends ApplicationAdapter {
 
         long previousTime = TimeUtils.millis();
         long previousTime2 = TimeUtils.millis();
-
-        obstacle1 = new Texture("Concrete_Roof.jpg");
-        obstacle2 = new Texture("Concrete_Roof.jpg");
-        obstacle3 = new Texture("Concrete_Roof.jpg");
-        obstacle4 = new Texture("Concrete_Roof.jpg");
 
         cam = new OrthographicCamera();
         viewport = new FitViewport(800, 600, cam);
@@ -578,18 +569,18 @@ public class Temp5 extends ApplicationAdapter {
                 }
                 for (Furniture f : map.getObjects()) {
                     if (z.collides(f.f)) {
-                        z.setSpeed(3);
+                        z.setSpeed(0.4);
                         break;
                     } else {
-                        z.setSpeed(3);
+                        z.setSpeed(1);
                     }
                 }
                 //This can detect if a zombie collides with another zombie
-                /*for (Zombie z2 : zombies) {
+                for (Zombie z2 : zombies) {
                     if (z.collidesWith(z2)){
-                        
+                        z.setSpeed(Math.random()*(4-0)-0);
                     }
-                }*/
+                }
             }
 
             Iterator<Bullet> it = this.bullets.iterator();
