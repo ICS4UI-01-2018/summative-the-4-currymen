@@ -20,6 +20,7 @@ public class Zombie extends Player {
     //private Boolean alive;
     private int rotation;
     private int damage;
+    private boolean alive;
     
     /**
      * Initializes Zombie data
@@ -38,7 +39,7 @@ public class Zombie extends Player {
         //this.speed = speed;
         this.damage = damage;
         this.rotation = rotation;
-        //alive = true;
+        this.alive = true;
         //zombie = new Rectangle(x, y, width, height);
     }
     
@@ -59,14 +60,12 @@ public class Zombie extends Player {
      * @return if the zombie has died or not
      */
     @Override
-    public boolean hit(int damage){
+    public int hit(int damage){
         super.setHealth(super.getHealth() - damage);
         if(super.getHealth() <= 0){
             this.die();
-            return false;
-        }else{
-            return true;
         }
+        return super.getHealth();
     }
     
     /**
@@ -76,6 +75,15 @@ public class Zombie extends Player {
      */
     public int attack() {
         return damage;
+    }
+    
+    public void die() {
+        System.out.println("mummy");
+        this.speed = 0;
+        this.setSpeed(speed);
+        
+        this.alive = false;
+        
     }
     
     /**

@@ -64,6 +64,7 @@ public class Temp extends ApplicationAdapter {
     private boolean goStore;
     private boolean nextScreen;
     private boolean instructNum2;
+    private boolean nextGame;
     private int totalZombies;
     private int zombiesKilled;
 
@@ -328,42 +329,16 @@ public class Temp extends ApplicationAdapter {
             //if the game has begn draw in the game             
         } else if (startGame == true) {
             if (zombiesKilled == totalZombies) {
-                nextScreen = false;
+                nextGame = false;
             }
             
             if(player1.getAlive() == false && player2.getAlive() == false){
-                nextScreen = false;
+                nextGame = false;
             }
             
-            if(nextScreen = false){
-                shapeBatch.setProjectionMatrix(cam.combined);
-            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-            //the instruction picture
-            shapeBatch.setColor(Color.GOLD);
-            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            shapeBatch.end();
-            batch.setProjectionMatrix(cam.combined);
-            batch.begin();
-            batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            batch.draw(nextButton, 680, 20, 100, 100);
-            font.setColor(Color.WHITE);
-            font.draw(batch, "Go to Store", 630, 23);
-            font.setColor(Color.WHITE);
-            font.draw(batch, "               Level completed!\n \n \n"
-                    + "Keep slaying thos zombies.\n \n \n"
-                    + "                               x amount of people remain \n \n \n"
-                    + "                                Smash stuff up!", 35, 415);
-            batch.end();
+            
 
-            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            cam.unproject(touch);
-            if (Gdx.input.justTouched()) {
-                if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
-                    goStore = true;
-                }
-            }
-
-            }
+            
             //update camera to players positions and zoom in or out accordingly
             //viewport.setScreenSize(800 -(int)(1.3*(int)((Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2))))/2)), (int)(viewport.getScreenWidth() / 1.333));
             //viewport.apply();
@@ -752,7 +727,7 @@ public class Temp extends ApplicationAdapter {
                     for (Zombie z : this.zombies) {
                         if (z.getAlive() == true) {
                             if (colidesWithZombie(b.getX(), b.getY(), z) == true) {
-                                if (z.hit(b.getDamage())) {
+                                if (z.hit(b.getDamage()) <= 0) {
                                     zombiesKilled++;
                                     System.out.println(zombiesKilled);
                                 }

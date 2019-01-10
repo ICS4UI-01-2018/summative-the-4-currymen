@@ -20,7 +20,10 @@ public class Furniture {
         this.name = name;
         f = new Rectangle(x, y, 0, 0);
         f.x = x;
-        f.y = y;        
+        f.y = y;      
+        f.width = width;
+        f.height = height;
+        /*
         if(name.equals("chair")){
             f.width = 30;
             f.height = 30;
@@ -48,7 +51,7 @@ public class Furniture {
         }else if(name.equals("block")){
             f.width = width;
             f.height = height;
-        }
+        }*/
     }
     public String getName(){
         return this.name;
