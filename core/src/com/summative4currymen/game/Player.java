@@ -129,8 +129,10 @@ public class Player {
     }
     
     public void die(){
-        this.alive = false;
+        System.out.println("mum");
         this.speed = 0;
+        this.setSpeed(speed);
+        this.alive = false;
     }
     
     /**

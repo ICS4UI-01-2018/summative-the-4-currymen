@@ -19,10 +19,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
 public class Temp extends ApplicationAdapter {
 
@@ -48,7 +44,7 @@ public class Temp extends ApplicationAdapter {
     private Texture obstacle4;
     private int rotation1;
     private int rotation2;
-    private int[] rotation3;
+    private int rotation3[];
     private ArrayList<Bullet> bullets;
     private ArrayList<Weapon> worldWeapons;
     private BitmapFont font;
@@ -65,15 +61,12 @@ public class Temp extends ApplicationAdapter {
     private Texture coin;
     private Texture treePic;
     private boolean startGame;
-    private boolean nextGame;
     private boolean goStore;
     private boolean nextScreen;
     private boolean instructNum2;
     private int totalZombies;
-    private int zombiesKilled; 
-    private int peopleLeft = 1002;
-    private double zombieSpeed;
-    
+    private int zombiesKilled;
+
     private long previousTime;
     private long previousTime2;
 
@@ -143,7 +136,6 @@ public class Temp extends ApplicationAdapter {
         cam.update();
         player1 = new Player(400, 300, 45, 45, 2, 2, "Rick");
         player2 = new Player(450, 350, 45, 45, 2, 2, "Carl");
-        peopleLeft = peopleLeft - 2;
 
         player1.setEquipped("AK-47");
         player2.setEquipped("ShotGun");
@@ -248,7 +240,7 @@ public class Temp extends ApplicationAdapter {
                 }
             }
 
-        } else if (goStore == false) {            
+        } else if (goStore == false) {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the instruction picture
@@ -264,7 +256,7 @@ public class Temp extends ApplicationAdapter {
             font.setColor(Color.WHITE);
             font.draw(batch, "               Welcome to Arcade Apocalypse!\n \n \n"
                     + "This game is based in a world rampant with zombies.\n \n \n"
-                    + "  But, there is hope for the remaining " + peopleLeft + " people.\n \n \n"
+                    + "  But, there is hope for the remaining 1000 people.\n \n \n"
                     + "                               That hope is … \n \n \n"
                     + "                                    YOU!\n \n \n"
                     + "                                Go for it!", 35, 415);
@@ -320,37 +312,31 @@ public class Temp extends ApplicationAdapter {
 
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touch);
-        
             if (Gdx.input.justTouched()) {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
                     zombiesKilled = 0;
-                    totalZombies = 1;
-                    zombieSpeed = 1;
+                    totalZombies = 50;
                     for (int i = 0; i < totalZombies; i++) {
-                        
-                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 1000, zombieSpeed, "Zambie", 100, 0));
-                        zombieSpeed = zombieSpeed + 0.1;
+                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 2, 0));
                     }
                     this.rotation3 = new int[zombies.size()];
                     map = new Map();
-                    nextGame = true;
-                    
-                    for (Zombie z : zombies) {
-                        if(z.collides(player1.getBounds())){
-                            player1.hit(z.attack());
-                        }
-                    }
+                    startGame = true;
                 }
             }
 
             //if the game has begn draw in the game             
         } else if (startGame == true) {
-            if (zombiesKilled == totalZombies) {                
-                nextGame = false;
+            if (zombiesKilled == totalZombies) {
+                nextScreen = false;
             }
             
-            if(nextGame = false){
-            shapeBatch.setProjectionMatrix(cam.combined);
+            if(player1.getAlive() == false && player2.getAlive() == false){
+                nextScreen = false;
+            }
+            
+            if(nextScreen = false){
+                shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the instruction picture
             shapeBatch.setColor(Color.GOLD);
@@ -363,10 +349,10 @@ public class Temp extends ApplicationAdapter {
             font.setColor(Color.WHITE);
             font.draw(batch, "Go to Store", 630, 23);
             font.setColor(Color.WHITE);
-            font.draw(batch, "               You have completed the level!\n \n \n"
-                    + "The next level will not be as easy so be sure to suit up in the shop.\n \n \n"
-                    + "  There are " + peopleLeft + "amount of people left.\n \n \n" 
-                    + "                                Onward SOLDIER!", 35, 415);
+            font.draw(batch, "               Level completed!\n \n \n"
+                    + "Keep slaying thos zombies.\n \n \n"
+                    + "                               x amount of people remain \n \n \n"
+                    + "                                Smash stuff up!", 35, 415);
             batch.end();
 
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -376,6 +362,7 @@ public class Temp extends ApplicationAdapter {
                     goStore = true;
                 }
             }
+
             }
             //update camera to players positions and zoom in or out accordingly
             //viewport.setScreenSize(800 -(int)(1.3*(int)((Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2))))/2)), (int)(viewport.getScreenWidth() / 1.333));
@@ -404,62 +391,66 @@ public class Temp extends ApplicationAdapter {
             }
             cam.update();
 
-            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                player1.moveUp();
-                rotation1 = 90;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                player1.moveDown();
-                rotation1 = 270;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                player1.moveLeft();
-                rotation1 = 180;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                player1.moveRight();
-                rotation1 = 0;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
-                rotation1 = 135;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.D)) {
-                rotation1 = 45;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.A)) {
-                rotation1 = 225;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.D)) {
-                rotation1 = 315;
+            if (player1.getAlive()) {
+                if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                    player1.moveUp();
+                    rotation1 = 90;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                    player1.moveDown();
+                    rotation1 = 270;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                    player1.moveLeft();
+                    rotation1 = 180;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                    player1.moveRight();
+                    rotation1 = 0;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
+                    rotation1 = 135;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.D)) {
+                    rotation1 = 45;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.A)) {
+                    rotation1 = 225;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.D)) {
+                    rotation1 = 315;
+                }
             }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                player2.moveUp();
-                rotation2 = 90;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                player2.moveDown();
-                rotation2 = 270;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                player2.moveLeft();
-                rotation2 = 180;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                player2.moveRight();
-                rotation2 = 0;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                rotation2 = 135;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                rotation2 = 45;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                rotation2 = 225;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                rotation2 = 315;
+            if (player2.getAlive()) {
+                if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                    player2.moveUp();
+                    rotation2 = 90;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                    player2.moveDown();
+                    rotation2 = 270;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                    player2.moveLeft();
+                    rotation2 = 180;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    player2.moveRight();
+                    rotation2 = 0;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                    rotation2 = 135;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    rotation2 = 45;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                    rotation2 = 225;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    rotation2 = 315;
+                }
             }
             //player collition with furniture
             for (Furniture f : map.getObjects()) {
@@ -520,33 +511,135 @@ public class Temp extends ApplicationAdapter {
 
             //shooting for player 1
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                for (Weapon w : this.worldWeapons) {
-                    if (w.getName().equals(player1.getEquipped())) {
-                        if (TimeUtils.millis() - previousTime > w.fireRate()) {
-                            bullets.addAll(w.shootWeapon(w.getName(), rotation1, player1.getX(), player1.getY(), w.bulletSpeed(), w.damage(), w.fireRate(), w.numBullets()));
-                            previousTime = TimeUtils.millis();
+                if (player1.getAlive()) {
+                    for (Weapon w : this.worldWeapons) {
+                        if (w.getName().equals(player1.getEquipped())) {
+                            if (TimeUtils.millis() - previousTime > w.fireRate()) {
+                                bullets.addAll(w.shootWeapon(w.getName(), rotation1, player1.getX(), player1.getY(), w.bulletSpeed(), w.damage(), w.fireRate(), w.numBullets()));
+                                previousTime = TimeUtils.millis();
 
+                            }
                         }
                     }
                 }
             }
             //shooting for player 2
             if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-                for (Weapon w : this.worldWeapons) {
-                    if (w.getName().equals(player2.getEquipped())) {
-                        if (TimeUtils.millis() - previousTime2 > w.fireRate()) {
-                            bullets.addAll(w.shootWeapon(w.getName(), rotation2, player2.getX(), player2.getY(), w.bulletSpeed(), w.damage(), w.fireRate(), w.numBullets()));
-                            previousTime2 = TimeUtils.millis();
+                if (player2.getAlive()) {
+                    for (Weapon w : this.worldWeapons) {
+                        if (w.getName().equals(player2.getEquipped())) {
+                            if (TimeUtils.millis() - previousTime2 > w.fireRate()) {
+                                bullets.addAll(w.shootWeapon(w.getName(), rotation2, player2.getX(), player2.getY(), w.bulletSpeed(), w.damage(), w.fireRate(), w.numBullets()));
+                                previousTime2 = TimeUtils.millis();
+                            }
                         }
                     }
                 }
             }
 
             for (Zombie z : zombies) {
-                double distance1 = Math.sqrt((Math.pow(z.getX() - player1.getX(), 2)) + (Math.pow(z.getY() - player1.getY(), 2)));
-                double distance2 = Math.sqrt((Math.pow(z.getX() - player2.getX(), 2)) + (Math.pow(z.getY() - player2.getY(), 2)));
+                if (z.collides(player1.getBounds())) {
+                    player1.hit(z.attack());
+                }
+                if (z.collides(player2.getBounds())) {
+                    player2.hit(z.attack());
+                }
+            }
 
-                if (distance1 < distance2) {
+            for (Zombie z : zombies) {
+                if (player1.getAlive() && player2.getAlive()) {
+
+                    double distance1 = Math.sqrt((Math.pow(z.getX() - player1.getX(), 2)) + (Math.pow(z.getY() - player1.getY(), 2)));
+                    double distance2 = Math.sqrt((Math.pow(z.getX() - player2.getX(), 2)) + (Math.pow(z.getY() - player2.getY(), 2)));
+
+                    if (distance1 < distance2) {
+                        if (z.getX() < player1.getX() && z.getY() == player1.getY()) {
+                            z.setRotation(0);
+                            z.moveRight();
+                        }
+                        if (z.getX() < player1.getX() && z.getY() < player1.getY()) {
+                            z.setRotation(45);
+                            z.moveRight();
+                            z.moveUp();
+
+                        }
+                        if (z.getX() == player1.getX() && z.getY() < player1.getY()) {
+                            z.setRotation(90);
+                            z.moveUp();
+
+                        }
+                        if (z.getX() > player1.getX() && z.getY() < player1.getY()) {
+                            z.setRotation(135);
+                            z.moveLeft();
+                            z.moveUp();
+
+                        }
+                        if (z.getX() > player1.getX() && z.getY() == player1.getY()) {
+                            z.setRotation(180);
+                            z.moveLeft();
+                            z.moveDown();
+                        }
+                        if (z.getX() > player1.getX() && z.getY() > player1.getY()) {
+                            z.setRotation(225);
+                            z.moveLeft();
+                            z.moveDown();
+                        }
+                        if (z.getX() == player1.getX() && z.getY() > player1.getY()) {
+                            z.setRotation(270);
+                            z.moveDown();
+                        }
+
+                        if (z.getX() < player1.getX() && z.getY() > player1.getY()) {
+                            z.setRotation(315);
+                            z.moveRight();
+                            z.moveDown();
+
+                        }
+
+                    } else if (distance1 > distance2) {
+                        if (z.getX() < player2.getX() && z.getY() == player2.getY()) {
+                            z.setRotation(0);
+                            z.moveRight();
+                        }
+                        if (z.getX() < player2.getX() && z.getY() < player2.getY()) {
+                            z.setRotation(45);
+                            z.moveRight();
+                            z.moveUp();
+                        }
+                        if (z.getX() == player2.getX() && z.getY() < player2.getY()) {
+                            z.setRotation(90);
+                            z.moveUp();
+
+                        }
+                        if (z.getX() > player2.getX() && z.getY() < player2.getY()) {
+                            z.setRotation(135);
+                            z.moveLeft();
+                            z.moveUp();
+
+                        }
+                        if (z.getX() > player2.getX() && z.getY() == player2.getY()) {
+                            z.setRotation(180);
+                            z.moveLeft();
+                            z.moveDown();
+                        }
+                        if (z.getX() > player2.getX() && z.getY() > player2.getY()) {
+                            z.setRotation(225);
+                            z.moveLeft();
+                            z.moveDown();
+
+                        }
+                        if (z.getX() == player2.getX() && z.getY() > player2.getY()) {
+                            z.setRotation(270);
+                            z.moveDown();
+                        }
+                        if (z.getX() < player2.getX() && z.getY() > player2.getY()) {
+                            z.setRotation(315);
+                            z.moveRight();
+                            z.moveDown();
+
+                        }
+                    }
+                } else if (player1.getAlive()) {
                     if (z.getX() < player1.getX() && z.getY() == player1.getY()) {
                         z.setRotation(0);
                         z.moveRight();
@@ -589,8 +682,7 @@ public class Temp extends ApplicationAdapter {
                         z.moveDown();
 
                     }
-
-                } else if (distance1 > distance2) {
+                } else if (player2.getAlive()) {
                     if (z.getX() < player2.getX() && z.getY() == player2.getY()) {
                         z.setRotation(0);
                         z.moveRight();
@@ -696,6 +788,7 @@ public class Temp extends ApplicationAdapter {
         }
     }
 
+    @Override
     public void dispose() {
         batch.dispose();
     }
@@ -708,4 +801,3 @@ public class Temp extends ApplicationAdapter {
     }
 
 }
-
