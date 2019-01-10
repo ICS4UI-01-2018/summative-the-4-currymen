@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -25,8 +26,12 @@ public class Temp3 extends ApplicationAdapter {
     private SpriteBatch batch;
     private ShapeRenderer shapeBatch;
     private ShapeRenderer shapeBatch2;
-    private OrthographicCamera cam;
-    private FitViewport viewport;
+    private OrthographicCamera menuCam;
+    private OrthographicCamera playerOneCam;
+    private OrthographicCamera playerTwoCam;
+    private FitViewport menuViewPort;
+    private FitViewport playerOneViewPort;
+    private FitViewport playerTwoViewPort;
     private Player player1;
     private Player player2;
     private Map map;
@@ -127,13 +132,20 @@ public class Temp3 extends ApplicationAdapter {
         obstacle3 = new Texture("Concrete_Roof.jpg");
         obstacle4 = new Texture("Concrete_Roof.jpg");
 
-        cam = new OrthographicCamera();
-        viewport = new FitViewport(800, 600, cam);
-        viewport.apply();
+        menuCam = new OrthographicCamera();
+        menuViewPort = new FitViewport(800, 600, menuCam);
+        menuViewPort.apply();
+        menuCam.position.x = 400;
+        menuCam.position.y = 300;
+        menuCam.update();
 
-        cam.position.x = 400;
-        cam.position.y = 300;
-        cam.update();
+        playerOneCam = new OrthographicCamera();
+        playerTwoCam = new OrthographicCamera();
+        playerOneViewPort = new FitViewport(400, 600, playerOneCam);
+        playerTwoViewPort = new FitViewport(400, 600, playerTwoCam);
+        playerTwoViewPort.setScreenX(400);
+        playerTwoViewPort.apply();
+
         player1 = new Player(400, 300, 45, 45, 2, 2, "Rick");
         player2 = new Player(450, 350, 45, 45, 2, 2, "Carl");
 
@@ -168,15 +180,15 @@ public class Temp3 extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //if the game has not started yet, draw in the main menu   
         if (nextScreen == false) {
-            shapeBatch.setProjectionMatrix(cam.combined);
+            shapeBatch.setProjectionMatrix(menuCam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the menu picture
             shapeBatch.setColor(Color.GOLD);
-            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            shapeBatch.rect(0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             shapeBatch.end();
-            batch.setProjectionMatrix(cam.combined);
+            batch.setProjectionMatrix(menuCam.combined);
             batch.begin();
-            batch.draw(menuPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            batch.draw(menuPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             batch.draw(startButton, 275, 210, 100, 50);
             batch.draw(arcadeLogo, 335, 330, 125, 75);
             batch.draw(storeButton, 425, 215, 100, 50);
@@ -185,22 +197,22 @@ public class Temp3 extends ApplicationAdapter {
             batch.end();
 
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            cam.unproject(touch);
+            menuCam.unproject(touch);
             if (Gdx.input.justTouched()) {
                 if (touch.x > 275 && touch.x < 375 && touch.y > 210 && touch.y < 260) {
                     nextScreen = true;
                 }
             }
         } else if (instructNum2 == false) {
-            shapeBatch.setProjectionMatrix(cam.combined);
+            shapeBatch.setProjectionMatrix(menuCam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the instruction picture
             shapeBatch.setColor(Color.GOLD);
-            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            shapeBatch.rect(0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             shapeBatch.end();
-            batch.setProjectionMatrix(cam.combined);
+            batch.setProjectionMatrix(menuCam.combined);
             batch.begin();
-            batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            batch.draw(instructionPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
             font.setColor(Color.WHITE);
             font.draw(batch, "Instructions", 300, 550);
@@ -233,23 +245,23 @@ public class Temp3 extends ApplicationAdapter {
             batch.end();
 
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            cam.unproject(touch);
+            menuCam.unproject(touch);
             if (Gdx.input.justTouched()) {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
                     instructNum2 = true;
                 }
             }
 
-        } else if (goStore == false) {            
-            shapeBatch.setProjectionMatrix(cam.combined);
+        } else if (goStore == false) {
+            shapeBatch.setProjectionMatrix(menuCam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the instruction picture
             shapeBatch.setColor(Color.GOLD);
-            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            shapeBatch.rect(0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             shapeBatch.end();
-            batch.setProjectionMatrix(cam.combined);
+            batch.setProjectionMatrix(menuCam.combined);
             batch.begin();
-            batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            batch.draw(instructionPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
             font.setColor(Color.WHITE);
             font.draw(batch, "Go to Store", 630, 23);
@@ -263,7 +275,7 @@ public class Temp3 extends ApplicationAdapter {
             batch.end();
 
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            cam.unproject(touch);
+            menuCam.unproject(touch);
             if (Gdx.input.justTouched()) {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
                     goStore = true;
@@ -271,19 +283,19 @@ public class Temp3 extends ApplicationAdapter {
             }
 
         } else if (startGame == false) {
-            cam.zoom = 1;
-            cam.position.x = 400;
-            cam.position.y = 300;
-            cam.update();
-            shapeBatch.setProjectionMatrix(cam.combined);
+            menuCam.zoom = 1;
+            menuCam.position.x = 400;
+            menuCam.position.y = 300;
+            menuCam.update();
+            shapeBatch.setProjectionMatrix(menuCam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the instruction picture
             shapeBatch.setColor(Color.GOLD);
-            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            shapeBatch.rect(0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             shapeBatch.end();
-            batch.setProjectionMatrix(cam.combined);
+            batch.setProjectionMatrix(menuCam.combined);
             batch.begin();
-            batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            batch.draw(instructionPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
             batch.draw(whiteRect, 20, 375, 150, 150);
             batch.draw(whiteRect, 20, 225, 150, 150);
@@ -311,7 +323,7 @@ public class Temp3 extends ApplicationAdapter {
             batch.end();
 
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            cam.unproject(touch);
+            menuCam.unproject(touch);
             if (Gdx.input.justTouched()) {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
                     zombiesKilled = 0;
@@ -321,41 +333,64 @@ public class Temp3 extends ApplicationAdapter {
                     }
                     this.rotation3 = new int[zombies.size()];
                     map = new Map();
+                    playerOneViewPort.update(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
+                    playerTwoViewPort.update(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
+                    playerOneViewPort.setScreenX(0);
+                    playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);
+                    playerTwoViewPort.apply();
+                    playerOneViewPort.apply();
                     startGame = true;
                 }
             }
 
             //if the game has begn draw in the game             
         } else if (startGame == true) {
-            if (zombiesKilled == totalZombies) {                
+            if (zombiesKilled == totalZombies) {
                 startGame = false;
             }
-            //update camera to players positions and zoom in or out accordingly
-            //viewport.setScreenSize(800 -(int)(1.3*(int)((Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2))))/2)), (int)(viewport.getScreenWidth() / 1.333));
-            //viewport.apply();
 
-            if (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2))) > 400) {
-                cam.zoom = (float) (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2)))) / 400;
+            //if (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2))) > 400) {
+            //  cam.zoom = (float) (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2)))) / 400;
+            // }
+            if (playerOneCam.position.x - playerOneCam.viewportWidth / 2 >= 0 && playerOneCam.position.x + playerOneCam.viewportWidth / 2 <= map.getWorldWidth()) {
+                playerOneCam.position.x = player1.getX();
             }
-            if (cam.position.x - cam.viewportWidth / 2 >= 0 && cam.position.x + cam.viewportWidth / 2 <= map.getWorldWidth()) {
-                cam.position.x = (player1.getX() + player2.getX()) / 2;
+            if (playerOneCam.position.y - playerOneCam.viewportHeight / 2 >= 0 && playerOneCam.position.y + playerOneCam.viewportHeight / 2 <= map.getWorldHeight()) {
+                playerOneCam.position.y = player1.getY();
             }
-            if (cam.position.y - cam.viewportHeight / 2 >= 0 && cam.position.y + cam.viewportHeight / 2 <= map.getWorldHeight()) {
-                cam.position.y = (player1.getY() + player2.getY()) / 2;
+            if (playerOneCam.position.x - playerOneCam.viewportWidth / 2 < 0) {
+                playerOneCam.position.x = playerOneCam.viewportWidth / 2;
             }
-            if (cam.position.x - cam.viewportWidth / 2 < 0) {
-                cam.position.x = cam.viewportWidth / 2;
+            if (playerOneCam.position.x + playerOneCam.viewportWidth / 2 > map.getWorldWidth()) {
+                playerOneCam.position.x = map.getWorldWidth() - playerOneCam.viewportWidth / 2;
             }
-            if (cam.position.x + cam.viewportWidth / 2 > map.getWorldWidth()) {
-                cam.position.x = map.getWorldWidth() - cam.viewportWidth / 2;
+            if (playerOneCam.position.y - playerOneCam.viewportHeight / 2 < 0) {
+                playerOneCam.position.y = 0 + playerOneCam.viewportHeight / 2;
             }
-            if (cam.position.y - cam.viewportHeight / 2 < 0) {
-                cam.position.y = 0 + cam.viewportHeight / 2;
+            if (playerOneCam.position.y + playerOneCam.viewportHeight / 2 > map.getWorldHeight()) {
+                playerOneCam.position.y = map.getWorldHeight() - playerOneCam.viewportHeight / 2;
             }
-            if (cam.position.y + cam.viewportHeight / 2 > map.getWorldHeight()) {
-                cam.position.y = map.getWorldHeight() - cam.viewportHeight / 2;
+            playerOneCam.update();
+
+            if (playerTwoCam.position.x - playerTwoCam.viewportWidth / 2 >= 0 && playerTwoCam.position.x + playerTwoCam.viewportWidth / 2 <= map.getWorldWidth()) {
+                playerTwoCam.position.x = player2.getX();
             }
-            cam.update();
+            if (playerTwoCam.position.y - playerTwoCam.viewportHeight / 2 >= 0 && playerTwoCam.position.y + playerTwoCam.viewportHeight / 2 <= map.getWorldHeight()) {
+                playerTwoCam.position.y = player2.getY();
+            }
+            if (playerTwoCam.position.x - playerTwoCam.viewportWidth / 2 < 0) {
+                playerTwoCam.position.x = playerTwoCam.viewportWidth / 2;
+            }
+            if (playerTwoCam.position.x + playerTwoCam.viewportWidth / 2 > map.getWorldWidth()) {
+                playerTwoCam.position.x = map.getWorldWidth() - playerTwoCam.viewportWidth / 2;
+            }
+            if (playerTwoCam.position.y - playerTwoCam.viewportHeight / 2 < 0) {
+                playerTwoCam.position.y = 0 + playerTwoCam.viewportHeight / 2;
+            }
+            if (playerTwoCam.position.y + playerTwoCam.viewportHeight / 2 > map.getWorldHeight()) {
+                playerTwoCam.position.y = map.getWorldHeight() - playerTwoCam.viewportHeight / 2;
+            }
+            playerTwoCam.update();
 
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player1.moveUp();
@@ -624,11 +659,16 @@ public class Temp3 extends ApplicationAdapter {
                     }
                 }
             }
-            shapeBatch.setProjectionMatrix(cam.combined);
+            //Draw in everything
+            playerOneViewPort.setScreenX(0);
+            playerOneViewPort.apply();
+            shapeBatch.setProjectionMatrix(playerOneCam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-
+            //shapeBatch.setColor(Color.BLACK);
+            //shapeBatch.rect(playerOneViewPort.getScreenX(),playerOneViewPort.getScreenY(),5,playerOneViewPort.getScreenHeight());
+            //System.out.println((playerOneViewPort.getScreenX()) + "" + playerOneViewPort.getScreenY() + " "+ 5 + " " +playerOneViewPort.getScreenHeight());
             shapeBatch.end();
-            batch.setProjectionMatrix(cam.combined);
+            batch.setProjectionMatrix(playerOneCam.combined);
             batch.begin();
             map.draw(batch);
             batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
@@ -646,12 +686,49 @@ public class Temp3 extends ApplicationAdapter {
                 b.drawBullet(shapeBatch);
             }
             shapeBatch.end();
+            //draw for player two
+
+            playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);
+            playerTwoViewPort.apply();
+            shapeBatch.setProjectionMatrix(playerTwoCam.combined);
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            //shapeBatch.setColor(Color.BLACK);
+            //shapeBatch.rect(Gdx.graphics.getWidth() / 2, 0, 5, Gdx.graphics.getHeight());
+            shapeBatch.end();
+            batch.setProjectionMatrix(playerTwoCam.combined);
+            batch.begin();
+            map.draw(batch);
+            batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+            batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+            for (Zombie z : zombies) {
+                if (z.getAlive() == true) {
+                    batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
+                }
+            }
+            font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
+            batch.end();
+            
         }
     }
 
     @Override
     public void dispose() {
         batch.dispose();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        if (startGame == true) {
+            playerOneViewPort.update(Gdx.graphics.getWidth() / 2, height);
+            playerTwoViewPort.update(Gdx.graphics.getWidth() / 2, height);
+            playerOneViewPort.setScreenX(0);
+            playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);
+            playerTwoViewPort.apply();
+            playerOneViewPort.apply();
+        } else {
+            menuViewPort.update(width, height);
+
+        }
     }
 
     public boolean colidesWithZombie(float bX, float bY, Zombie z) {
