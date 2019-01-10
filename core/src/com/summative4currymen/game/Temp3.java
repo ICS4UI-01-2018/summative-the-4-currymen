@@ -664,7 +664,9 @@ public class Temp3 extends ApplicationAdapter {
             playerOneViewPort.apply();
             shapeBatch.setProjectionMatrix(playerOneCam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-
+            //shapeBatch.setColor(Color.BLACK);
+            //shapeBatch.rect(playerOneViewPort.getScreenX(),playerOneViewPort.getScreenY(),5,playerOneViewPort.getScreenHeight());
+            //System.out.println((playerOneViewPort.getScreenX()) + "" + playerOneViewPort.getScreenY() + " "+ 5 + " " +playerOneViewPort.getScreenHeight());
             shapeBatch.end();
             batch.setProjectionMatrix(playerOneCam.combined);
             batch.begin();
@@ -690,7 +692,8 @@ public class Temp3 extends ApplicationAdapter {
             playerTwoViewPort.apply();
             shapeBatch.setProjectionMatrix(playerTwoCam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-
+            //shapeBatch.setColor(Color.BLACK);
+            //shapeBatch.rect(Gdx.graphics.getWidth() / 2, 0, 5, Gdx.graphics.getHeight());
             shapeBatch.end();
             batch.setProjectionMatrix(playerTwoCam.combined);
             batch.begin();
