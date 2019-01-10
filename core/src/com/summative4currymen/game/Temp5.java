@@ -125,8 +125,8 @@ public class Temp5 extends ApplicationAdapter {
         cam.position.x = 400;
         cam.position.y = 300;
         cam.update();
-        player1 = new Player(400, 300, 45, 45, 2, 2, "Rick");
-        player2 = new Player(450, 350, 45, 45, 2, 2, "Carl");
+        player1 = new Player(400, 300, 45, 45, 300, 2, "Rick");
+        player2 = new Player(450, 350, 45, 45, 300, 2, "Carl");
 
         player1.setEquipped("AK-47");
         player2.setEquipped("ShotGun");
@@ -312,13 +312,15 @@ public class Temp5 extends ApplicationAdapter {
                     }
                     this.rotation3 = new int[zombies.size()];
                     map = new Map();
+                    System.out.println(totalZombies);
                     startGame = true;
                 }
             }
 
             //if the game has begn draw in the game             
         } else if (startGame == true) {
-            if (zombiesKilled == totalZombies) {
+
+            if (zombiesKilled >= totalZombies) {
                 startGame = false;
             }
             //update camera to players positions and zoom in or out accordingly
@@ -569,17 +571,23 @@ public class Temp5 extends ApplicationAdapter {
                 }
                 for (Furniture f : map.getObjects()) {
                     if (z.collides(f.f)) {
-                        z.setSpeed(0.4);
+                        z.setSpeed(0.3);
                         break;
                     } else {
-                        z.setSpeed(1);
+                        for (Zombie z2 : zombies) {
+                            if (z.collidesWith(z2)) {
+                                Math.round(Math.random());
+                                if (Math.random() == 0) {
+                                    z.setSpeed(0);
+                                } else {
+                                    z.setSpeed(0.7);
+                                }
+
+                            }
+                        }
                     }
-                }
-                //This can detect if a zombie collides with another zombie
-                for (Zombie z2 : zombies) {
-                    if (z.collidesWith(z2)){
-                        z.setSpeed(Math.random()*(4-0)-0);
-                    }
+                    //This can detect if a zombie collides with another zombie
+
                 }
             }
 
