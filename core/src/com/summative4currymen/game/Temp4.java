@@ -137,12 +137,10 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
                     nextScreen = true;
                 }
             }
-                    
-                    
-            //} else if (touch.x > 275 && touch.x < 375 && touch.y > 210 && touch.y < 260) {
-              //  goStore = true;
-            //}
 
+            //} else if (touch.x > 275 && touch.x < 375 && touch.y > 210 && touch.y < 260) {
+            //  goStore = true;
+            //}
         } else if (startGame == false) {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
@@ -394,12 +392,12 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
                     System.out.println("" + b.getX() + " " + b.getY());
                 }
             }
-            for (int i = 0; i < zombies.size(); i++) {
-                zombies.get(i).move();
-            }
-            
+            //for (int i = 0; i < zombies.size(); i++) {
+            //    zombies.get(i).move();
+            //}
+
             hud.update(player1, player2); //update HUD
-            
+
             for (Bullet b : this.bullets) {
                 b.bulletMovement();
             }
@@ -425,20 +423,18 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
 
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();
-            
+
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             shapeBatch.setColor(Color.WHITE);
             for (Bullet b : this.bullets) {
                 b.drawBullet(shapeBatch);
             }
             //mattG
-            
-            
+
             shapeBatch.end();
-            
+
             hud.draw(shapeBatch, batch);       //DRAW THE HUD
-            
-            
+
         }
     }
 
