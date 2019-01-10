@@ -26,7 +26,7 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
     private Player player1;
     private Player player2;
     private Zombie zombie;
-    private ArrayList<MattZ> zombies;
+    //private ArrayList<MattZ> zombies;
     private Texture img;
     private Texture menuPic;
     private Texture startButton;
@@ -89,7 +89,7 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
         player1 = new Player(400, 300, 45, 45, 100, 3, "Rick");
         player2 = new Player(450, 350, 45, 45, 100, 3, "Carl");
         hud = new HUD(player1, player2, viewport.getWorldWidth()); //new code
-        zombies = new ArrayList<MattZ>();
+        //zombies = new ArrayList<MattZ>();
 
         FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("Xcelsion Italic.ttf"));
         FreeTypeFontParameter param = new FreeTypeFontParameter();
@@ -103,9 +103,9 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
         font = g.generateFont(p);
         g.dispose();
 
-        for (int i = 0; i < 90; i++) {
-            zombies.add(new MattZ((float) Math.floor(Math.random() * 801), (float) Math.floor(Math.random() * 601), 1.0f));
-        }
+        //for (int i = 0; i < 90; i++) {
+            //zombies.add(new MattZ((float) Math.floor(Math.random() * 801), (float) Math.floor(Math.random() * 601), 1.0f));
+        //}
     }
 
     @Override
@@ -417,9 +417,9 @@ public class Temp4 extends ApplicationAdapter { //Matt G's temp file
             batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
 
-            for (int i = 0; i < zombies.size(); i++) {
-                batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), 45, 45);
-            }
+            //for (int i = 0; i < zombies.size(); i++) {
+            //    batch.draw(zomIMG, zombies.get(i).getX(), zombies.get(i).getY(), 45, 45);
+            //}
 
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();

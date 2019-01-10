@@ -1,20 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.summative4currymen.game;
 
 import com.badlogic.gdx.math.Vector2;
 
 /**
- *
- * @author goodm9679
+ * This class defines all pickups.
+ * 
+ * @author Matthew Goodman
  */
 public class Pickup {
     
     private Vector2 position;
-    private int type;
+    private final int type;
     private boolean active;
      /**
       * initializes pickup
