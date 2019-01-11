@@ -76,6 +76,9 @@ public class Temp3 extends ApplicationAdapter {
     private long previousTime2;
 
     private Vector3 touch = new Vector3(0, 0, 0);
+    
+    private HUD hud1; //HUD ADDED BY MATT
+    private HUD hud2; //HUD ADDED BY MATT
 
     @Override
     public void create() {
@@ -103,7 +106,7 @@ public class Temp3 extends ApplicationAdapter {
 
         bullets = new ArrayList<Bullet>();
         worldWeapons = new ArrayList<Weapon>();
-
+        
         //load in guns from file        
         Scanner in = null;
         try {
@@ -146,8 +149,10 @@ public class Temp3 extends ApplicationAdapter {
         playerTwoViewPort.setScreenX(400);
         playerTwoViewPort.apply();
 
-        player1 = new Player(400, 300, 45, 45, 2, 2, "Rick");
-        player2 = new Player(450, 350, 45, 45, 2, 2, "Carl");
+        player1 = new Player(400, 300, 45, 45, 100, 2, "Rick");
+        player2 = new Player(450, 350, 45, 45, 100, 2, "Carl");
+        hud1 = new HUD(playerOneViewPort.getWorldWidth()); //HUD ADDED BY MATT
+        hud2 = new HUD(playerTwoViewPort.getWorldWidth()); //HUD ADDED BY MATT
 
         player1.setEquipped("AK-47");
         player2.setEquipped("ShotGun");
@@ -520,6 +525,7 @@ public class Temp3 extends ApplicationAdapter {
             }
             //shooting for player 2
             if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+                player1.hit(5); //test code
                 for (Weapon w : this.worldWeapons) {
                     if (w.getName().equals(player2.getEquipped())) {
                         if (TimeUtils.millis() - previousTime2 > w.fireRate()) {
@@ -686,6 +692,7 @@ public class Temp3 extends ApplicationAdapter {
                 b.drawBullet(shapeBatch);
             }
             shapeBatch.end();
+            hud1.draw(shapeBatch, batch, player1);       //DRAW THE HUD
             //draw for player two
 
             playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);
@@ -707,6 +714,13 @@ public class Temp3 extends ApplicationAdapter {
             }
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            shapeBatch.setColor(Color.WHITE);
+            for (Bullet b : this.bullets) {
+                b.drawBullet(shapeBatch);
+            }
+            shapeBatch.end();
+            hud2.draw(shapeBatch, batch, player2);       //DRAW THE HUD
             
         }
     }
