@@ -664,9 +664,7 @@ public class Temp3 extends ApplicationAdapter {
             playerOneViewPort.apply();
             shapeBatch.setProjectionMatrix(playerOneCam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-            //shapeBatch.setColor(Color.BLACK);
-            //shapeBatch.rect(playerOneViewPort.getScreenX(),playerOneViewPort.getScreenY(),5,playerOneViewPort.getScreenHeight());
-            //System.out.println((playerOneViewPort.getScreenX()) + "" + playerOneViewPort.getScreenY() + " "+ 5 + " " +playerOneViewPort.getScreenHeight());
+            
             shapeBatch.end();
             batch.setProjectionMatrix(playerOneCam.combined);
             batch.begin();
@@ -685,6 +683,9 @@ public class Temp3 extends ApplicationAdapter {
             for (Bullet b : this.bullets) {
                 b.drawBullet(shapeBatch);
             }
+            shapeBatch.setColor(Color.BLACK);
+            //draw in screen divider
+            shapeBatch.rect((playerOneCam.position.x+(playerOneCam.viewportWidth/2))-5,(playerOneCam.position.y-(playerOneCam.viewportHeight/2)),5,playerOneCam.viewportHeight);
             shapeBatch.end();
             //draw for player two
 
@@ -692,8 +693,8 @@ public class Temp3 extends ApplicationAdapter {
             playerTwoViewPort.apply();
             shapeBatch.setProjectionMatrix(playerTwoCam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-            //shapeBatch.setColor(Color.BLACK);
-            //shapeBatch.rect(Gdx.graphics.getWidth() / 2, 0, 5, Gdx.graphics.getHeight());
+            shapeBatch.setColor(Color.BLACK);
+            
             shapeBatch.end();
             batch.setProjectionMatrix(playerTwoCam.combined);
             batch.begin();
@@ -707,6 +708,12 @@ public class Temp3 extends ApplicationAdapter {
             }
             font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
             batch.end();
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            shapeBatch.setColor(Color.WHITE);
+            for (Bullet b : this.bullets) {
+                b.drawBullet(shapeBatch);
+            }
+            shapeBatch.end();
             
         }
     }
