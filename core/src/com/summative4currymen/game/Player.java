@@ -146,6 +146,19 @@ public class Player {
     }
     
     /**
+     * A method to add health from health pickups
+     * added by matt
+     * 
+     * @param health how much health to add
+     */
+    public void addHealth(int health){
+        this.health += health;
+        if(this.health > 100){
+            this.health = 100;
+        }
+    }
+    
+    /**
      * A method to check whether boolean alive is true or false
      * 
      * @return the boolean alive

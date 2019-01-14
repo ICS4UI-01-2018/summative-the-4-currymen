@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -700,13 +701,7 @@ public class Temp3 extends ApplicationAdapter {
 
                     }
 
-                    for (Zombie z2 : zombies) {
-                        if (z2.getAlive() == true) {
-                            if (Math.sqrt((Math.pow(z.getX() - z2.getX(), 2)) + (Math.pow(z.getY() - z2.getY(), 2))) < 100) {
-                                z2.die();
-                            }
-                        }
-                    }
+                    
                 }
                 for (Furniture f : map.getObjects()) {
                     if (z.collides(f.f)) {
@@ -747,6 +742,16 @@ public class Temp3 extends ApplicationAdapter {
                     }
                 }
             }
+            //pickup collection happens here
+            Vector2 vp1 = new Vector2(player1.getX(), player1.getY());
+            Vector2 vp2 = new Vector2(player2.getX(), player2.getY());
+            pickups.updateAmmo(vp1);
+            pickups.updateAmmo(vp2);
+            pickups.updateCoin(vp1);
+            pickups.updateCoin(vp2);
+            player1.addHealth(pickups.updateHealth(vp1));
+            player2.addHealth(pickups.updateHealth(vp2));
+            
             if (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2))) > 600) {
 
                 //Draw in everything
@@ -793,6 +798,7 @@ public class Temp3 extends ApplicationAdapter {
                 batch.setProjectionMatrix(playerTwoCam.combined);
                 batch.begin();
                 map.draw(batch);
+                pickups.draw(batch);
                 batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
                 batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
                 for (Zombie z : zombies) {
@@ -821,6 +827,7 @@ public class Temp3 extends ApplicationAdapter {
                 batch.setProjectionMatrix(menuCam.combined);
                 batch.begin();
                 map.draw(batch);
+                pickups.draw(batch);
                 batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
                 batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
                 for (Zombie z : zombies) {
