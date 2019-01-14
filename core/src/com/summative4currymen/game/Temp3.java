@@ -76,7 +76,7 @@ public class Temp3 extends ApplicationAdapter {
     private long previousTime2;
 
     private Vector3 touch = new Vector3(0, 0, 0);
-
+    private Items pickups; //pickups class by matt
     private HUD hud1; //HUD ADDED BY MATT
     private HUD hud2; //HUD ADDED BY MATT
 
@@ -153,6 +153,7 @@ public class Temp3 extends ApplicationAdapter {
         player2 = new Player(450, 350, 45, 45, 100, 2, "Carl");
         hud1 = new HUD(playerOneViewPort.getWorldWidth()); //HUD ADDED BY MATT
         hud2 = new HUD(playerTwoViewPort.getWorldWidth()); //HUD ADDED BY MATT
+        
 
         player1.setEquipped("AK-47");
         player2.setEquipped("Barret50");
@@ -343,6 +344,7 @@ public class Temp3 extends ApplicationAdapter {
                     }
                     this.rotation3 = new int[zombies.size()];
                     map = new Map();
+                    pickups = new Items();
                     playerOneViewPort.update(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
                     playerTwoViewPort.update(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
                     playerOneViewPort.setScreenX(0);
@@ -736,6 +738,7 @@ public class Temp3 extends ApplicationAdapter {
                                 if (z.hit(b.getDamage())) {
                                     zombiesKilled++;
                                     System.out.println(zombiesKilled);
+                                    this.pickups.create(z.getX(), z.getY()); //add a pickup when the zombie dies
                                 }
                                 it.remove();
                                 break;
@@ -754,8 +757,9 @@ public class Temp3 extends ApplicationAdapter {
 
                 shapeBatch.end();
                 batch.setProjectionMatrix(playerOneCam.combined);
-                batch.begin();
+                batch.begin();               
                 map.draw(batch);
+                pickups.draw(batch);
                 batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
                 batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
                 for (Zombie z : zombies) {

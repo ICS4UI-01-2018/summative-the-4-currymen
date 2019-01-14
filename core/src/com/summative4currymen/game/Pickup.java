@@ -20,7 +20,7 @@ public class Pickup {
       * @param type the pickup type identifier
       */
     public Pickup(float x, float y, int type) {
-        this.position.set(x, y);
+        this.position = new Vector2(x, y);
         this.type = type; //0 ammo, 1 coin, 2 health
         this.active = true;
     }
