@@ -13,18 +13,20 @@ import com.badlogic.gdx.math.Rectangle;
  * @author riepj9547
  */
 public class Zombie extends Player {
+
     private double speed;
-    
-   // private Rectangle zombie;
+
+    // private Rectangle zombie;
     private String name;
     //private Boolean alive;
     private int rotation;
     private int damage;
     private boolean alive;
-    
+    private long fireRate;
+
     /**
      * Initializes Zombie data
-     * 
+     *
      * @param x The x position of the zombie
      * @param y The y position of the zombie
      * @param width The width of the zombie
@@ -34,67 +36,65 @@ public class Zombie extends Player {
      * @param name The name of the zombie
      * @param damage The amount of damage the zombie can attack with
      */
-    public Zombie(float x, float y, int width, int height, int health, double speed, String name, int damage, int rotation) {
+    public Zombie(float x, float y, int width, int height, int health, double speed, String name, int damage, int rotation, long fireRate) {
         super(x, y, width, height, health, speed, name);
         //this.speed = speed;
         this.damage = damage;
         this.rotation = rotation;
         this.alive = true;
+        this.fireRate = fireRate;
         //zombie = new Rectangle(x, y, width, height);
     }
-    
-    
-    public int getHealth(){
+
+    public int getHealth() {
         return super.getHealth();
-    }   
-    public int getRotation(){
+    }
+
+    public int getRotation() {
         return this.rotation;
     }
-    public void setRotation(int num){
-        this.rotation = num; 
+
+    public void setRotation(int num) {
+        this.rotation = num;
     }
+
+    public long getFireRate() {
+        return this.fireRate;
+    }
+
     /**
      * The method when the zombie is being hit
-     * 
+     *
      * @param damage the amount of damage the zombie is taking
      * @return if the zombie has died or not
      */
     @Override
-    public int hit(int damage){
+    public int hit(int damage) {
         super.setHealth(super.getHealth() - damage);
-        if(super.getHealth() <= 0){
+        if (super.getHealth() <= 0) {
             this.die();
         }
         return super.getHealth();
     }
-    
+
     /**
      * The method returns how much damage the zombie will give when attacking
-     * 
+     *
      * @return The damage given
      */
     public int attack() {
         return damage;
     }
-    
-    public void die() {
-        System.out.println("mummy");
-        this.speed = 0;
-        this.setSpeed(speed);
-        
-        this.alive = false;
-        
-    }
-    
+
     /**
-     * Checking to see if the zombie whose calling on the method and the zombie 
+     * Checking to see if the zombie whose calling on the method and the zombie
      * that is being passed in are overlapping
-     * 
-     * @param zombie2 Another zombie that is being passed in 
+     *
+     * @param zombie2 Another zombie that is being passed in
      * @return True if there is overlap and false if there is not overlap
      */
-    public boolean collidesWith(Zombie zombie2){
+    public boolean collidesWith(Zombie zombie2) {
         return super.collides(zombie2.getBounds());
     }
-    
+
 }

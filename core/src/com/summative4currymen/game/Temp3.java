@@ -329,7 +329,7 @@ public class Temp3 extends ApplicationAdapter {
                     zombiesKilled = 0;
                     totalZombies = 50;
                     for (int i = 0; i < totalZombies; i++) {
-                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 100, 0));
+                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 100, 0, 20));
                     }
                     this.rotation3 = new int[zombies.size()];
                     map = new Map();

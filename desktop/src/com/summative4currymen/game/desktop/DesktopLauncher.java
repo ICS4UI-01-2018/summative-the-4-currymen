@@ -9,6 +9,6 @@ import com.summative4currymen.game.Temp;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new Temp(), config);
+		new LwjglApplication(new ZombieGame(), config);
 	}
 }

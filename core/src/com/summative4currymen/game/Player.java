@@ -123,16 +123,16 @@ public class Player {
         if (health <= 0) {
             this.die();
         }
-        System.out.println(this.health);
         return this.health;
     }
 
     public void die() {
-        System.out.println("mum");
-        this.speed = 0;
-        this.setSpeed(speed);
-        
         this.alive = false;
+    }
+    
+    public void revive(){
+        this.health = this.health + 1;
+        this.alive = true;
     }
 
     /**
