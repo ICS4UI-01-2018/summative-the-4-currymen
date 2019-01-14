@@ -130,6 +130,10 @@ public class Player {
         this.alive = false;
     }
     
+    public String getName() {
+        return this.name;
+    }
+    
     public void revive(){
         this.health = this.health + 1;
         this.alive = true;

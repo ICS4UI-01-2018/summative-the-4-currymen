@@ -153,7 +153,6 @@ public class Temp3 extends ApplicationAdapter {
         player2 = new Player(450, 350, 45, 45, 100, 2, "Carl");
         hud1 = new HUD(playerOneViewPort.getWorldWidth()); //HUD ADDED BY MATT
         hud2 = new HUD(playerTwoViewPort.getWorldWidth()); //HUD ADDED BY MATT
-        
 
         player1.setEquipped("AK-47");
         player2.setEquipped("Barret50");
@@ -340,7 +339,7 @@ public class Temp3 extends ApplicationAdapter {
                     zombiesKilled = 0;
                     totalZombies = 50;
                     for (int i = 0; i < totalZombies; i++) {
-                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 100, 0, 20));
+                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie" + i, 100, 0, 20));
                     }
                     this.rotation3 = new int[zombies.size()];
                     map = new Map();
@@ -700,13 +699,17 @@ public class Temp3 extends ApplicationAdapter {
 
                     }
 
-                    for (Zombie z2 : zombies) {
-                        
-                            if (Math.sqrt((Math.pow(z.getX() - z2.getX(), 2)) + (Math.pow(z.getY() - z2.getY(), 2))) < 100) {
-                                z2.die();
+                }
+                for (Zombie z2 : zombies) {
+                    if (!(z2.getName().equals(z.getName()))) {
+                        if (z2.getAlive() == true) {
+                            if (z.getAlive() == true) {
+                                if (z.collidesWith(z2)) {                                    
+                                    z2.moveDown();                                    
+                                }
                             }
                         }
-                    
+                    }
                 }
                 for (Furniture f : map.getObjects()) {
                     if (z.collides(f.f)) {
@@ -757,7 +760,7 @@ public class Temp3 extends ApplicationAdapter {
 
                 shapeBatch.end();
                 batch.setProjectionMatrix(playerOneCam.combined);
-                batch.begin();               
+                batch.begin();
                 map.draw(batch);
                 pickups.draw(batch);
                 batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
