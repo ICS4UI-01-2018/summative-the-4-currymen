@@ -67,10 +67,15 @@ public class Room {
 
     public void buildRoom() {
         switch (getnumSmallRooms()) {
+            case 1:
+                Furniture f = new Furniture("wall",this.x,this.y,this.width,5);
+                Furniture f2 = new Furniture("wall",this.x,this.y,5,this.height);
+                Furniture f3 = new Furniture("wall",this.x,this.y,this.width,5);
+                break;
             case 3:
-                Furniture f = new Furniture("wall",-5,this.height/3,10,this.height/3 + this.height/3);
-                Furniture f2 = new Furniture("wall",(this.width/2)-5,this.height/3,10,this.height/3 + this.height/3);
-                Furniture f3 = new Furniture("wall",0,this.height/3-5,this.width,10);
+                 f = new Furniture("wall",-5,this.height/3,10,this.height/3 + this.height/3);
+                 f2 = new Furniture("wall",(this.width/2)-5,this.height/3,10,this.height/3 + this.height/3);
+                 f3 = new Furniture("wall",0,this.height/3-5,this.width,10);
                 furniture.add(f);
                 furniture.add(f2);
                 furniture.add(f3);

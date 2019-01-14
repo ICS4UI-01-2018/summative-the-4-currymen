@@ -128,7 +128,7 @@ public class Temp5 extends ApplicationAdapter {
         player1 = new Player(400, 300, 45, 45, 300, 2, "Rick");
         player2 = new Player(450, 350, 45, 45, 300, 2, "Carl");
 
-        player1.setEquipped("AK-47");
+        player1.setEquipped("Barret50");
         player2.setEquipped("ShotGun");
 
         zombies = new ArrayList<Zombie>();

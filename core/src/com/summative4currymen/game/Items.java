@@ -1,11 +1,13 @@
 package com.summative4currymen.game;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 
 /**
- * this class manages all pickups
- * drop-rates are variables for easy adjustment, but are hard coded.
+ * this class manages all pickups drop-rates are variables for easy adjustment,
+ * but are hard coded.
  *
  * @author Matthew Goodman
  */
@@ -21,7 +23,18 @@ public class Items {
     private final int ammoPercent = 12;
     private final int coinPercent = 36;
     private final int healthPercent = 2;
-    
+
+    private Texture ammoIMG;
+    private Texture coinIMG;
+    private Texture healthIMG;
+
+    public Items() {
+        ammoIMG = new Texture("Ammo_box_icon.png");
+        coinIMG = new Texture("coin.png");
+        healthIMG = new Texture("HealthPack-transparent.png");
+        pickups = new ArrayList<Pickup>();
+    }
+
     /**
      * method for removing all pickups
      */
@@ -49,13 +62,15 @@ public class Items {
         } else {
             drop = false;
         }
-        if (drop) { //if the the roll was within the valid range
+        if (drop == true) { //if the the roll was within the valid range
             Pickup a = new Pickup(x, y, type);
             pickups.add(a);
         }
     }
+
     /**
      * method to check collision of ammo based on distance to the player
+     *
      * @param player the position of the player
      * @return the amount of ammo the player collected
      */
@@ -71,8 +86,10 @@ public class Items {
         }
         return collected;
     }
+
     /**
      * method to check collision of coins based on distance to the player
+     *
      * @param player the position of the player
      * @return the amount of coins the player collected
      */
@@ -88,8 +105,10 @@ public class Items {
         }
         return collected;
     }
+
     /**
      * method to check collision of health packs based on distance to the player
+     *
      * @param player the position of the player
      * @return the amount of health the player regains
      */
@@ -105,8 +124,9 @@ public class Items {
         }
         return collected;
     }
+
     /**
-     * method to remove any pickups that are deactivated from being collected 
+     * method to remove any pickups that are deactivated from being collected
      */
     public void dispose() {
         for (int i = 0; i < pickups.size(); i++) {
@@ -115,8 +135,11 @@ public class Items {
             }
         }
     }
+
     /**
-     * calculates the distance between two points and returns if it is within collection range
+     * calculates the distance between two points and returns if it is within
+     * collection range
+     *
      * @param player the vector position of one side of the line segment
      * @param pickup the vector position of the other side of the line segment
      * @return is the pickup within reach of the player;
@@ -126,5 +149,24 @@ public class Items {
             return true;
         }
         return false;
+    }
+
+    public void draw(SpriteBatch batch) {
+        //batch.begin();
+        for (Pickup p : this.pickups) {
+            switch (p.getType()) {
+                case 0:
+                    batch.draw(ammoIMG, p.getX(), p.getY(), 30, 30);
+                    break;
+                case 1:
+                    batch.draw(coinIMG, p.getX(), p.getY(), 30, 30);
+                    break;
+                case 2:
+                    batch.draw(healthIMG, p.getX(), p.getY(), 40, 40);
+                    break;
+                default:
+            }
+        }
+        //batch.end();
     }
 }
