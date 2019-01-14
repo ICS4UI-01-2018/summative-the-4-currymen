@@ -340,7 +340,7 @@ public class Temp3 extends ApplicationAdapter {
                     zombiesKilled = 0;
                     totalZombies = 50;
                     for (int i = 0; i < totalZombies; i++) {
-                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 100, 0));
+                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 100, 0, 20));
                     }
                     this.rotation3 = new int[zombies.size()];
                     map = new Map();
@@ -735,7 +735,7 @@ public class Temp3 extends ApplicationAdapter {
                     for (Zombie z : this.zombies) {
                         if (z.getAlive() == true) {
                             if (colidesWithZombie(b.getX(), b.getY(), z) == true) {
-                                if (z.hit(b.getDamage())) {
+                                if (z.hit(b.getDamage()) <= 0) {
                                     zombiesKilled++;
                                     System.out.println(zombiesKilled);
                                     this.pickups.create(z.getX(), z.getY()); //add a pickup when the zombie dies
