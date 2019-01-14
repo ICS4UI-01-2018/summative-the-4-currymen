@@ -62,7 +62,7 @@ public class Items {
         } else {
             drop = false;
         }
-        if (drop) { //if the the roll was within the valid range
+        if (drop == true) { //if the the roll was within the valid range
             Pickup a = new Pickup(x, y, type);
             pickups.add(a);
         }
@@ -156,13 +156,13 @@ public class Items {
         for (Pickup p : this.pickups) {
             switch (p.getType()) {
                 case 0:
-                    batch.draw(ammoIMG, p.getX(), p.getY(), 20, 20);
+                    batch.draw(ammoIMG, p.getX(), p.getY(), 30, 30);
                     break;
                 case 1:
-                    batch.draw(coinIMG, p.getX(), p.getY(), 20, 20);
+                    batch.draw(coinIMG, p.getX(), p.getY(), 30, 30);
                     break;
                 case 2:
-                    batch.draw(healthIMG, p.getX(), p.getY(), 20, 20);
+                    batch.draw(healthIMG, p.getX(), p.getY(), 40, 40);
                     break;
                 default:
             }

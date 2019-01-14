@@ -659,6 +659,7 @@ public class Temp3 extends ApplicationAdapter {
                                 if (z.hit(b.getDamage())) {
                                     zombiesKilled++;
                                     System.out.println(zombiesKilled);
+                                    this.pickups.create(z.getX(), z.getY()); //add a pickup when the zombie dies
                                 }
                                 it.remove();
                                 break;
