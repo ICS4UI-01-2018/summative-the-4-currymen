@@ -70,6 +70,7 @@ public class Temp2 extends ApplicationAdapter {
     private boolean goStore;
     private boolean nextScreen;
     private boolean instructNum2;
+    private boolean isShopTrue;
     private int totalZombies;
     private int zombiesKilled;
     private Music music;
@@ -81,6 +82,12 @@ public class Temp2 extends ApplicationAdapter {
 
     @Override
     public void create() {
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("arcademusic.wav"));
+        music.setLooping(true);
+        music.setVolume(0.25f);
+        music.play();
+
         this.rotation1 = 270;
         this.rotation2 = 270;
         shapeBatch2 = new ShapeRenderer();
@@ -168,13 +175,6 @@ public class Temp2 extends ApplicationAdapter {
         desc = generator2.generateFont(parameter2);
         generator2.dispose();
 
-        if (startGame == true) {
-            music = Gdx.audio.newMusic(Gdx.files.internal("arcademusic.wav"));
-            music.setLooping(true);
-            music.setVolume(1.00f);
-            music.play();
-        }
-
     }
 
     @Override
@@ -202,6 +202,9 @@ public class Temp2 extends ApplicationAdapter {
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
                 if (touch.x > 350 && touch.x < 450 && touch.y > 210 && touch.y < 260) {
+                    music = Gdx.audio.newMusic(Gdx.files.internal("click.wav"));
+                    music.setVolume(0.50f);
+                    music.play();
                     nextScreen = true;
                 }
             }
@@ -252,6 +255,9 @@ public class Temp2 extends ApplicationAdapter {
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
+                    music = Gdx.audio.newMusic(Gdx.files.internal("click.wav"));
+                    music.setVolume(0.50f);
+                    music.play();
                     instructNum2 = true;
                 }
             }
@@ -282,9 +288,15 @@ public class Temp2 extends ApplicationAdapter {
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
+                    music = Gdx.audio.newMusic(Gdx.files.internal("click.wav"));
+                    music.setVolume(0.50f);
+                    music.play();
                     zombiesKilled = 0;
                     totalZombies = 50;
                     for (int i = 0; i < totalZombies; i++) {
+                        music = Gdx.audio.newMusic(Gdx.files.internal("levelUp.wav"));
+                        music.setVolume(0.10f);
+                        music.play();
                         zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 100, 0));
                     }
                     this.rotation3 = new int[zombies.size()];
@@ -299,6 +311,14 @@ public class Temp2 extends ApplicationAdapter {
         cam.position.y = 300;
         cam.update();
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+            isShopTrue = true;
+            startGame = false;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            isShopTrue = false;
+            startGame = true;
+        }
+
+        if (isShopTrue == true) {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the instruction picture
@@ -312,7 +332,7 @@ public class Temp2 extends ApplicationAdapter {
             batch.draw(whiteRect, 20, 375, 150, 150);
             batch.draw(whiteRect, 20, 225, 150, 150);
             batch.draw(whiteRect, 20, 75, 150, 150);
-            font.draw(batch, "PRESS 'E' TO CLOSE SHOP", 240, 50);
+            font.draw(batch, "PRESS 'ESCAPE' TO CLOSE SHOP", 200, 50);
             batch.draw(shopTitle, 310, 510, 200, 100);
             font.setColor(Color.WHITE);
             font.draw(batch, "AK47", 160, 510);
@@ -338,10 +358,37 @@ public class Temp2 extends ApplicationAdapter {
             batch.draw(buyNow, 615, 120, 150, 50);
             batch.end();
 
-            //if the game has begn draw in the game             
-        } else if (startGame == true) {
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 420 && touch.y < 470) {
+                    player1.setEquipped("AK-47");
+                    player2.setEquipped("AK-47");
+                }
+            }
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 270 && touch.y < 320) {
+                    player1.setEquipped("Barret50");
+                    player2.setEquipped("Barret50");
+                }
+            }
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 150 && touch.y < 200) {
+                    player1.setEquipped("Shotgun");
+                    player2.setEquipped("Shotgun");
+                }
+            }
+
+        }
+
+        //if the game has begn draw in the game             
+        if (startGame == true) {
             if (zombiesKilled == totalZombies) {
                 startGame = false;
+            }
+
+            if (totalZombies == 0) {
+                music = Gdx.audio.newMusic(Gdx.files.internal("zombDeath.wav"));
+                music.setVolume(0.75f);
+                music.play();
             }
             //update camera to players positions and zoom in or out accordingly
             //viewport.setScreenSize(800 -(int)(1.3*(int)((Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2))))/2)), (int)(viewport.getScreenWidth() / 1.333));
@@ -489,6 +536,9 @@ public class Temp2 extends ApplicationAdapter {
                 for (Weapon w : this.worldWeapons) {
                     if (w.getName().equals(player1.getEquipped())) {
                         if (TimeUtils.millis() - previousTime > w.fireRate()) {
+                            music = Gdx.audio.newMusic(Gdx.files.internal("shot.wav"));
+                            music.setVolume(0.15f);
+                            music.play();
                             bullets.addAll(w.shootWeapon(w.getName(), rotation1, player1.getX(), player1.getY(), w.bulletSpeed(), w.damage(), w.fireRate(), w.numBullets()));
                             previousTime = TimeUtils.millis();
 
@@ -501,6 +551,9 @@ public class Temp2 extends ApplicationAdapter {
                 for (Weapon w : this.worldWeapons) {
                     if (w.getName().equals(player2.getEquipped())) {
                         if (TimeUtils.millis() - previousTime2 > w.fireRate()) {
+                            music = Gdx.audio.newMusic(Gdx.files.internal("shot.wav"));
+                            music.setVolume(0.15f);
+                            music.play();
                             bullets.addAll(w.shootWeapon(w.getName(), rotation2, player2.getX(), player2.getY(), w.bulletSpeed(), w.damage(), w.fireRate(), w.numBullets()));
                             previousTime2 = TimeUtils.millis();
                         }

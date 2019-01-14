@@ -3,6 +3,7 @@ package com.summative4currymen.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -60,12 +61,14 @@ public class ZombieGame extends ApplicationAdapter {
     private Texture buyNow;
     private Texture coin;
     private Texture treePic;
+    private Texture shopTitle;
     private boolean startGame;
     private boolean goStore;
     private boolean nextScreen;
     private boolean instructNum2;
     private int totalZombies;
     private int zombiesKilled;
+    private Music music;
 
     private long previousTime;
     private long previousTime2;
@@ -74,6 +77,7 @@ public class ZombieGame extends ApplicationAdapter {
 
     @Override
     public void create() {
+
         this.rotation1 = 270;
         this.rotation2 = 270;
         shapeBatch2 = new ShapeRenderer();
@@ -95,6 +99,7 @@ public class ZombieGame extends ApplicationAdapter {
         chr1IMG = new Texture("character1.png");
         zomIMG = new Texture("zombietopview.png");
         treePic = new Texture("treetop.png");
+        shopTitle = new Texture("title.png");
 
         bullets = new ArrayList<Bullet>();
         worldWeapons = new ArrayList<Weapon>();
@@ -240,7 +245,7 @@ public class ZombieGame extends ApplicationAdapter {
                 }
             }
 
-        } else if (goStore == false) {            
+        } else if (startGame == false) {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the instruction picture
@@ -252,7 +257,7 @@ public class ZombieGame extends ApplicationAdapter {
             batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
             font.setColor(Color.WHITE);
-            font.draw(batch, "Go to Store", 630, 23);
+            font.draw(batch, "Start Game", 630, 23);
             font.setColor(Color.WHITE);
             font.draw(batch, "               Welcome to Arcade Apocalypse!\n \n \n"
                     + "This game is based in a world rampant with zombies.\n \n \n"
@@ -260,54 +265,6 @@ public class ZombieGame extends ApplicationAdapter {
                     + "                               That hope is … \n \n \n"
                     + "                                    YOU!\n \n \n"
                     + "                                Go for it!", 35, 415);
-            batch.end();
-
-            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            cam.unproject(touch);
-            if (Gdx.input.justTouched()) {
-                if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
-                    goStore = true;
-                }
-            }
-
-        } else if (startGame == false) {
-            cam.zoom = 1;
-            cam.position.x = 400;
-            cam.position.y = 300;
-            cam.update();
-            shapeBatch.setProjectionMatrix(cam.combined);
-            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-            //the instruction picture
-            shapeBatch.setColor(Color.GOLD);
-            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            shapeBatch.end();
-            batch.setProjectionMatrix(cam.combined);
-            batch.begin();
-            batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            batch.draw(nextButton, 680, 20, 100, 100);
-            batch.draw(whiteRect, 20, 375, 150, 150);
-            batch.draw(whiteRect, 20, 225, 150, 150);
-            batch.draw(whiteRect, 20, 75, 150, 150);
-            font.setColor(Color.WHITE);
-            font.draw(batch, "AK47", 160, 510);
-            batch.draw(coin, 310, 493, 35, 25);
-            desc.draw(batch, "100", 345, 513);
-            desc.draw(batch, "A reliable weapon with a high rate of fire and \n consistant damage.", 160, 490);
-            desc.draw(batch, "STATS: \n Bullet Speed: Average      Reload Speed: Fast \n Damage: 50", 160, 445);
-            batch.draw(buyNow, 615, 420, 150, 50);
-            batch.draw(ak47, 45, 420, 100, 50);
-            font.draw(batch, "Barrett", 160, 360);
-            batch.draw(coin, 310, 493, 35, 25);
-            desc.draw(batch, "250", 345, 513);
-            desc.draw(batch, "Packs a punch. Take on the hoard with a low magazine, but \n high damage sniper rifle.", 160, 340);
-            desc.draw(batch, "STATS: \n Bullet Speed: Fast      Reload Speed: Slow \n Damage: 150", 160, 295);
-            batch.draw(buyNow, 615, 270, 150, 50);
-            batch.draw(barrett, 45, 280, 100, 40);
-            font.draw(batch, "Shotgun", 160, 210);
-            desc.draw(batch, "Is one bullet not enough? Eliminate the zombies \n with a spread shot shotgun.", 160, 190);
-            desc.draw(batch, "STATS: \n Bullet Speed: Slow      Reload Speed: Average \n Damage: 70", 160, 145);
-            batch.draw(shotgun, 45, 130, 100, 40);
-            batch.draw(buyNow, 615, 120, 150, 50);
             batch.end();
 
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -324,16 +281,114 @@ public class ZombieGame extends ApplicationAdapter {
                     startGame = true;
                 }
             }
+        }
 
-            //if the game has begn draw in the game             
+        cam.zoom = 1;
+        cam.position.x = 400;
+        cam.position.y = 300;
+        cam.update();
+        shapeBatch.setProjectionMatrix(cam.combined);
+        shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+        //the instruction picture
+        shapeBatch.setColor(Color.GOLD);
+        shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+        shapeBatch.end();
+        batch.setProjectionMatrix(cam.combined);
+        batch.begin();
+        batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+        batch.draw(nextButton, 680, 20, 100, 100);
+        batch.draw(whiteRect, 20, 375, 150, 150);
+        batch.draw(whiteRect, 20, 225, 150, 150);
+        batch.draw(whiteRect, 20, 75, 150, 150);
+        font.setColor(Color.WHITE);
+        font.draw(batch, "AK47", 160, 510);
+        batch.draw(coin, 310, 493, 35, 25);
+        desc.draw(batch, "100", 345, 513);
+        desc.draw(batch, "A reliable weapon with a high rate of fire and \n consistant damage.", 160, 490);
+        desc.draw(batch, "STATS: \n Bullet Speed: Average      Reload Speed: Fast \n Damage: 50", 160, 445);
+        batch.draw(buyNow, 615, 420, 150, 50);
+        batch.draw(ak47, 45, 420, 100, 50);
+        font.draw(batch, "Barrett", 160, 360);
+        batch.draw(coin, 310, 493, 35, 25);
+        desc.draw(batch, "250", 345, 513);
+        desc.draw(batch, "Packs a punch. Take on the hoard with a low magazine, but \n high damage sniper rifle.", 160, 340);
+        desc.draw(batch, "STATS: \n Bullet Speed: Fast      Reload Speed: Slow \n Damage: 150", 160, 295);
+        batch.draw(buyNow, 615, 270, 150, 50);
+        batch.draw(barrett, 45, 280, 100, 40);
+        font.draw(batch, "Shotgun", 160, 210);
+        desc.draw(batch, "Is one bullet not enough? Eliminate the zombies \n with a spread shot shotgun.", 160, 190);
+        desc.draw(batch, "STATS: \n Bullet Speed: Slow      Reload Speed: Average \n Damage: 70", 160, 145);
+        batch.draw(shotgun, 45, 130, 100, 40);
+        batch.draw(buyNow, 615, 120, 150, 50);
+        batch.end();
+
+        touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        cam.unproject(touch);
+        if (Gdx.input.justTouched()) {
+            if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
+                zombiesKilled = 0;
+                totalZombies = 50;
+                for (int i = 0; i < totalZombies; i++) {
+                    zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 100, 0));
+                }
+                this.rotation3 = new int[zombies.size()];
+                map = new Map();
+                startGame = true;
+            }
+        }
+
+        cam.zoom = 1;
+        cam.position.x = 400;
+        cam.position.y = 300;
+        cam.update();
+        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+            shapeBatch.setProjectionMatrix(cam.combined);
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            //the instruction picture
+            shapeBatch.setColor(Color.GOLD);
+            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            shapeBatch.end();
+            batch.setProjectionMatrix(cam.combined);
+
+            batch.begin();
+            batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            batch.draw(whiteRect, 20, 375, 150, 150);
+            batch.draw(whiteRect, 20, 225, 150, 150);
+            batch.draw(whiteRect, 20, 75, 150, 150);
+            font.draw(batch, "PRESS 'E' TO CLOSE SHOP", 240, 50);
+            batch.draw(shopTitle, 310, 510, 200, 100);
+            font.setColor(Color.WHITE);
+            font.draw(batch, "AK47", 160, 510);
+            batch.draw(coin, 310, 493, 35, 25);
+            desc.draw(batch, "100", 345, 513);
+            desc.draw(batch, "A reliable weapon with a high rate of fire and \n consistant damage.", 160, 490);
+            desc.draw(batch, "STATS: \n Bullet Speed: Average      Reload Speed: Fast \n Damage: 50", 160, 445);
+            batch.draw(buyNow, 615, 420, 150, 50);
+            batch.draw(ak47, 45, 420, 100, 50);
+            font.draw(batch, "Barrett", 160, 360);
+            batch.draw(coin, 340, 340, 35, 25);
+            desc.draw(batch, "250", 375, 360);
+            desc.draw(batch, "Packs a punch. Take on the hoard with a low magazine, but \n high damage sniper rifle.", 160, 340);
+            desc.draw(batch, "STATS: \n Bullet Speed: Fast      Reload Speed: Slow \n Damage: 150", 160, 295);
+            batch.draw(buyNow, 615, 270, 150, 50);
+            batch.draw(barrett, 45, 280, 100, 40);
+            font.draw(batch, "Shotgun", 160, 210);
+            batch.draw(coin, 340, 195, 35, 25);
+            desc.draw(batch, "150", 375, 215);
+            desc.draw(batch, "Is one bullet not enough? Eliminate the zombies \n with a spread shot shotgun.", 160, 190);
+            desc.draw(batch, "STATS: \n Bullet Speed: Slow      Reload Speed: Average \n Damage: 70", 160, 145);
+            batch.draw(shotgun, 45, 130, 100, 40);
+            batch.draw(buyNow, 615, 120, 150, 50);
+            batch.end();
+
         } else if (startGame == true) {
-            if (zombiesKilled == totalZombies) {                
+            if (zombiesKilled == totalZombies) {
                 startGame = false;
             }
+
             //update camera to players positions and zoom in or out accordingly
             //viewport.setScreenSize(800 -(int)(1.3*(int)((Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2))))/2)), (int)(viewport.getScreenWidth() / 1.333));
             //viewport.apply();
-
             if (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2))) > 400) {
                 cam.zoom = (float) (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2)))) / 400;
             }
@@ -652,6 +707,7 @@ public class ZombieGame extends ApplicationAdapter {
     @Override
     public void dispose() {
         batch.dispose();
+        music.dispose();
     }
 
     public boolean colidesWithZombie(float bX, float bY, Zombie z) {
