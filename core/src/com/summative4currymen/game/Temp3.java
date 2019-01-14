@@ -706,7 +706,7 @@ public class Temp3 extends ApplicationAdapter {
                                 z2.die();
                             }
                         }
-                    }
+                    
                 }
                 for (Furniture f : map.getObjects()) {
                     if (z.collides(f.f)) {
