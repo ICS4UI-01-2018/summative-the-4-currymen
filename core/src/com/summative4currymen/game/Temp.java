@@ -12,13 +12,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Temp extends ApplicationAdapter {
 
@@ -67,13 +69,18 @@ public class Temp extends ApplicationAdapter {
     private boolean nextGame;
     private int totalZombies;
     private int zombiesKilled;
+    private int wave;
+    private int peopleAlive;
+    private String amount;
+    private int waveIncrease;
 
     private long previousTime;
     private long previousTime2;
+    private long previousTime3;
 
     private Vector3 touch = new Vector3(0, 0, 0);
 
-    @Override
+    
     public void create() {
         this.rotation1 = 270;
         this.rotation2 = 270;
@@ -120,8 +127,24 @@ public class Temp extends ApplicationAdapter {
             System.out.println(gunName + " " + bulletSpeed + " " + fireRate + " " + damage);
         }
 
+        Scanner in2 = null;
+        try {
+            in2 = new Scanner(Gdx.files.internal("PeopleFile").file());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ZombieGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        while (in2.hasNext()) {
+            String peopleLine = in2.nextLine();
+            String peopleInfo[] = peopleLine.split(" ");
+            String people = peopleInfo[0];
+            amount = peopleInfo[1];
+            peopleAlive = Integer.parseInt(amount);
+        }
+
         long previousTime = TimeUtils.millis();
         long previousTime2 = TimeUtils.millis();
+        long previousTime3 = TimeUtils.millis();
 
         obstacle1 = new Texture("Concrete_Roof.jpg");
         obstacle2 = new Texture("Concrete_Roof.jpg");
@@ -135,8 +158,8 @@ public class Temp extends ApplicationAdapter {
         cam.position.x = 400;
         cam.position.y = 300;
         cam.update();
-        player1 = new Player(400, 300, 45, 45, 2, 2, "Rick");
-        player2 = new Player(450, 350, 45, 45, 2, 2, "Carl");
+        player1 = new Player(400, 300, 45, 45, 100, 2, "Rick");
+        player2 = new Player(450, 350, 45, 45, 100, 2, "Carl");
 
         player1.setEquipped("AK-47");
         player2.setEquipped("ShotGun");
@@ -163,7 +186,7 @@ public class Temp extends ApplicationAdapter {
 
     }
 
-    @Override
+    
     public void render() {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -242,6 +265,7 @@ public class Temp extends ApplicationAdapter {
             }
 
         } else if (goStore == false) {
+            wave = 1;
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the instruction picture
@@ -257,7 +281,7 @@ public class Temp extends ApplicationAdapter {
             font.setColor(Color.WHITE);
             font.draw(batch, "               Welcome to Arcade Apocalypse!\n \n \n"
                     + "This game is based in a world rampant with zombies.\n \n \n"
-                    + "  But, there is hope for the remaining 1000 people.\n \n \n"
+                    + "  But, there is hope for the remaining " + peopleAlive + " people.\n \n \n"
                     + "                               That hope is … \n \n \n"
                     + "                                    YOU!\n \n \n"
                     + "                                Go for it!", 35, 415);
@@ -268,6 +292,45 @@ public class Temp extends ApplicationAdapter {
             if (Gdx.input.justTouched()) {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
                     goStore = true;
+                    nextGame = true;
+                }
+            }
+
+        } else if (nextGame == false) {
+            shapeBatch.setProjectionMatrix(cam.combined);
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            //the instruction picture
+            shapeBatch.setColor(Color.GOLD);
+            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            shapeBatch.end();
+            batch.setProjectionMatrix(cam.combined);
+            batch.begin();
+            batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            batch.draw(nextButton, 680, 20, 100, 100);
+            font.setColor(Color.WHITE);
+            font.draw(batch, "Go to Store", 630, 23);
+            font.setColor(Color.WHITE);
+            font.draw(batch, "                           Well done! \n"
+                    + "                           Wave " + wave + " completed!\n"
+                    + "                                Keep it up!", 35, 415);
+            batch.end();
+
+            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            cam.unproject(touch);
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
+                    nextGame = true;
+                    startGame = false;
+                    wave = wave + 1;
+                    if (player1.getAlive() == false) {
+                        player1.revive();
+                        player1.setHealth(100);
+                    }
+
+                    if (player2.getAlive() == false) {
+                        player2.revive();
+                        player2.setHealth(100);
+                    }
                 }
             }
 
@@ -316,9 +379,9 @@ public class Temp extends ApplicationAdapter {
             if (Gdx.input.justTouched()) {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
                     zombiesKilled = 0;
-                    totalZombies = 50;
+                    totalZombies = 1 + waveIncrease;
                     for (int i = 0; i < totalZombies; i++) {
-                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 2, 0, 20));
+                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 1, 0, 50));
                     }
                     this.rotation3 = new int[zombies.size()];
                     map = new Map();
@@ -329,20 +392,13 @@ public class Temp extends ApplicationAdapter {
             //if the game has begn draw in the game             
         } else if (startGame == true) {
             if (zombiesKilled == totalZombies) {
+                waveIncrease = waveIncrease + 1;
                 nextGame = false;
             }
-            
-            if(player1.getAlive() == false && player2.getAlive() == false){
-                nextGame = false;
-            }
-            
-            
 
-            
             //update camera to players positions and zoom in or out accordingly
             //viewport.setScreenSize(800 -(int)(1.3*(int)((Math.sqrt((Math.pow((double)(player1.getX()) - (double)(player2.getX()),2)) + (Math.pow((double)(player1.getY()) - (double)(player2.getY()),2))))/2)), (int)(viewport.getScreenWidth() / 1.333));
             //viewport.apply();
-
             if (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2))) > 400) {
                 cam.zoom = (float) (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2)))) / 400;
             }
@@ -513,21 +569,152 @@ public class Temp extends ApplicationAdapter {
             }
 
             for (Zombie z : zombies) {
-                if (z.collides(player1.getBounds())) {
-                    player1.hit(z.attack());
+                if (z.getAlive()) {
+                    if (z.collides(player1.getBounds())) {
+                        if (TimeUtils.millis() - previousTime3 > z.getFireRate()) {
+                            player1.hit(z.attack());
+                            previousTime3 = TimeUtils.millis();
+                        }
+                    }
+                    if (z.collides(player2.getBounds())) {
+                        if (TimeUtils.millis() - previousTime3 > z.getFireRate()) {
+                            player2.hit(z.attack());
+                            previousTime3 = TimeUtils.millis();
+                        }
+                    }
                 }
-                if (z.collides(player2.getBounds())) {
-                    player2.hit(z.attack());
+            }
+
+            if (player1.getAlive() == false && player2.getAlive() == true) {
+                if (player2.collides(player1.getBounds())) {
+                    player1.revive();
+                }
+            }
+
+            if (player2.getAlive() == false && player1.getAlive() == true) {
+                if (player1.collides(player2.getBounds())) {
+                    player2.revive();
+                }
+            }
+            
+            if(player1.getAlive() == false || player2.getAlive() == false){
+                
+            }
+                
+                
+            if (player2.getAlive() == false) {
+                peopleAlive = peopleAlive - 1;
+                amount = Integer.toString(peopleAlive);
+                Scanner in2 = null;
+                try {
+                    in2 = new Scanner(Gdx.files.internal("PeopleFile").file());
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(ZombieGame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                while (in2.hasNext()) {
+                    String peopleLine = in2.nextLine();
+                    String peopleInfo[] = peopleLine.split(" ");
+                    peopleInfo[0] = amount;
+                    peopleAlive = Integer.parseInt(amount);
                 }
             }
 
             for (Zombie z : zombies) {
-                if (player1.getAlive() && player2.getAlive()) {
+                if (z.getAlive() == true) {
+                    if (player1.getAlive() == true && player2.getAlive() == true) {
 
-                    double distance1 = Math.sqrt((Math.pow(z.getX() - player1.getX(), 2)) + (Math.pow(z.getY() - player1.getY(), 2)));
-                    double distance2 = Math.sqrt((Math.pow(z.getX() - player2.getX(), 2)) + (Math.pow(z.getY() - player2.getY(), 2)));
+                        double distance1 = Math.sqrt((Math.pow(z.getX() - player1.getX(), 2)) + (Math.pow(z.getY() - player1.getY(), 2)));
+                        double distance2 = Math.sqrt((Math.pow(z.getX() - player2.getX(), 2)) + (Math.pow(z.getY() - player2.getY(), 2)));
 
-                    if (distance1 < distance2) {
+                        if (distance1 < distance2) {
+                            if (z.getX() < player1.getX() && z.getY() == player1.getY()) {
+                                z.setRotation(0);
+                                z.moveRight();
+                            }
+                            if (z.getX() < player1.getX() && z.getY() < player1.getY()) {
+                                z.setRotation(45);
+                                z.moveRight();
+                                z.moveUp();
+
+                            }
+                            if (z.getX() == player1.getX() && z.getY() < player1.getY()) {
+                                z.setRotation(90);
+                                z.moveUp();
+
+                            }
+                            if (z.getX() > player1.getX() && z.getY() < player1.getY()) {
+                                z.setRotation(135);
+                                z.moveLeft();
+                                z.moveUp();
+
+                            }
+                            if (z.getX() > player1.getX() && z.getY() == player1.getY()) {
+                                z.setRotation(180);
+                                z.moveLeft();
+                                z.moveDown();
+                            }
+                            if (z.getX() > player1.getX() && z.getY() > player1.getY()) {
+                                z.setRotation(225);
+                                z.moveLeft();
+                                z.moveDown();
+                            }
+                            if (z.getX() == player1.getX() && z.getY() > player1.getY()) {
+                                z.setRotation(270);
+                                z.moveDown();
+                            }
+
+                            if (z.getX() < player1.getX() && z.getY() > player1.getY()) {
+                                z.setRotation(315);
+                                z.moveRight();
+                                z.moveDown();
+
+                            }
+
+                        } else if (distance1 > distance2) {
+                            if (z.getX() < player2.getX() && z.getY() == player2.getY()) {
+                                z.setRotation(0);
+                                z.moveRight();
+                            }
+                            if (z.getX() < player2.getX() && z.getY() < player2.getY()) {
+                                z.setRotation(45);
+                                z.moveRight();
+                                z.moveUp();
+                            }
+                            if (z.getX() == player2.getX() && z.getY() < player2.getY()) {
+                                z.setRotation(90);
+                                z.moveUp();
+
+                            }
+                            if (z.getX() > player2.getX() && z.getY() < player2.getY()) {
+                                z.setRotation(135);
+                                z.moveLeft();
+                                z.moveUp();
+
+                            }
+                            if (z.getX() > player2.getX() && z.getY() == player2.getY()) {
+                                z.setRotation(180);
+                                z.moveLeft();
+                                z.moveDown();
+                            }
+                            if (z.getX() > player2.getX() && z.getY() > player2.getY()) {
+                                z.setRotation(225);
+                                z.moveLeft();
+                                z.moveDown();
+
+                            }
+                            if (z.getX() == player2.getX() && z.getY() > player2.getY()) {
+                                z.setRotation(270);
+                                z.moveDown();
+                            }
+                            if (z.getX() < player2.getX() && z.getY() > player2.getY()) {
+                                z.setRotation(315);
+                                z.moveRight();
+                                z.moveDown();
+
+                            }
+                        }
+                    } else if (player1.getAlive() == true && z.getAlive() == true) {
                         if (z.getX() < player1.getX() && z.getY() == player1.getY()) {
                             z.setRotation(0);
                             z.moveRight();
@@ -570,8 +757,7 @@ public class Temp extends ApplicationAdapter {
                             z.moveDown();
 
                         }
-
-                    } else if (distance1 > distance2) {
+                    } else if (player2.getAlive() == true && z.getAlive() == true) {
                         if (z.getX() < player2.getX() && z.getY() == player2.getY()) {
                             z.setRotation(0);
                             z.moveRight();
@@ -614,91 +800,6 @@ public class Temp extends ApplicationAdapter {
 
                         }
                     }
-                } else if (player1.getAlive()) {
-                    if (z.getX() < player1.getX() && z.getY() == player1.getY()) {
-                        z.setRotation(0);
-                        z.moveRight();
-                    }
-                    if (z.getX() < player1.getX() && z.getY() < player1.getY()) {
-                        z.setRotation(45);
-                        z.moveRight();
-                        z.moveUp();
-
-                    }
-                    if (z.getX() == player1.getX() && z.getY() < player1.getY()) {
-                        z.setRotation(90);
-                        z.moveUp();
-
-                    }
-                    if (z.getX() > player1.getX() && z.getY() < player1.getY()) {
-                        z.setRotation(135);
-                        z.moveLeft();
-                        z.moveUp();
-
-                    }
-                    if (z.getX() > player1.getX() && z.getY() == player1.getY()) {
-                        z.setRotation(180);
-                        z.moveLeft();
-                        z.moveDown();
-                    }
-                    if (z.getX() > player1.getX() && z.getY() > player1.getY()) {
-                        z.setRotation(225);
-                        z.moveLeft();
-                        z.moveDown();
-                    }
-                    if (z.getX() == player1.getX() && z.getY() > player1.getY()) {
-                        z.setRotation(270);
-                        z.moveDown();
-                    }
-
-                    if (z.getX() < player1.getX() && z.getY() > player1.getY()) {
-                        z.setRotation(315);
-                        z.moveRight();
-                        z.moveDown();
-
-                    }
-                } else if (player2.getAlive()) {
-                    if (z.getX() < player2.getX() && z.getY() == player2.getY()) {
-                        z.setRotation(0);
-                        z.moveRight();
-                    }
-                    if (z.getX() < player2.getX() && z.getY() < player2.getY()) {
-                        z.setRotation(45);
-                        z.moveRight();
-                        z.moveUp();
-                    }
-                    if (z.getX() == player2.getX() && z.getY() < player2.getY()) {
-                        z.setRotation(90);
-                        z.moveUp();
-
-                    }
-                    if (z.getX() > player2.getX() && z.getY() < player2.getY()) {
-                        z.setRotation(135);
-                        z.moveLeft();
-                        z.moveUp();
-
-                    }
-                    if (z.getX() > player2.getX() && z.getY() == player2.getY()) {
-                        z.setRotation(180);
-                        z.moveLeft();
-                        z.moveDown();
-                    }
-                    if (z.getX() > player2.getX() && z.getY() > player2.getY()) {
-                        z.setRotation(225);
-                        z.moveLeft();
-                        z.moveDown();
-
-                    }
-                    if (z.getX() == player2.getX() && z.getY() > player2.getY()) {
-                        z.setRotation(270);
-                        z.moveDown();
-                    }
-                    if (z.getX() < player2.getX() && z.getY() > player2.getY()) {
-                        z.setRotation(315);
-                        z.moveRight();
-                        z.moveDown();
-
-                    }
                 }
                 for (Furniture f : map.getObjects()) {
                     if (z.collides(f.f)) {
@@ -730,6 +831,7 @@ public class Temp extends ApplicationAdapter {
                                 if (z.hit(b.getDamage()) <= 0) {
                                     zombiesKilled++;
                                     System.out.println(zombiesKilled);
+                                    z.die();
                                 }
                                 it.remove();
                                 break;
@@ -763,7 +865,6 @@ public class Temp extends ApplicationAdapter {
         }
     }
 
-    @Override
     public void dispose() {
         batch.dispose();
     }

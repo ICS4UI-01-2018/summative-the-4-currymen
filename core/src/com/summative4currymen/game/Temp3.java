@@ -76,6 +76,9 @@ public class Temp3 extends ApplicationAdapter {
     private long previousTime2;
 
     private Vector3 touch = new Vector3(0, 0, 0);
+    private Items pickups; //pickups class by matt
+    private HUD hud1; //HUD ADDED BY MATT
+    private HUD hud2; //HUD ADDED BY MATT
 
     @Override
     public void create() {
@@ -146,11 +149,14 @@ public class Temp3 extends ApplicationAdapter {
         playerTwoViewPort.setScreenX(400);
         playerTwoViewPort.apply();
 
-        player1 = new Player(400, 300, 45, 45, 2, 2, "Rick");
-        player2 = new Player(450, 350, 45, 45, 2, 2, "Carl");
+        player1 = new Player(400, 300, 45, 45, 100, 2, "Rick");
+        player2 = new Player(450, 350, 45, 45, 100, 2, "Carl");
+        hud1 = new HUD(playerOneViewPort.getWorldWidth()); //HUD ADDED BY MATT
+        hud2 = new HUD(playerTwoViewPort.getWorldWidth()); //HUD ADDED BY MATT
+        
 
         player1.setEquipped("AK-47");
-        player2.setEquipped("ShotGun");
+        player2.setEquipped("Barret50");
 
         zombies = new ArrayList<Zombie>();
 
@@ -287,6 +293,11 @@ public class Temp3 extends ApplicationAdapter {
             menuCam.position.x = 400;
             menuCam.position.y = 300;
             menuCam.update();
+            menuViewPort.setScreenX(0);
+            menuViewPort.setScreenY(0);
+            menuViewPort.setScreenWidth(Gdx.graphics.getWidth());
+            menuViewPort.setScreenHeight(Gdx.graphics.getHeight());
+            menuViewPort.apply();
             shapeBatch.setProjectionMatrix(menuCam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the instruction picture
@@ -333,6 +344,7 @@ public class Temp3 extends ApplicationAdapter {
                     }
                     this.rotation3 = new int[zombies.size()];
                     map = new Map();
+                    pickups = new Items();
                     playerOneViewPort.update(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
                     playerTwoViewPort.update(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
                     playerOneViewPort.setScreenX(0);
@@ -349,46 +361,111 @@ public class Temp3 extends ApplicationAdapter {
                 startGame = false;
             }
 
-            //if (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2))) > 400) {
-            //  cam.zoom = (float) (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2)))) / 400;
-            // }
-            if (playerOneCam.position.x - playerOneCam.viewportWidth / 2 >= 0 && playerOneCam.position.x + playerOneCam.viewportWidth / 2 <= map.getWorldWidth()) {
-                playerOneCam.position.x = player1.getX();
-            }
-            if (playerOneCam.position.y - playerOneCam.viewportHeight / 2 >= 0 && playerOneCam.position.y + playerOneCam.viewportHeight / 2 <= map.getWorldHeight()) {
-                playerOneCam.position.y = player1.getY();
-            }
-            if (playerOneCam.position.x - playerOneCam.viewportWidth / 2 < 0) {
-                playerOneCam.position.x = playerOneCam.viewportWidth / 2;
-            }
-            if (playerOneCam.position.x + playerOneCam.viewportWidth / 2 > map.getWorldWidth()) {
-                playerOneCam.position.x = map.getWorldWidth() - playerOneCam.viewportWidth / 2;
-            }
-            if (playerOneCam.position.y - playerOneCam.viewportHeight / 2 < 0) {
-                playerOneCam.position.y = 0 + playerOneCam.viewportHeight / 2;
-            }
-            if (playerOneCam.position.y + playerOneCam.viewportHeight / 2 > map.getWorldHeight()) {
-                playerOneCam.position.y = map.getWorldHeight() - playerOneCam.viewportHeight / 2;
-            }
-            playerOneCam.update();
+            if (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2))) > 600) {
 
-            if (playerTwoCam.position.x - playerTwoCam.viewportWidth / 2 >= 0 && playerTwoCam.position.x + playerTwoCam.viewportWidth / 2 <= map.getWorldWidth()) {
-                playerTwoCam.position.x = player2.getX();
-            }
-            if (playerTwoCam.position.y - playerTwoCam.viewportHeight / 2 >= 0 && playerTwoCam.position.y + playerTwoCam.viewportHeight / 2 <= map.getWorldHeight()) {
-                playerTwoCam.position.y = player2.getY();
-            }
-            if (playerTwoCam.position.x - playerTwoCam.viewportWidth / 2 < 0) {
-                playerTwoCam.position.x = playerTwoCam.viewportWidth / 2;
-            }
-            if (playerTwoCam.position.x + playerTwoCam.viewportWidth / 2 > map.getWorldWidth()) {
-                playerTwoCam.position.x = map.getWorldWidth() - playerTwoCam.viewportWidth / 2;
-            }
-            if (playerTwoCam.position.y - playerTwoCam.viewportHeight / 2 < 0) {
-                playerTwoCam.position.y = 0 + playerTwoCam.viewportHeight / 2;
-            }
-            if (playerTwoCam.position.y + playerTwoCam.viewportHeight / 2 > map.getWorldHeight()) {
-                playerTwoCam.position.y = map.getWorldHeight() - playerTwoCam.viewportHeight / 2;
+                if (playerOneCam.position.x - playerOneCam.viewportWidth / 2 >= 0 && playerOneCam.position.x + playerOneCam.viewportWidth / 2 <= map.getWorldWidth()) {
+                    playerOneCam.position.x = player1.getX();
+                }
+                if (playerOneCam.position.y - playerOneCam.viewportHeight / 2 >= -90 && playerOneCam.position.y + playerOneCam.viewportHeight / 2 <= map.getWorldHeight()) {
+                    playerOneCam.position.y = player1.getY();
+                }
+                if (playerOneCam.position.x - playerOneCam.viewportWidth / 2 < 0) {
+                    playerOneCam.position.x = playerOneCam.viewportWidth / 2;
+                }
+                if (playerOneCam.position.x + playerOneCam.viewportWidth / 2 > map.getWorldWidth()) {
+                    playerOneCam.position.x = map.getWorldWidth() - playerOneCam.viewportWidth / 2;
+                }
+                if (playerOneCam.position.y - playerOneCam.viewportHeight / 2 < -90) {
+                    playerOneCam.position.y = -90 + playerOneCam.viewportHeight / 2;
+                }
+                if (playerOneCam.position.y + playerOneCam.viewportHeight / 2 > map.getWorldHeight()) {
+                    playerOneCam.position.y = map.getWorldHeight() - playerOneCam.viewportHeight / 2;
+                }
+                playerOneCam.update();
+
+                if (playerTwoCam.position.x - playerTwoCam.viewportWidth / 2 >= 0 && playerTwoCam.position.x + playerTwoCam.viewportWidth / 2 <= map.getWorldWidth()) {
+                    playerTwoCam.position.x = player2.getX();
+                }
+                if (playerTwoCam.position.y - playerTwoCam.viewportHeight / 2 >= -90 && playerTwoCam.position.y + playerTwoCam.viewportHeight / 2 <= map.getWorldHeight()) {
+                    playerTwoCam.position.y = player2.getY();
+                }
+                if (playerTwoCam.position.x - playerTwoCam.viewportWidth / 2 < 0) {
+                    playerTwoCam.position.x = playerTwoCam.viewportWidth / 2;
+                }
+                if (playerTwoCam.position.x + playerTwoCam.viewportWidth / 2 > map.getWorldWidth()) {
+                    playerTwoCam.position.x = map.getWorldWidth() - playerTwoCam.viewportWidth / 2;
+                }
+                if (playerTwoCam.position.y - playerTwoCam.viewportHeight / 2 < -90) {
+                    playerTwoCam.position.y = -90 + playerTwoCam.viewportHeight / 2;
+                }
+                if (playerTwoCam.position.y + playerTwoCam.viewportHeight / 2 > map.getWorldHeight()) {
+                    playerTwoCam.position.y = map.getWorldHeight() - playerTwoCam.viewportHeight / 2;
+                }
+            } else {
+                menuViewPort.setScreenX(0);
+                menuViewPort.setScreenY(0);
+                menuViewPort.setScreenWidth(Gdx.graphics.getWidth());
+                menuViewPort.setScreenHeight(Gdx.graphics.getHeight());
+                menuViewPort.apply();
+
+                if (menuCam.position.x - menuCam.viewportWidth / 2 >= 0 && menuCam.position.x + menuCam.viewportWidth / 2 <= map.getWorldWidth()) {
+                    menuCam.position.x = (player1.getX() + player2.getX()) / 2;
+                }
+                if (menuCam.position.y - menuCam.viewportHeight / 2 >= -90 && menuCam.position.y + menuCam.viewportHeight / 2 <= map.getWorldHeight()) {
+                    menuCam.position.y = (player1.getY() + player2.getY()) / 2;
+                }
+                if (menuCam.position.x - menuCam.viewportWidth / 2 < 0) {
+                    menuCam.position.x = menuCam.viewportWidth / 2;
+                }
+                if (menuCam.position.x + menuCam.viewportWidth / 2 > map.getWorldWidth()) {
+                    menuCam.position.x = map.getWorldWidth() - menuCam.viewportWidth / 2;
+                }
+                if (menuCam.position.y - menuCam.viewportHeight / 2 < -90) {
+                    menuCam.position.y = -90 + menuCam.viewportHeight / 2;
+                }
+                if (menuCam.position.y + menuCam.viewportHeight / 2 > map.getWorldHeight()) {
+                    menuCam.position.y = map.getWorldHeight() - menuCam.viewportHeight / 2;
+                }
+                menuCam.update();
+
+                if (playerOneCam.position.x - playerOneCam.viewportWidth / 2 >= 0 && playerOneCam.position.x + playerOneCam.viewportWidth / 2 <= map.getWorldWidth()) {
+                    playerOneCam.position.x = player1.getX();
+                }
+                if (playerOneCam.position.y - playerOneCam.viewportHeight / 2 >= -90 && playerOneCam.position.y + playerOneCam.viewportHeight / 2 <= map.getWorldHeight()) {
+                    playerOneCam.position.y = player1.getY();
+                }
+                if (playerOneCam.position.x - playerOneCam.viewportWidth / 2 < 0) {
+                    playerOneCam.position.x = playerOneCam.viewportWidth / 2;
+                }
+                if (playerOneCam.position.x + playerOneCam.viewportWidth / 2 > map.getWorldWidth()) {
+                    playerOneCam.position.x = map.getWorldWidth() - playerOneCam.viewportWidth / 2;
+                }
+                if (playerOneCam.position.y - playerOneCam.viewportHeight / 2 < -90) {
+                    playerOneCam.position.y = -90 + playerOneCam.viewportHeight / 2;
+                }
+                if (playerOneCam.position.y + playerOneCam.viewportHeight / 2 > map.getWorldHeight()) {
+                    playerOneCam.position.y = map.getWorldHeight() - playerOneCam.viewportHeight / 2;
+                }
+                playerOneCam.update();
+
+                if (playerTwoCam.position.x - playerTwoCam.viewportWidth / 2 >= 0 && playerTwoCam.position.x + playerTwoCam.viewportWidth / 2 <= map.getWorldWidth()) {
+                    playerTwoCam.position.x = player2.getX();
+                }
+                if (playerTwoCam.position.y - playerTwoCam.viewportHeight / 2 >= -90 && playerTwoCam.position.y + playerTwoCam.viewportHeight / 2 <= map.getWorldHeight()) {
+                    playerTwoCam.position.y = player2.getY();
+                }
+                if (playerTwoCam.position.x - playerTwoCam.viewportWidth / 2 < 0) {
+                    playerTwoCam.position.x = playerTwoCam.viewportWidth / 2;
+                }
+                if (playerTwoCam.position.x + playerTwoCam.viewportWidth / 2 > map.getWorldWidth()) {
+                    playerTwoCam.position.x = map.getWorldWidth() - playerTwoCam.viewportWidth / 2;
+                }
+                if (playerTwoCam.position.y - playerTwoCam.viewportHeight / 2 < -90) {
+                    playerTwoCam.position.y = -90 + playerTwoCam.viewportHeight / 2;
+                }
+                if (playerTwoCam.position.y + playerTwoCam.viewportHeight / 2 > map.getWorldHeight()) {
+                    playerTwoCam.position.y = map.getWorldHeight() - playerTwoCam.viewportHeight / 2;
+                }
             }
             playerTwoCam.update();
 
@@ -520,6 +597,7 @@ public class Temp3 extends ApplicationAdapter {
             }
             //shooting for player 2
             if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+                player1.hit(5); //test code
                 for (Weapon w : this.worldWeapons) {
                     if (w.getName().equals(player2.getEquipped())) {
                         if (TimeUtils.millis() - previousTime2 > w.fireRate()) {
@@ -531,6 +609,7 @@ public class Temp3 extends ApplicationAdapter {
             }
 
             for (Zombie z : zombies) {
+
                 double distance1 = Math.sqrt((Math.pow(z.getX() - player1.getX(), 2)) + (Math.pow(z.getY() - player1.getY(), 2)));
                 double distance2 = Math.sqrt((Math.pow(z.getX() - player2.getX(), 2)) + (Math.pow(z.getY() - player2.getY(), 2)));
 
@@ -620,6 +699,14 @@ public class Temp3 extends ApplicationAdapter {
                         z.moveDown();
 
                     }
+
+                    for (Zombie z2 : zombies) {
+                        if (z2.getAlive() == true) {
+                            if (Math.sqrt((Math.pow(z.getX() - z2.getX(), 2)) + (Math.pow(z.getY() - z2.getY(), 2))) < 100) {
+                                z2.die();
+                            }
+                        }
+                    }
                 }
                 for (Furniture f : map.getObjects()) {
                     if (z.collides(f.f)) {
@@ -651,6 +738,7 @@ public class Temp3 extends ApplicationAdapter {
                                 if (z.hit(b.getDamage()) <= 0) {
                                     zombiesKilled++;
                                     System.out.println(zombiesKilled);
+                                    this.pickups.create(z.getX(), z.getY()); //add a pickup when the zombie dies
                                 }
                                 it.remove();
                                 break;
@@ -659,55 +747,102 @@ public class Temp3 extends ApplicationAdapter {
                     }
                 }
             }
-            //Draw in everything
-            playerOneViewPort.setScreenX(0);
-            playerOneViewPort.apply();
-            shapeBatch.setProjectionMatrix(playerOneCam.combined);
-            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-            //shapeBatch.setColor(Color.BLACK);
-            //shapeBatch.rect(playerOneViewPort.getScreenX(),playerOneViewPort.getScreenY(),5,playerOneViewPort.getScreenHeight());
-            //System.out.println((playerOneViewPort.getScreenX()) + "" + playerOneViewPort.getScreenY() + " "+ 5 + " " +playerOneViewPort.getScreenHeight());
-            shapeBatch.end();
-            batch.setProjectionMatrix(playerOneCam.combined);
-            batch.begin();
-            map.draw(batch);
-            batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-            batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-            for (Zombie z : zombies) {
-                if (z.getAlive() == true) {
-                    batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
-                }
-            }
-            font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
-            batch.end();
-            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-            shapeBatch.setColor(Color.WHITE);
-            for (Bullet b : this.bullets) {
-                b.drawBullet(shapeBatch);
-            }
-            shapeBatch.end();
-            //draw for player two
+            if (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2))) > 600) {
 
-            playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);
-            playerTwoViewPort.apply();
-            shapeBatch.setProjectionMatrix(playerTwoCam.combined);
-            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-            //shapeBatch.setColor(Color.BLACK);
-            //shapeBatch.rect(Gdx.graphics.getWidth() / 2, 0, 5, Gdx.graphics.getHeight());
-            shapeBatch.end();
-            batch.setProjectionMatrix(playerTwoCam.combined);
-            batch.begin();
-            map.draw(batch);
-            batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-            batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-            for (Zombie z : zombies) {
-                if (z.getAlive() == true) {
-                    batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
+                //Draw in everything
+                playerOneViewPort.setScreenX(0);
+                playerOneViewPort.apply();
+                shapeBatch.setProjectionMatrix(playerOneCam.combined);
+                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+
+                shapeBatch.end();
+                batch.setProjectionMatrix(playerOneCam.combined);
+                batch.begin();               
+                map.draw(batch);
+                pickups.draw(batch);
+                batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+                batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+                for (Zombie z : zombies) {
+                    if (z.getAlive() == true) {
+                        batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
+                    }
                 }
+                font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
+                batch.end();
+                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+                shapeBatch.setColor(Color.WHITE);
+                for (Bullet b : this.bullets) {
+                    b.drawBullet(shapeBatch);
+                }
+                shapeBatch.setColor(Color.BLACK);
+                //draw in screen divider
+                shapeBatch.rect((playerOneCam.position.x + (playerOneCam.viewportWidth / 2)) - 5, (playerOneCam.position.y - (playerOneCam.viewportHeight / 2)), 5, playerOneCam.viewportHeight);
+                shapeBatch.end();
+                batch.begin();
+                hud1.draw(shapeBatch, batch, player1, playerOneCam); //DRAW THE HUD
+                batch.end();
+                //draw for player two
+
+                playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);
+                playerTwoViewPort.apply();
+                shapeBatch.setProjectionMatrix(playerTwoCam.combined);
+                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+                shapeBatch.setColor(Color.BLACK);
+
+                shapeBatch.end();
+                batch.setProjectionMatrix(playerTwoCam.combined);
+                batch.begin();
+                map.draw(batch);
+                batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+                batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+                for (Zombie z : zombies) {
+                    if (z.getAlive() == true) {
+                        batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
+                    }
+                }
+                font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
+                batch.end();
+                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+                shapeBatch.setColor(Color.WHITE);
+                for (Bullet b : this.bullets) {
+                    b.drawBullet(shapeBatch);
+                }
+                shapeBatch.end();
+                batch.begin();
+                hud2.draw(shapeBatch, batch, player2, playerTwoCam);       //DRAW THE HUD
+                batch.end();
+            } else {
+
+                //Draw in everything            
+                shapeBatch.setProjectionMatrix(menuCam.combined);
+                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+
+                shapeBatch.end();
+                batch.setProjectionMatrix(menuCam.combined);
+                batch.begin();
+                map.draw(batch);
+                batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+                batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+                for (Zombie z : zombies) {
+                    if (z.getAlive() == true) {
+                        batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
+                    }
+                }
+                font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
+                batch.end();
+                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+                shapeBatch.setColor(Color.WHITE);
+                for (Bullet b : this.bullets) {
+                    b.drawBullet(shapeBatch);
+                }
+                shapeBatch.end();
+                shapeBatch.setProjectionMatrix(playerOneCam.combined);
+                batch.setProjectionMatrix(playerOneCam.combined);
+                hud1.draw(shapeBatch, batch, player1, playerOneCam);        //DRAW THE HUD
+                shapeBatch.setProjectionMatrix(playerTwoCam.combined);
+                batch.setProjectionMatrix(playerTwoCam.combined);
+                hud2.draw(shapeBatch, batch, player2, playerTwoCam);       //DRAW THE HUD
             }
-            font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
-            batch.end();
-            
         }
     }
 

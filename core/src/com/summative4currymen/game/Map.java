@@ -51,8 +51,8 @@ public class Map {
         if (num >= 1 && num <= 33) {
             rooms = 2;
             room = new Room[2];
-            room[0] = new Room(0, 0, worldWidth / 3, worldHeight);
-            room[1] = new Room(worldWidth / 3 + worldWidth / 3, 0, worldWidth / 3, worldHeight);
+            room[0] = new Room(0,0,worldWidth / 2,worldHeight);
+            room[1] = new Room(500, 100, 500, worldHeight);
             upper = 7;
             lower = 3;
             int smallRooms = (int) (Math.random() * (upper - lower)) + lower;
