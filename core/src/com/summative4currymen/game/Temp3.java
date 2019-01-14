@@ -701,7 +701,7 @@ public class Temp3 extends ApplicationAdapter {
                     }
 
                     for (Zombie z2 : zombies) {
-                        if (z2.getAlive() == true) {
+                        
                             if (Math.sqrt((Math.pow(z.getX() - z2.getX(), 2)) + (Math.pow(z.getY() - z2.getY(), 2))) < 100) {
                                 z2.die();
                             }
