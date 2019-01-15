@@ -357,23 +357,59 @@ public class Temp2 extends ApplicationAdapter {
             batch.draw(shotgun, 45, 130, 100, 40);
             batch.draw(buyNow, 615, 120, 150, 50);
             batch.end();
+            
+            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            cam.unproject(touch);
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 420 && touch.y < 470) {
+                    startGame = true;
+                    isShopTrue = false;
+                }
+            }
+            
+            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            cam.unproject(touch);
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 270 && touch.y < 320) {
+                    startGame = true;
+                    isShopTrue = false;
+                }
+            }
+            
+            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            cam.unproject(touch);
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 120 && touch.y < 170) {
+                    startGame = true;
+                    isShopTrue = false;
+                }
+            }
 
             if (Gdx.input.justTouched()) {
                 if (touch.x > 615 && touch.x < 765 && touch.y > 420 && touch.y < 470) {
+                    music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
+                    music.setVolume(0.75f);
+                    music.play();
                     player1.setEquipped("AK-47");
                     player2.setEquipped("AK-47");
                 }
             }
             if (Gdx.input.justTouched()) {
                 if (touch.x > 615 && touch.x < 765 && touch.y > 270 && touch.y < 320) {
+                    music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
+                    music.setVolume(0.75f);
+                    music.play();
                     player1.setEquipped("Barret50");
                     player2.setEquipped("Barret50");
                 }
             }
             if (Gdx.input.justTouched()) {
-                if (touch.x > 615 && touch.x < 765 && touch.y > 150 && touch.y < 200) {
-                    player1.setEquipped("Shotgun");
-                    player2.setEquipped("Shotgun");
+                if (touch.x > 615 && touch.x < 765 && touch.y > 120 && touch.y < 170) {
+                    music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
+                    music.setVolume(0.75f);
+                    music.play();
+                    player1.setEquipped("ShotGun");
+                    player2.setEquipped("ShotGun");
                 }
             }
 
