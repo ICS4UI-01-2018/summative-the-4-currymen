@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -705,8 +706,8 @@ public class Temp3 extends ApplicationAdapter {
                     if (!(z2.getName().equals(z.getName()))) {
                         if (z2.getAlive() == true) {
                             if (z.getAlive() == true) {
-                                if (z.collidesWith(z2)) {                                    
-                                    z2.moveDown();                                    
+                                if (z.collidesWith(z2)) {
+                                    z2.moveDown();
                                 }
                             }
                         }
@@ -751,102 +752,80 @@ public class Temp3 extends ApplicationAdapter {
                     }
                 }
             }
-            if (Math.sqrt((Math.pow((double) (player1.getX()) - (double) (player2.getX()), 2)) + (Math.pow((double) (player1.getY()) - (double) (player2.getY()), 2))) > 600) {
+            //pickup collection happens here
+            Vector2 vp1 = new Vector2(player1.getX(), player1.getY());
+            Vector2 vp2 = new Vector2(player2.getX(), player2.getY());
+            pickups.updateAmmo(vp1);
+            pickups.updateAmmo(vp2);
+            player1.addCoins(pickups.updateCoin(vp1));
+            player2.addCoins(pickups.updateCoin(vp2));
+            player1.addHealth(pickups.updateHealth(vp1));
+            player2.addHealth(pickups.updateHealth(vp2));
 
-                //Draw in everything
-                playerOneViewPort.setScreenX(0);
-                playerOneViewPort.apply();
-                shapeBatch.setProjectionMatrix(playerOneCam.combined);
-                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            //Draw in everything
+            playerOneViewPort.setScreenX(0);
+            playerOneViewPort.apply();
+            shapeBatch.setProjectionMatrix(playerOneCam.combined);
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
 
-                shapeBatch.end();
-                batch.setProjectionMatrix(playerOneCam.combined);
-                batch.begin();
-                map.draw(batch);
-                pickups.draw(batch);
-                batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-                batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-                for (Zombie z : zombies) {
-                    if (z.getAlive() == true) {
-                        batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
-                    }
+            shapeBatch.end();
+            batch.setProjectionMatrix(playerOneCam.combined);
+            batch.begin();
+            map.draw(batch);
+            pickups.draw(batch);
+            batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+            batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+            for (Zombie z : zombies) {
+                if (z.getAlive() == true) {
+                    batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
                 }
-                font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
-                batch.end();
-                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-                shapeBatch.setColor(Color.WHITE);
-                for (Bullet b : this.bullets) {
-                    b.drawBullet(shapeBatch);
-                }
-                shapeBatch.setColor(Color.BLACK);
-                //draw in screen divider
-                shapeBatch.rect((playerOneCam.position.x + (playerOneCam.viewportWidth / 2)) - 5, (playerOneCam.position.y - (playerOneCam.viewportHeight / 2)), 5, playerOneCam.viewportHeight);
-                shapeBatch.end();
-                batch.begin();
-                hud1.draw(shapeBatch, batch, player1, playerOneCam); //DRAW THE HUD
-                batch.end();
-                //draw for player two
-
-                playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);
-                playerTwoViewPort.apply();
-                shapeBatch.setProjectionMatrix(playerTwoCam.combined);
-                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-                shapeBatch.setColor(Color.BLACK);
-
-                shapeBatch.end();
-                batch.setProjectionMatrix(playerTwoCam.combined);
-                batch.begin();
-                map.draw(batch);
-                batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-                batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-                for (Zombie z : zombies) {
-                    if (z.getAlive() == true) {
-                        batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
-                    }
-                }
-                font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
-                batch.end();
-                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-                shapeBatch.setColor(Color.WHITE);
-                for (Bullet b : this.bullets) {
-                    b.drawBullet(shapeBatch);
-                }
-                shapeBatch.end();
-                batch.begin();
-                hud2.draw(shapeBatch, batch, player2, playerTwoCam);       //DRAW THE HUD
-                batch.end();
-            } else {
-
-                //Draw in everything            
-                shapeBatch.setProjectionMatrix(menuCam.combined);
-                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-
-                shapeBatch.end();
-                batch.setProjectionMatrix(menuCam.combined);
-                batch.begin();
-                map.draw(batch);
-                batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-                batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-                for (Zombie z : zombies) {
-                    if (z.getAlive() == true) {
-                        batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
-                    }
-                }
-                font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
-                batch.end();
-                shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-                shapeBatch.setColor(Color.WHITE);
-                for (Bullet b : this.bullets) {
-                    b.drawBullet(shapeBatch);
-                }
-                shapeBatch.end();
-                shapeBatch.setProjectionMatrix(playerOneCam.combined);
-                batch.setProjectionMatrix(playerOneCam.combined);
-                hud1.draw(shapeBatch, batch, player1, playerOneCam);        //DRAW THE HUD
-                shapeBatch.setProjectionMatrix(playerTwoCam.combined);
-                batch.setProjectionMatrix(playerTwoCam.combined);
-                hud2.draw(shapeBatch, batch, player2, playerTwoCam);       //DRAW THE HUD
             }
+            font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
+            batch.end();
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            shapeBatch.setColor(Color.WHITE);
+            for (Bullet b : this.bullets) {
+                b.drawBullet(shapeBatch);
+            }
+            shapeBatch.setColor(Color.BLACK);
+            //draw in screen divider
+            shapeBatch.rect((playerOneCam.position.x + (playerOneCam.viewportWidth / 2)) - 5, (playerOneCam.position.y - (playerOneCam.viewportHeight / 2)), 5, playerOneCam.viewportHeight);
+            shapeBatch.end();
+            batch.begin();
+            hud1.draw(shapeBatch, batch, player1, playerOneCam); //DRAW THE HUD
+            batch.end();
+            //draw for player two
+
+            playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);
+            playerTwoViewPort.apply();
+            shapeBatch.setProjectionMatrix(playerTwoCam.combined);
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            shapeBatch.setColor(Color.BLACK);
+
+            shapeBatch.end();
+            batch.setProjectionMatrix(playerTwoCam.combined);
+            batch.begin();
+            map.draw(batch);
+            pickups.draw(batch);
+            batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+            batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+            for (Zombie z : zombies) {
+                if (z.getAlive() == true) {
+                    batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
+                }
+            }
+            font.draw(batch, "Kill the Zombies or be Killed", 50, 100);
+            batch.end();
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            shapeBatch.setColor(Color.WHITE);
+            for (Bullet b : this.bullets) {
+                b.drawBullet(shapeBatch);
+            }
+            shapeBatch.end();
+            batch.begin();
+            hud2.draw(shapeBatch, batch, player2, playerTwoCam);       //DRAW THE HUD
+            batch.end();
+
         }
     }
 
