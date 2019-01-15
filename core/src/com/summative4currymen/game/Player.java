@@ -25,6 +25,7 @@ public class Player {
     private int width;
     private int height;
     private String equipped;
+    private int coins;
     private ArrayList<Weapon> weapons;
 
     /**
@@ -46,6 +47,7 @@ public class Player {
         player = new Rectangle(x, y, width, height);
         this.width = width;
         this.height = height;
+        this.coins = 0;
     }
 
     public boolean collides(Rectangle r) {
@@ -138,7 +140,36 @@ public class Player {
         this.health = this.health + 1;
         this.alive = true;
     }
-
+    
+    public int getCoins(){
+        return this.coins;
+    }
+    /**
+     * if the player can afford the item they are trying to buy, 
+     * return true and subtract cost from coins.
+     * otherwise it will return false
+     * added by matt
+     * 
+     * @param cost the cost of the item
+     * @return was the payment successful
+     */
+    public boolean pay(int cost){
+        if((this.coins - cost) < 0){
+            return false;
+        }else{
+            this.coins -= cost;
+            return true;
+        }
+    }
+    /**
+     * method to add coins from pickups
+     * added by matt
+     * 
+     * @param n the number of coins to add
+     */
+    public void addCoins(int n){
+        this.coins += n;
+    }
     /**
      * A method to return the player's health
      *

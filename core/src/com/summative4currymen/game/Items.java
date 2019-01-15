@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * this class manages all pickups drop-rates are variables for easy adjustment,
- * but are hard coded.
+ * but can't be input when the class is called.
  *
  * @author Matthew Goodman
  */
