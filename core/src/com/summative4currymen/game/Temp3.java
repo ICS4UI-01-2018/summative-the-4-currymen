@@ -583,13 +583,13 @@ public class Temp3 extends ApplicationAdapter {
             if (player2.getY() > map.getWorldHeight() - player2.getHeight()) {
                 player2.moveDown();
             }
-
+            
             //shooting for player 1
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 for (Weapon w : this.worldWeapons) {
                     if (w.getName().equals(player1.getEquipped())) {
                         if (TimeUtils.millis() - previousTime > w.fireRate()) {
-                            bullets.addAll(w.shootWeapon(w.getName(), rotation1, player1.getX(), player1.getY(), w.bulletSpeed(), w.damage(), w.fireRate(), w.numBullets(), w.ammoReserves()));
+                            bullets.addAll(w.shootWeapon(w.getName(), rotation1, player1.getX(), player1.getY(), w.bulletSpeed(), w.damage(), w.fireRate(), w.numBullets()));
                             previousTime = TimeUtils.millis();
 
                         }
@@ -602,7 +602,7 @@ public class Temp3 extends ApplicationAdapter {
                 for (Weapon w : this.worldWeapons) {
                     if (w.getName().equals(player2.getEquipped())) {
                         if (TimeUtils.millis() - previousTime2 > w.fireRate()) {
-                            bullets.addAll(w.shootWeapon(w.getName(), rotation2, player2.getX(), player2.getY(), w.bulletSpeed(), w.damage(), w.fireRate(), w.numBullets(), w.ammoReserves()));
+                            bullets.addAll(w.shootWeapon(w.getName(), rotation2, player2.getX(), player2.getY(), w.bulletSpeed(), w.damage(), w.fireRate(), w.numBullets()));
                             previousTime2 = TimeUtils.millis();
                         }
                     }
