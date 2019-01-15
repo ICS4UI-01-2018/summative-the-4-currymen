@@ -824,7 +824,7 @@ public class Temp3 extends ApplicationAdapter {
             batch.begin();
             hud2.draw(shapeBatch, batch, player2, playerTwoCam);       //DRAW THE HUD
             batch.end();
-
+            pickups.dispose();//clear used pickups
         }
     }
 
