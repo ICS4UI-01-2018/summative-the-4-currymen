@@ -41,11 +41,11 @@ public class HUD {
             shapeBatch.setColor(1f, p1.getHealth() / 50f, 0f, 1);
         }
         shapeBatch.rect(cam.position.x-(cam.viewportWidth/2)+8, cam.position.y-(cam.viewportHeight/2)+8, ((this.width) - 16)*(p1.getHealth()/100.0f), 30);
-        font.draw(batch, "$" + p1.getCoins(), 30, 30);
+        
         shapeBatch.end();
 
         //batch.begin();
-        //font.draw(batch, "John", 50, 95);
+        font.draw(batch, "$" + p1.getCoins(), 50, 50);
         //batch.end();
     }
     
