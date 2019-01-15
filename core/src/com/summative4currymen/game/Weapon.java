@@ -135,6 +135,7 @@ if(ammoReserves>0){
                 bullets.clear();
                 bullets.add(b);
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             } else {
                 bullets.clear();
@@ -146,6 +147,7 @@ if(ammoReserves>0){
                     bullets.add(b);
                 }
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             }
         }
@@ -155,6 +157,7 @@ if(ammoReserves>0){
                 bullets.clear();
                 bullets.add(b);
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             } else {
                 bullets.clear();
@@ -165,6 +168,7 @@ if(ammoReserves>0){
                     bullets.add(b);
                 }
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             }
         }
@@ -174,6 +178,7 @@ if(ammoReserves>0){
                 bullets.clear();
                 bullets.add(b);
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
                 
             } else {
@@ -185,6 +190,7 @@ if(ammoReserves>0){
                     bullets.add(b);
                 }
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             }
         }
@@ -194,6 +200,7 @@ if(ammoReserves>0){
                 bullets.clear();
                 bullets.add(b);
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             } else {
                 bullets.clear();
@@ -204,6 +211,7 @@ if(ammoReserves>0){
                     bullets.add(b);
                 }
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             }
         }
@@ -213,6 +221,7 @@ if(ammoReserves>0){
                 bullets.clear();
                 bullets.add(b);
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             } else {
                 bullets.clear();
@@ -223,6 +232,7 @@ if(ammoReserves>0){
                     bullets.add(b);
                 }
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             }
         }
@@ -232,6 +242,7 @@ if(ammoReserves>0){
                 bullets.clear();
                 bullets.add(b);
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             } else {
                 bullets.clear();
@@ -242,6 +253,7 @@ if(ammoReserves>0){
                     bullets.add(b);
                 }
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             }
         }
@@ -251,6 +263,7 @@ if(ammoReserves>0){
                 bullets.clear();
                 bullets.add(b);
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             } else {
                 bullets.clear();
@@ -261,6 +274,7 @@ if(ammoReserves>0){
                     bullets.add(b);
                 }
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             }
         }
@@ -270,6 +284,7 @@ if(ammoReserves>0){
                 bullets.clear();
                 bullets.add(b);
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             } else {
                 bullets.clear();
@@ -280,6 +295,7 @@ if(ammoReserves>0){
                     bullets.add(b); 
                 }
                 ammoReserves--;
+                System.out.println(ammoReserves);
                 return bullets;
             }
         }
