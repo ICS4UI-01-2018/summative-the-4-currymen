@@ -123,9 +123,10 @@ public class Temp3 extends ApplicationAdapter {
             int fireRate = Integer.parseInt(gunInfo[2]);
             int damage = Integer.parseInt(gunInfo[3]);
             int numBullets = Integer.parseInt(gunInfo[4]);
-            Weapon gun = new Weapon(gunName, bulletSpeed, fireRate, damage, numBullets, (int) (Math.random() * (750 - 50)) + 50, (int) (Math.random() * (550 - 50)) + 50);
+            int ammoReserves = Integer.parseInt(gunInfo[5]);
+            Weapon gun = new Weapon(gunName, bulletSpeed, fireRate, damage, numBullets, ammoReserves, (int) (Math.random() * (750 - 50)) + 50, (int) (Math.random() * (550 - 50)) + 50);
             worldWeapons.add(gun);
-            System.out.println(gunName + " " + bulletSpeed + " " + fireRate + " " + damage);
+            System.out.println(gunName + " " + bulletSpeed + " " + fireRate + " " + damage + " " + ammoReserves);
         }
 
         long previousTime = TimeUtils.millis();
@@ -155,7 +156,7 @@ public class Temp3 extends ApplicationAdapter {
         hud1 = new HUD(playerOneViewPort.getWorldWidth()); //HUD ADDED BY MATT
         hud2 = new HUD(playerTwoViewPort.getWorldWidth()); //HUD ADDED BY MATT
 
-        player1.setEquipped("AK-47");
+        player1.setEquipped("ShotGun");
         player2.setEquipped("Barret50");
 
         zombies = new ArrayList<Zombie>();
@@ -582,7 +583,7 @@ public class Temp3 extends ApplicationAdapter {
             if (player2.getY() > map.getWorldHeight() - player2.getHeight()) {
                 player2.moveDown();
             }
-
+            
             //shooting for player 1
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 for (Weapon w : this.worldWeapons) {
