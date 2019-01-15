@@ -45,39 +45,76 @@ public class Map {
         int upper = 101;
         int lower = 1;
         int num = (int) (Math.random() * (upper - lower)) + lower;
-        //hard code 1 room always vv
-        num = 2;
-        //^^
+        num = 3;
         System.out.println("RANDOM NUMBER IS " + num);
         int rooms = 0;
-        if (num >= 1 && num <= 7) {
-            rooms = 1;
-            room = new Room[1];
-            room[0] = new Room(0, 0, worldWidth, worldHeight);
-            int[] roomType = new int[1];
-            upper = 5;
-            lower = 1;
-            int numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[0].setRoomType(numType);
-            System.out.println("ROOM TYPE "+ numType);
-            //build the rooms
-            room[0].buildRoom();
-        } else if (num > 7 && num <= 20) {
+        if (num >= 1 && num <= 33) {
             rooms = 2;
             room = new Room[2];
-            room[0] = new Room(0, 0, worldWidth / 2, worldHeight);
-            room[1] = new Room(worldWidth / 2, 0, worldWidth / 2, worldHeight);
-            int[] roomType = new int[2];
-            upper = 6;
-            lower = 1;
-            int numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[0].setRoomType(numType);
-            numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[1].setRoomType(numType);
+            room[0] = new Room(0,0,worldWidth / 2,worldHeight);
+            room[1] = new Room(500, 100, 500, worldHeight);
+            upper = 7;
+            lower = 3;
+            int smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[0].setnumSmallRooms(3);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[1].setnumSmallRooms(3);
+            System.out.println("ROOM TYPE " + smallRooms);
             //build the rooms
             room[0].buildRoom();
             room[1].buildRoom();
-        } else if (num > 20 && num <= 60) {
+        } else if (num > 33 && num <= 66) {
+            rooms = 3;
+            room = new Room[3];
+            upper = 3;
+            lower = 1;
+            int ranNum = (int) (Math.random() * (upper - lower)) + lower;
+            if (ranNum == 1) {
+                room[0] = new Room(0, 0, worldWidth / 3, worldHeight / 3);
+                room[1] = new Room(0, worldHeight / 3 + worldHeight / 3, worldWidth / 3, worldHeight / 3);
+                room[2] = new Room(worldWidth / 3 + worldWidth / 3, 0, worldWidth / 3, worldHeight);
+
+            } else {
+                room[0] = new Room(0, 0, worldWidth / 3, worldHeight );
+                room[1] = new Room(worldWidth / 3 + worldWidth / 3, worldHeight / 3 + worldHeight / 3, worldWidth / 3, worldHeight / 3);
+                room[2] = new Room(worldWidth / 3 + worldWidth / 3, 0, worldWidth / 3, worldHeight/3);
+            }            
+            upper = 7;
+            lower = 3;
+            int smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[0].setnumSmallRooms(smallRooms);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[1].setnumSmallRooms(smallRooms);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[2].setnumSmallRooms(smallRooms);            
+            //build the rooms
+            room[0].buildRoom();
+            room[1].buildRoom();
+            room[2].buildRoom();            
+        } else if (num > 66 && num <= 100) {
+            rooms = 4;
+            room = new Room[4];
+            room[0] = new Room(0, 0, worldWidth / 3, worldHeight / 3);
+            room[1] = new Room(0, worldHeight / 3 + worldHeight / 3, worldWidth / 3, worldHeight / 3);
+            room[2] = new Room(worldWidth / 3 + worldWidth / 3, worldHeight / 3 + worldHeight / 3, worldWidth / 3, worldHeight / 3);
+            room[3] = new Room(worldWidth / 3 + worldWidth / 3, 0, worldWidth / 3, worldHeight / 3);;
+            upper = 7;
+            lower = 3;
+            int smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[0].setnumSmallRooms(smallRooms);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[1].setnumSmallRooms(smallRooms);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[2].setnumSmallRooms(smallRooms);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[3].setnumSmallRooms(smallRooms);
+            //build the rooms
+            room[0].buildRoom();
+            room[1].buildRoom();
+            room[2].buildRoom();
+            room[3].buildRoom();
+        }
+        /*else if (num > 20 && num <= 60) {
             rooms = 3;
             room = new Room[3];
             upper = 3;
@@ -95,12 +132,12 @@ public class Map {
             int[] roomType = new int[3];
             upper = 6;
             lower = 1;
-            int numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[0].setRoomType(numType);
-            numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[1].setRoomType(numType);
-            numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[2].setRoomType(numType);
+            int smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[0].setRoomType(smallRooms);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[1].setRoomType(smallRooms);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[2].setRoomType(smallRooms);
             //build the rooms
             room[0].buildRoom();
             room[1].buildRoom();
@@ -115,14 +152,14 @@ public class Map {
             room[2] = new Room(0, worldHeight / 2, worldWidth / 2, worldHeight / 2);
             room[3] = new Room(worldWidth / 2, worldHeight / 2, worldWidth / 2, worldHeight / 2);
             lower = 1;
-            int numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[0].setRoomType(numType);
-            numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[1].setRoomType(numType);
-            numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[2].setRoomType(numType);
-            numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[3].setRoomType(numType);
+            int smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[0].setRoomType(smallRooms);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[1].setRoomType(smallRooms);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[2].setRoomType(smallRooms);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[3].setRoomType(smallRooms);
             //build the rooms
             room[0].buildRoom();
             room[1].buildRoom();
@@ -162,16 +199,16 @@ public class Map {
             int[] roomType = new int[5];
             upper = 6;
             lower = 1;
-            int numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[0].setRoomType(numType);
-            numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[1].setRoomType(numType);
-            numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[2].setRoomType(numType);
-            numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[3].setRoomType(numType);
-            numType = (int) (Math.random() * (upper - lower)) + lower;
-            room[4].setRoomType(numType);
+            int smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[0].setRoomType(smallRooms);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[1].setRoomType(smallRooms);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[2].setRoomType(smallRooms);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[3].setRoomType(smallRooms);
+            smallRooms = (int) (Math.random() * (upper - lower)) + lower;
+            room[4].setRoomType(smallRooms);
             //build the rooms
             room[0].buildRoom();
             room[1].buildRoom();
@@ -179,7 +216,7 @@ public class Map {
             room[3].buildRoom();
             room[4].buildRoom();
         }
-        System.out.println("NUMBER OF ROOMS " + rooms);
+        System.out.println("NUMBER OF ROOMS " + rooms);*/
     }
 
     public ArrayList<Furniture> getObjects() {
@@ -199,30 +236,11 @@ public class Map {
     }
 
     public void draw(SpriteBatch batch) {
-        //batch.draw(whiteGround, 0, 0, worldWidth,worldHeight);
+        batch.draw(ground3, 0, 0, worldWidth, worldHeight);
         for (Room room1 : room) {
-            switch (room1.getRoomType()) {
-                case 1:
-                    batch.draw(ground4, room1.x, room1.y, room1.width, room1.height);
-                    break;
-                case 2:
-                    batch.draw(ground3, room1.x, room1.y, room1.width, room1.height);
-                    break;
-                case 3:
-                    batch.draw(ground5, room1.x, room1.y, room1.width, room1.height);
-                    break;
-                case 4:
-                    batch.draw(ground6, room1.x, room1.y, room1.width, room1.height);
-                    break;
-                case 5:
-                    // batch.draw(ground1, room1.x, room1.y, room1.width, room1.height);
-                    break;
-                default:
-                    break;
-            }
-
             room1.draw(batch);
         }
+        //boarders of the map
         batch.draw(blackGround, -10, 0, 10, worldHeight);
         batch.draw(blackGround, 0, -10, worldWidth, 10);
         batch.draw(blackGround, 0, worldHeight, worldWidth, 10);

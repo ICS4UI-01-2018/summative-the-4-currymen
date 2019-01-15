@@ -715,7 +715,7 @@ public class Temp2 extends ApplicationAdapter {
                     for (Zombie z : this.zombies) {
                         if (z.getAlive() == true) {
                             if (colidesWithZombie(b.getX(), b.getY(), z) == true) {
-                                if (z.hit(b.getDamage())) {
+                                if (z.hit(b.getDamage()) <= 0) {
                                     zombiesKilled++;
                                     System.out.println(zombiesKilled);
                                 }
