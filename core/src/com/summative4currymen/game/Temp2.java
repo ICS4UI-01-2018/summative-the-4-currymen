@@ -297,7 +297,7 @@ public class Temp2 extends ApplicationAdapter {
                         music = Gdx.audio.newMusic(Gdx.files.internal("levelUp.wav"));
                         music.setVolume(0.10f);
                         music.play();
-                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 100, 0));
+                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie" + i, 100, 0, 20));
                     }
                     this.rotation3 = new int[zombies.size()];
                     map = new Map();
