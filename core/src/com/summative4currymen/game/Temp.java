@@ -64,7 +64,6 @@ public class Temp extends ApplicationAdapter {
     private Texture buyNow;
     private Texture coin;
     private Texture treePic;
-    private Texture backgroundPic;
     private boolean startGame;
     private boolean endGame;
     private boolean goStore;
@@ -91,8 +90,6 @@ public class Temp extends ApplicationAdapter {
         shapeBatch2 = new ShapeRenderer();
         shapeBatch = new ShapeRenderer();
         batch = new SpriteBatch();
-        backgroundPic = new Texture("high.jpg");
-        backgroundPic = new Texture("high.jpg");
         img = new Texture("badlogic.jpg");
         menuPic = new Texture("MenuPic.jpg");
         arcadeLogo = new Texture("Arcade_logo.png");
@@ -128,9 +125,10 @@ public class Temp extends ApplicationAdapter {
             int fireRate = Integer.parseInt(gunInfo[2]);
             int damage = Integer.parseInt(gunInfo[3]);
             int numBullets = Integer.parseInt(gunInfo[4]);
-            Weapon gun = new Weapon(gunName, bulletSpeed, fireRate, damage, numBullets, (int) (Math.random() * (750 - 50)) + 50, (int) (Math.random() * (550 - 50)) + 50);
+            int ammoReserves = Integer.parseInt(gunInfo[5]);
+            Weapon gun = new Weapon(gunName, bulletSpeed, fireRate, damage, numBullets, ammoReserves, (int) (Math.random() * (750 - 50)) + 50, (int) (Math.random() * (550 - 50)) + 50);
             worldWeapons.add(gun);
-            System.out.println(gunName + " " + bulletSpeed + " " + fireRate + " " + damage);
+            System.out.println(gunName + " " + bulletSpeed + " " + fireRate + " " + damage + " " + ammoReserves);
         }
 
         long previousTime = TimeUtils.millis();
