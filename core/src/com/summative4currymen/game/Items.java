@@ -7,14 +7,14 @@ import java.util.ArrayList;
 
 /**
  * this class manages all pickups drop-rates are variables for easy adjustment,
- * but are hard coded.
+ * but can't be input when the class is called.
  *
  * @author Matthew Goodman
  */
 public class Items {
 
     private ArrayList<Pickup> pickups;
-    private final float pickupDistance = 5;
+    private final float pickupDistance = 1;
     private final int maxAmmo = 6;
     private final int minAmmo = 2;
     private final int maxCoin = 10;
