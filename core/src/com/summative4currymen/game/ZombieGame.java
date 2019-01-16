@@ -1232,6 +1232,21 @@ public class ZombieGame extends ApplicationAdapter {
         batch.dispose();
     }
     
+     @Override
+    public void resize(int width, int height) {
+        if (startGame == true) {
+            playerOneViewPort.update(Gdx.graphics.getWidth() / 2, height);
+            playerTwoViewPort.update(Gdx.graphics.getWidth() / 2, height);
+            playerOneViewPort.setScreenX(0);
+            playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);
+            playerTwoViewPort.apply();
+            playerOneViewPort.apply();
+        } else {
+            menuViewPort.update(width, height);
+
+        }
+    }
+    
     public boolean colidesWithZombie(float bX, float bY, Zombie z) {
         if (bX + 10 >= z.getX() && bX <= z.getX() + z.getWidth() / 2 && bY + 10 >= z.getY() && bY <= z.getY() + z.getHeight() / 2) {
             return true;
