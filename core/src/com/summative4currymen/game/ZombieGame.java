@@ -73,7 +73,7 @@ public class ZombieGame extends ApplicationAdapter {
     private int peopleAlive;
     private String amount;
     private int waveIncrease;
-
+    
     private long previousTime;
     private long previousTime2;
     private long previousTime3;
@@ -597,28 +597,7 @@ public class ZombieGame extends ApplicationAdapter {
                 }
             }
             
-            if(player1.getAlive() == false || player2.getAlive() == false){
-                
-            }
-                
-                
-            if (player2.getAlive() == false) {
-                peopleAlive = peopleAlive - 1;
-                amount = Integer.toString(peopleAlive);
-                Scanner in2 = null;
-                try {
-                    in2 = new Scanner(Gdx.files.internal("PeopleFile").file());
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(ZombieGame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                while (in2.hasNext()) {
-                    String peopleLine = in2.nextLine();
-                    String peopleInfo[] = peopleLine.split(" ");
-                    peopleInfo[0] = amount;
-                    peopleAlive = Integer.parseInt(amount);
-                }
-            }
+            
 
             for (Zombie z : zombies) {
                 if (z.getAlive() == true) {

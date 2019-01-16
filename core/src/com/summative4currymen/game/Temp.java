@@ -15,7 +15,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -62,8 +64,11 @@ public class Temp extends ApplicationAdapter {
     private Texture buyNow;
     private Texture coin;
     private Texture treePic;
+    private Texture backgroundPic;
     private boolean startGame;
+    private boolean endGame;
     private boolean goStore;
+    private boolean background;
     private boolean nextScreen;
     private boolean instructNum2;
     private boolean nextGame;
@@ -80,13 +85,14 @@ public class Temp extends ApplicationAdapter {
 
     private Vector3 touch = new Vector3(0, 0, 0);
 
-    
     public void create() {
         this.rotation1 = 270;
         this.rotation2 = 270;
         shapeBatch2 = new ShapeRenderer();
         shapeBatch = new ShapeRenderer();
         batch = new SpriteBatch();
+        backgroundPic = new Texture("high.jpg");
+        backgroundPic = new Texture("high.jpg");
         img = new Texture("badlogic.jpg");
         menuPic = new Texture("MenuPic.jpg");
         arcadeLogo = new Texture("Arcade_logo.png");
@@ -127,21 +133,6 @@ public class Temp extends ApplicationAdapter {
             System.out.println(gunName + " " + bulletSpeed + " " + fireRate + " " + damage);
         }
 
-        Scanner in2 = null;
-        try {
-            in2 = new Scanner(Gdx.files.internal("PeopleFile").file());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ZombieGame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        while (in2.hasNext()) {
-            String peopleLine = in2.nextLine();
-            String peopleInfo[] = peopleLine.split(" ");
-            String people = peopleInfo[0];
-            amount = peopleInfo[1];
-            peopleAlive = Integer.parseInt(amount);
-        }
-
         long previousTime = TimeUtils.millis();
         long previousTime2 = TimeUtils.millis();
         long previousTime3 = TimeUtils.millis();
@@ -158,8 +149,8 @@ public class Temp extends ApplicationAdapter {
         cam.position.x = 400;
         cam.position.y = 300;
         cam.update();
-        player1 = new Player(400, 300, 45, 45, 100, 2, "Rick");
-        player2 = new Player(450, 350, 45, 45, 100, 2, "Carl");
+        player1 = new Player((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 10, 2, "Rick");
+        player2 = new Player((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 10, 2, "Carl");
 
         player1.setEquipped("AK-47");
         player2.setEquipped("ShotGun");
@@ -186,11 +177,42 @@ public class Temp extends ApplicationAdapter {
 
     }
 
-    
     public void render() {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //if the game has not started yet, draw in the main menu   
+        if (background == false) {
+            shapeBatch2.begin(ShapeRenderer.ShapeType.Filled);
+            //the menu picture
+            for (int i = 0; i > 4; i++) {
+
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                shapeBatch2.setColor(Color.CORAL);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                shapeBatch2.setColor(Color.MAGENTA);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                shapeBatch2.setColor(Color.ROYAL);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                shapeBatch2.setColor(Color.LIME);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                shapeBatch2.setColor(Color.MAROON);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                shapeBatch2.setColor(Color.BLUE);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                shapeBatch2.setColor(Color.FOREST);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                shapeBatch2.setColor(Color.SALMON);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                shapeBatch2.setColor(Color.CHARTREUSE);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+                shapeBatch2.setColor(Color.SKY);
+            }
+
+            shapeBatch2.rect(-2000, -2000, 4000, 4000);
+            shapeBatch2.end();
+        }
+
         if (nextScreen == false) {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
@@ -293,10 +315,15 @@ public class Temp extends ApplicationAdapter {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
                     goStore = true;
                     nextGame = true;
+                    endGame = true;
                 }
             }
 
         } else if (nextGame == false) {
+            cam.zoom = 1;
+            cam.position.x = 400;
+            cam.position.y = 300;
+            cam.update();
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the instruction picture
@@ -324,16 +351,48 @@ public class Temp extends ApplicationAdapter {
                     wave = wave + 1;
                     if (player1.getAlive() == false) {
                         player1.revive();
-                        player1.setHealth(100);
                     }
+
+                    player1.setHealth(100);
 
                     if (player2.getAlive() == false) {
                         player2.revive();
-                        player2.setHealth(100);
                     }
+
+                    player2.setHealth(100);
                 }
             }
 
+        } else if (endGame == false) {
+            cam.zoom = 1;
+            cam.position.x = 400;
+            cam.position.y = 300;
+            cam.update();
+            shapeBatch.setProjectionMatrix(cam.combined);
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            //the instruction picture
+            shapeBatch.setColor(Color.GOLD);
+            shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            shapeBatch.end();
+            batch.setProjectionMatrix(cam.combined);
+            batch.begin();
+            batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            batch.draw(nextButton, 680, 20, 100, 100);
+            font.setColor(Color.WHITE);
+            font.draw(batch, "                           Game OVER! \n"
+                    + "                           You survived " + wave + " waves!\n"
+                    + "                                  Come again!", 35, 415);
+            batch.end();
+            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            cam.unproject(touch);
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
+                    nextGame = false;
+                    endGame = true;
+                    wave = 0;
+                }
+            }
+            
         } else if (startGame == false) {
             cam.zoom = 1;
             cam.position.x = 400;
@@ -596,28 +655,10 @@ public class Temp extends ApplicationAdapter {
                     player2.revive();
                 }
             }
-            
-            if(player1.getAlive() == false || player2.getAlive() == false){
-                
-            }
-                
-                
-            if (player2.getAlive() == false) {
-                peopleAlive = peopleAlive - 1;
-                amount = Integer.toString(peopleAlive);
-                Scanner in2 = null;
-                try {
-                    in2 = new Scanner(Gdx.files.internal("PeopleFile").file());
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(ZombieGame.class.getName()).log(Level.SEVERE, null, ex);
-                }
 
-                while (in2.hasNext()) {
-                    String peopleLine = in2.nextLine();
-                    String peopleInfo[] = peopleLine.split(" ");
-                    peopleInfo[0] = amount;
-                    peopleAlive = Integer.parseInt(amount);
-                }
+            if (player1.getAlive() == false && player2.getAlive() == false) {
+                startGame = true;
+                endGame = false;
             }
 
             for (Zombie z : zombies) {
