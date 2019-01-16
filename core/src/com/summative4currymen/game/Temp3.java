@@ -791,9 +791,9 @@ public class Temp3 extends ApplicationAdapter {
             //draw in screen divider
             shapeBatch.rect((playerOneCam.position.x + (playerOneCam.viewportWidth / 2)) - 5, (playerOneCam.position.y - (playerOneCam.viewportHeight / 2)), 5, playerOneCam.viewportHeight);
             shapeBatch.end();
-            batch.begin();
+            //batch.begin();
             hud1.draw(shapeBatch, batch, player1, playerOneCam); //DRAW THE HUD
-            batch.end();
+           // batch.end();
             //draw for player two
 
             playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);
@@ -822,9 +822,9 @@ public class Temp3 extends ApplicationAdapter {
                 b.drawBullet(shapeBatch);
             }
             shapeBatch.end();
-            batch.begin();
+            //batch.begin();
             hud2.draw(shapeBatch, batch, player2, playerTwoCam);       //DRAW THE HUD
-            batch.end();
+            //batch.end();
             pickups.dispose();//clear used pickups
         }
     }

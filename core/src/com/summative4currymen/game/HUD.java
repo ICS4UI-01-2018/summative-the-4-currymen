@@ -30,8 +30,7 @@ public class HUD {
     }
 
     public void draw(ShapeRenderer shapeBatch, SpriteBatch batch, Player p1,OrthographicCamera cam) { //draw the HUD at 0,0
-
-        font.setColor(Color.BLACK);
+        
         shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
         shapeBatch.setColor(Color.DARK_GRAY);
         shapeBatch.rect(cam.position.x-(cam.viewportWidth/2), cam.position.y-(cam.viewportHeight/2), this.width, 90);
@@ -41,12 +40,18 @@ public class HUD {
             shapeBatch.setColor(1f, p1.getHealth() / 50f, 0f, 1);
         }
         shapeBatch.rect(cam.position.x-(cam.viewportWidth/2)+8, cam.position.y-(cam.viewportHeight/2)+8, ((this.width) - 16)*(p1.getHealth()/100.0f), 30);
-        
+        if(p1.getEquipped() == "ShotGun"){
+            //draw shotgun
+        }else if(p1.getEquipped() == "Barret50"){
+            //draw barret
+        }
         shapeBatch.end();
 
-        //batch.begin();
-        font.draw(batch, "$" + p1.getCoins(), 50, 50);
-        //batch.end();
+        batch.begin();
+        font.setColor(Color.GOLD);
+        font.draw(batch, "$" + p1.getCoins(), cam.position.x-(cam.viewportWidth/2) + 310, cam.position.y-(cam.viewportHeight/2) + 70);
+        
+        batch.end();
     }
     
 }
