@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.summative4currymen.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -25,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
-public class Temp2 extends ApplicationAdapter {
+public class Temp5 extends ApplicationAdapter {
 
     private SpriteBatch batch;
     private ShapeRenderer shapeBatch;
@@ -43,10 +38,6 @@ public class Temp2 extends ApplicationAdapter {
     private Texture chr1IMG;
     private Texture zomIMG;
     private Texture arcadeLogo;
-    private Texture obstacle1;
-    private Texture obstacle2;
-    private Texture obstacle3;
-    private Texture obstacle4;
     private int rotation1;
     private int rotation2;
     private int rotation3[];
@@ -65,14 +56,12 @@ public class Temp2 extends ApplicationAdapter {
     private Texture buyNow;
     private Texture coin;
     private Texture treePic;
-    private Texture shopTitle;
     private boolean startGame;
     private boolean goStore;
     private boolean nextScreen;
     private boolean instructNum2;
     private int totalZombies;
     private int zombiesKilled;
-    private Music music;
 
     private long previousTime;
     private long previousTime2;
@@ -102,7 +91,6 @@ public class Temp2 extends ApplicationAdapter {
         chr1IMG = new Texture("character1.png");
         zomIMG = new Texture("zombietopview.png");
         treePic = new Texture("treetop.png");
-        shopTitle = new Texture("title.png");
 
         bullets = new ArrayList<Bullet>();
         worldWeapons = new ArrayList<Weapon>();
@@ -131,11 +119,6 @@ public class Temp2 extends ApplicationAdapter {
         long previousTime = TimeUtils.millis();
         long previousTime2 = TimeUtils.millis();
 
-        obstacle1 = new Texture("Concrete_Roof.jpg");
-        obstacle2 = new Texture("Concrete_Roof.jpg");
-        obstacle3 = new Texture("Concrete_Roof.jpg");
-        obstacle4 = new Texture("Concrete_Roof.jpg");
-
         cam = new OrthographicCamera();
         viewport = new FitViewport(800, 600, cam);
         viewport.apply();
@@ -143,10 +126,10 @@ public class Temp2 extends ApplicationAdapter {
         cam.position.x = 400;
         cam.position.y = 300;
         cam.update();
-        player1 = new Player(400, 300, 45, 45, 2, 2, "Rick");
-        player2 = new Player(450, 350, 45, 45, 2, 2, "Carl");
+        player1 = new Player(400, 300, 45, 45, 300, 2, "Rick");
+        player2 = new Player(450, 350, 45, 45, 300, 2, "Carl");
 
-        player1.setEquipped("AK-47");
+        player1.setEquipped("Barret50");
         player2.setEquipped("ShotGun");
 
         zombies = new ArrayList<Zombie>();
@@ -169,13 +152,6 @@ public class Temp2 extends ApplicationAdapter {
         desc = generator2.generateFont(parameter2);
         generator2.dispose();
 
-        if (startGame == true) {
-            music = Gdx.audio.newMusic(Gdx.files.internal("arcademusic.wav"));
-            music.setLooping(true);
-            music.setVolume(1.00f);
-            music.play();
-        }
-
     }
 
     @Override
@@ -193,8 +169,9 @@ public class Temp2 extends ApplicationAdapter {
             batch.setProjectionMatrix(cam.combined);
             batch.begin();
             batch.draw(menuPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-            batch.draw(startButton, 350, 210, 100, 50);
+            batch.draw(startButton, 275, 210, 100, 50);
             batch.draw(arcadeLogo, 335, 330, 125, 75);
+            batch.draw(storeButton, 425, 215, 100, 50);
             titleFont.setColor(Color.WHITE);
             titleFont.draw(batch, "ARCADE APOCALYPSE", 125, 310);
             batch.end();
@@ -202,7 +179,7 @@ public class Temp2 extends ApplicationAdapter {
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
-                if (touch.x > 350 && touch.x < 450 && touch.y > 210 && touch.y < 260) {
+                if (touch.x > 275 && touch.x < 375 && touch.y > 210 && touch.y < 260) {
                     nextScreen = true;
                 }
             }
@@ -244,8 +221,6 @@ public class Temp2 extends ApplicationAdapter {
             font.setColor(Color.WHITE);
             font.draw(batch, "Enter = Shoot", 360, 200);
             font.setColor(Color.WHITE);
-            font.draw(batch, "E = Enter Shop (Both Players)", 200, 120);
-            font.setColor(Color.WHITE);
             font.draw(batch, "Start", 685, 23);
             batch.end();
 
@@ -257,7 +232,7 @@ public class Temp2 extends ApplicationAdapter {
                 }
             }
 
-        } else if (startGame == false) {
+        } else if (goStore == false) {
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the instruction picture
@@ -269,7 +244,7 @@ public class Temp2 extends ApplicationAdapter {
             batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
             font.setColor(Color.WHITE);
-            font.draw(batch, "Start Game", 630, 23);
+            font.draw(batch, "Go to Store", 630, 23);
             font.setColor(Color.WHITE);
             font.draw(batch, "               Welcome to Arcade Apocalypse!\n \n \n"
                     + "This game is based in a world rampant with zombies.\n \n \n"
@@ -283,23 +258,15 @@ public class Temp2 extends ApplicationAdapter {
             cam.unproject(touch);
             if (Gdx.input.justTouched()) {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
-                    zombiesKilled = 0;
-                    totalZombies = 50;
-                    for (int i = 0; i < totalZombies; i++) {
-                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie", 100, 0, 20));
-                    }
-                    this.rotation3 = new int[zombies.size()];
-                    map = new Map();
-                    startGame = true;
+                    goStore = true;
                 }
             }
-        }
 
-        cam.zoom = 1;
-        cam.position.x = 400;
-        cam.position.y = 300;
-        cam.update();
-        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+        } else if (startGame == false) {
+            cam.zoom = 1;
+            cam.position.x = 400;
+            cam.position.y = 300;
+            cam.update();
             shapeBatch.setProjectionMatrix(cam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
             //the instruction picture
@@ -307,14 +274,12 @@ public class Temp2 extends ApplicationAdapter {
             shapeBatch.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
             shapeBatch.end();
             batch.setProjectionMatrix(cam.combined);
-
             batch.begin();
             batch.draw(instructionPic, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            batch.draw(nextButton, 680, 20, 100, 100);
             batch.draw(whiteRect, 20, 375, 150, 150);
             batch.draw(whiteRect, 20, 225, 150, 150);
             batch.draw(whiteRect, 20, 75, 150, 150);
-            font.draw(batch, "PRESS 'E' TO CLOSE SHOP", 240, 50);
-            batch.draw(shopTitle, 310, 510, 200, 100);
             font.setColor(Color.WHITE);
             font.draw(batch, "AK47", 160, 510);
             batch.draw(coin, 310, 493, 35, 25);
@@ -324,24 +289,39 @@ public class Temp2 extends ApplicationAdapter {
             batch.draw(buyNow, 615, 420, 150, 50);
             batch.draw(ak47, 45, 420, 100, 50);
             font.draw(batch, "Barrett", 160, 360);
-            batch.draw(coin, 340, 340, 35, 25);
-            desc.draw(batch, "250", 375, 360);
+            batch.draw(coin, 310, 493, 35, 25);
+            desc.draw(batch, "250", 345, 513);
             desc.draw(batch, "Packs a punch. Take on the hoard with a low magazine, but \n high damage sniper rifle.", 160, 340);
             desc.draw(batch, "STATS: \n Bullet Speed: Fast      Reload Speed: Slow \n Damage: 150", 160, 295);
             batch.draw(buyNow, 615, 270, 150, 50);
             batch.draw(barrett, 45, 280, 100, 40);
             font.draw(batch, "Shotgun", 160, 210);
-            batch.draw(coin, 340, 195, 35, 25);
-            desc.draw(batch, "150", 375, 215);
             desc.draw(batch, "Is one bullet not enough? Eliminate the zombies \n with a spread shot shotgun.", 160, 190);
             desc.draw(batch, "STATS: \n Bullet Speed: Slow      Reload Speed: Average \n Damage: 70", 160, 145);
             batch.draw(shotgun, 45, 130, 100, 40);
             batch.draw(buyNow, 615, 120, 150, 50);
             batch.end();
 
+            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            cam.unproject(touch);
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
+                    zombiesKilled = 0;
+                    totalZombies = 50;
+                    for (int i = 0; i < totalZombies; i++) {
+                       zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie" + i, 100, 0, 20));
+                    }
+                    this.rotation3 = new int[zombies.size()];
+                    map = new Map();
+                    System.out.println(totalZombies);
+                    startGame = true;
+                }
+            }
+
             //if the game has begn draw in the game             
         } else if (startGame == true) {
-            if (zombiesKilled == totalZombies) {
+
+            if (zombiesKilled >= totalZombies) {
                 startGame = false;
             }
             //update camera to players positions and zoom in or out accordingly
@@ -522,18 +502,15 @@ public class Temp2 extends ApplicationAdapter {
                         z.setRotation(45);
                         z.moveRight();
                         z.moveUp();
-
                     }
                     if (z.getX() == player1.getX() && z.getY() < player1.getY()) {
                         z.setRotation(90);
                         z.moveUp();
-
                     }
                     if (z.getX() > player1.getX() && z.getY() < player1.getY()) {
                         z.setRotation(135);
                         z.moveLeft();
                         z.moveUp();
-
                     }
                     if (z.getX() > player1.getX() && z.getY() == player1.getY()) {
                         z.setRotation(180);
@@ -549,14 +526,11 @@ public class Temp2 extends ApplicationAdapter {
                         z.setRotation(270);
                         z.moveDown();
                     }
-
                     if (z.getX() < player1.getX() && z.getY() > player1.getY()) {
                         z.setRotation(315);
                         z.moveRight();
                         z.moveDown();
-
                     }
-
                 } else if (distance1 > distance2) {
                     if (z.getX() < player2.getX() && z.getY() == player2.getY()) {
                         z.setRotation(0);
@@ -570,13 +544,11 @@ public class Temp2 extends ApplicationAdapter {
                     if (z.getX() == player2.getX() && z.getY() < player2.getY()) {
                         z.setRotation(90);
                         z.moveUp();
-
                     }
                     if (z.getX() > player2.getX() && z.getY() < player2.getY()) {
                         z.setRotation(135);
                         z.moveLeft();
                         z.moveUp();
-
                     }
                     if (z.getX() > player2.getX() && z.getY() == player2.getY()) {
                         z.setRotation(180);
@@ -587,7 +559,6 @@ public class Temp2 extends ApplicationAdapter {
                         z.setRotation(225);
                         z.moveLeft();
                         z.moveDown();
-
                     }
                     if (z.getX() == player2.getX() && z.getY() > player2.getY()) {
                         z.setRotation(270);
@@ -597,23 +568,28 @@ public class Temp2 extends ApplicationAdapter {
                         z.setRotation(315);
                         z.moveRight();
                         z.moveDown();
-
                     }
                 }
                 for (Furniture f : map.getObjects()) {
                     if (z.collides(f.f)) {
-                        z.setSpeed(0.4);
+                        z.setSpeed(0.3);
                         break;
                     } else {
-                        z.setSpeed(1);
+                        for (Zombie z2 : zombies) {
+                            if (z.collidesWith(z2)) {
+                                Math.round(Math.random());
+                                if (Math.random() == 0) {
+                                    z.setSpeed(0);
+                                } else {
+                                    z.setSpeed(0.7);
+                                }
+
+                            }
+                        }
                     }
+                    //This can detect if a zombie collides with another zombie
+
                 }
-                //This can detect if a zombie collides with another zombie
-                /*for (Zombie z2 : zombies) {
-                    if (z.collidesWith(z2)){
-                        
-                    }
-                }*/
             }
 
             Iterator<Bullet> it = this.bullets.iterator();
@@ -666,7 +642,6 @@ public class Temp2 extends ApplicationAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-        music.dispose();
     }
 
     public boolean colidesWithZombie(float bX, float bY, Zombie z) {
