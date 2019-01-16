@@ -1142,6 +1142,7 @@ public class ZombieGame extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
     }
+    
 
     public boolean colidesWithZombie(float bX, float bY, Zombie z) {
         if (bX + 10 >= z.getX() && bX <= z.getX() + z.getWidth() / 2 && bY + 10 >= z.getY() && bY <= z.getY() + z.getHeight() / 2) {
