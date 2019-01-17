@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -1154,6 +1155,7 @@ public class ZombieGame extends ApplicationAdapter {
                                     zombiesKilled++;
                                     System.out.println(zombiesKilled);
                                     z.die();
+                                    this.pickups.create(z.getX(), z.getY()); //add a pickup when the zombie dies
                                 }
                                 it.remove();
                                 break;
@@ -1162,6 +1164,16 @@ public class ZombieGame extends ApplicationAdapter {
                     }
                 }
             }
+            //pickup collection happens here
+            Vector2 vp1 = new Vector2(player1.getX(), player1.getY());
+            Vector2 vp2 = new Vector2(player2.getX(), player2.getY());
+            pickups.updateAmmo(vp1);
+            pickups.updateAmmo(vp2);
+            player1.addCoins(pickups.updateCoin(vp1));
+            player2.addCoins(pickups.updateCoin(vp2));
+            player1.addHealth(pickups.updateHealth(vp1));
+            player2.addHealth(pickups.updateHealth(vp2));
+            
             //Draw in everything
             playerOneViewPort.setScreenX(0);
             playerOneViewPort.apply();
@@ -1191,9 +1203,7 @@ public class ZombieGame extends ApplicationAdapter {
             //draw in screen divider
             shapeBatch.rect((playerOneCam.position.x + (playerOneCam.viewportWidth / 2)) - 5, (playerOneCam.position.y - (playerOneCam.viewportHeight / 2)), 5, playerOneCam.viewportHeight);
             shapeBatch.end();
-            batch.begin();
-            hud1.draw(shapeBatch, batch, player1, playerOneCam); //DRAW THE HUD
-            batch.end();
+            hud1.draw(shapeBatch, batch, player1, playerOneCam); //draw player 1 hud
             //draw for player two
 
             playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);
@@ -1206,6 +1216,7 @@ public class ZombieGame extends ApplicationAdapter {
             batch.setProjectionMatrix(playerTwoCam.combined);
             batch.begin();
             map.draw(batch);
+            pickups.draw(batch);
             batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             for (Zombie z : zombies) {
@@ -1221,9 +1232,8 @@ public class ZombieGame extends ApplicationAdapter {
                 b.drawBullet(shapeBatch);
             }
             shapeBatch.end();
-            batch.begin();
-            hud2.draw(shapeBatch, batch, player2, playerTwoCam);       //DRAW THE HUD
-            batch.end();
+            hud2.draw(shapeBatch, batch, player2, playerTwoCam);       //draw player 2 hud
+            pickups.dispose();//clear used pickups
         }
     }
 

@@ -63,8 +63,8 @@ public class HUD {
             batch.draw(shotgunIMG, cam.position.x-(cam.viewportWidth/2) + 12, cam.position.y-(cam.viewportHeight/2) + 50, 100, 40);
         }else if(p1.getEquipped() == "Barret50"){
             batch.draw(barretIMG, cam.position.x-(cam.viewportWidth/2) + 12, cam.position.y-(cam.viewportHeight/2) + 50, 100, 40);
-        }else if(p1.getEquipped() == "AK47"){
-            batch.draw(akIMG, cam.position.x-(cam.viewportWidth/2) + 12, cam.position.y-(cam.viewportHeight/2) + 50, 700, 50);
+        }else if(p1.getEquipped() == "AK-47"){
+            batch.draw(akIMG, cam.position.x-(cam.viewportWidth/2) + 12, cam.position.y-(cam.viewportHeight/2) + 50, 100, 50);
         }
         font.setColor(Color.GOLD);
         font.draw(batch, "$" + p1.getCoins(), cam.position.x-(cam.viewportWidth/2) + 310, cam.position.y-(cam.viewportHeight/2) + 70);

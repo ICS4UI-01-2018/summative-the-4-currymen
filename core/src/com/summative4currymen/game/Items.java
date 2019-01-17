@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Items {
 
     private ArrayList<Pickup> pickups;
-    private final float pickupDistance = 10;
+    private final float pickupDistance = 25;
     private final int maxAmmo = 6;
     private final int minAmmo = 2;
     private final int maxCoin = 10;
