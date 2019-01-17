@@ -36,13 +36,19 @@ public class HUD {
         barretIMG = new Texture("RSASS_Sideview.png");
         akIMG = new Texture("ak.png");
     }
-
+    /**
+     * 
+     * @param shapeBatch used for drawing shapes like health bar
+     * @param batch used for drawing images and font
+     * @param p1 the player referenced for drawing
+     * @param cam the position of the camera in the map
+     */
     public void draw(ShapeRenderer shapeBatch, SpriteBatch batch, Player p1,OrthographicCamera cam) { //draw the HUD at 0,0
         
         shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
         shapeBatch.setColor(Color.DARK_GRAY);
         shapeBatch.rect(cam.position.x-(cam.viewportWidth/2), cam.position.y-(cam.viewportHeight/2), this.width, 90);
-        if (p1.getHealth() >= 50) { //deciding the color of the box for player
+        if (p1.getHealth() >= 50) { //deciding the color of the healthbar
             shapeBatch.setColor((50 - (p1.getHealth() - 50)) / 50f, 1f, 0f, 1);
         } else {
             shapeBatch.setColor(1f, p1.getHealth() / 50f, 0f, 1);
@@ -52,6 +58,7 @@ public class HUD {
         shapeBatch.end();
 
         batch.begin();
+        //which gun to draw 
         if(p1.getEquipped() == "ShotGun"){
             batch.draw(shotgunIMG, cam.position.x-(cam.viewportWidth/2) + 12, cam.position.y-(cam.viewportHeight/2) + 50, 100, 40);
         }else if(p1.getEquipped() == "Barret50"){
