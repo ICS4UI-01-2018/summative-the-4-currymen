@@ -3,6 +3,7 @@ package com.summative4currymen.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -65,12 +66,12 @@ public class ZombieGame extends ApplicationAdapter {
     private Texture barrett;
     private Texture buyNow;
     private Texture coin;
-    private Texture treePic;
+    private Texture treePic;    
     private boolean startGame;
     private boolean goStore;
     private boolean nextScreen;
     private boolean background;
-    private boolean instructNum2;
+    private boolean instructNum2;    
     private boolean nextGame;
     private boolean endGame;
     private int totalZombies;
@@ -88,7 +89,8 @@ public class ZombieGame extends ApplicationAdapter {
     private Items pickups; //pickups class by matt
     private HUD hud1; //HUD ADDED BY MATT
     private HUD hud2; //HUD ADDED BY MATT
-
+    
+    
     @Override
     public void create() {
         this.rotation1 = 270;
@@ -111,7 +113,7 @@ public class ZombieGame extends ApplicationAdapter {
         coin = new Texture("coin.png");
         chr1IMG = new Texture("character1.png");
         zomIMG = new Texture("zombietopview.png");
-        treePic = new Texture("treetop.png");
+        treePic = new Texture("treetop.png");        
 
         bullets = new ArrayList<Bullet>();
         worldWeapons = new ArrayList<Weapon>();
@@ -492,9 +494,8 @@ public class ZombieGame extends ApplicationAdapter {
                     startGame = true;
                 }
             }
-
             //if the game has begn draw in the game             
-        } else if (startGame == true) {
+        }else if (startGame == true) {
             if (zombiesKilled == totalZombies) {
                 waveIncrease = waveIncrease + 1;
                 nextGame = false;
@@ -812,10 +813,97 @@ public class ZombieGame extends ApplicationAdapter {
             for (Zombie z : zombies) {
                 j++;
                 double distance1 = Math.sqrt((Math.pow(z.getX() - player1.getX(), 2)) + (Math.pow(z.getY() - player1.getY(), 2)));
-                double distance2 = Math.sqrt((Math.pow(z.getX() - player2.getX(), 2)) + (Math.pow(z.getY() - player2.getY(), 2)));
+                        double distance2 = Math.sqrt((Math.pow(z.getX() - player2.getX(), 2)) + (Math.pow(z.getY() - player2.getY(), 2)));
                 if (player1.getAlive() == true && player2.getAlive() == true) {
 
-                    if (distance1 < distance2) {
+                        if (distance1 < distance2) {
+                            if (z.getX() < player1.getX() && z.getY() == player1.getY()) {
+                                z.setRotation(0);
+                                z.moveRight();
+                            }
+                            if (z.getX() < player1.getX() && z.getY() < player1.getY()) {
+                                z.setRotation(45);
+                                z.moveRight();
+                                z.moveUp();
+
+                            }
+                            if (z.getX() == player1.getX() && z.getY() < player1.getY()) {
+                                z.setRotation(90);
+                                z.moveUp();
+
+                            }
+                            if (z.getX() > player1.getX() && z.getY() < player1.getY()) {
+                                z.setRotation(135);
+                                z.moveLeft();
+                                z.moveUp();
+
+                            }
+                            if (z.getX() > player1.getX() && z.getY() == player1.getY()) {
+                                z.setRotation(180);
+                                z.moveLeft();
+                                z.moveDown();
+                            }
+                            if (z.getX() > player1.getX() && z.getY() > player1.getY()) {
+                                z.setRotation(225);
+                                z.moveLeft();
+                                z.moveDown();
+                            }
+                            if (z.getX() == player1.getX() && z.getY() > player1.getY()) {
+                                z.setRotation(270);
+                                z.moveDown();
+                            }
+
+                            if (z.getX() < player1.getX() && z.getY() > player1.getY()) {
+                                z.setRotation(315);
+                                z.moveRight();
+                                z.moveDown();
+
+                            }
+
+                        } else if (distance1 > distance2) {
+                            if (z.getX() < player2.getX() && z.getY() == player2.getY()) {
+                                z.setRotation(0);
+                                z.moveRight();
+                            }
+                            if (z.getX() < player2.getX() && z.getY() < player2.getY()) {
+                                z.setRotation(45);
+                                z.moveRight();
+                                z.moveUp();
+                            }
+                            if (z.getX() == player2.getX() && z.getY() < player2.getY()) {
+                                z.setRotation(90);
+                                z.moveUp();
+
+                            }
+                            if (z.getX() > player2.getX() && z.getY() < player2.getY()) {
+                                z.setRotation(135);
+                                z.moveLeft();
+                                z.moveUp();
+
+                            }
+                            if (z.getX() > player2.getX() && z.getY() == player2.getY()) {
+                                z.setRotation(180);
+                                z.moveLeft();
+                                z.moveDown();
+                            }
+                            if (z.getX() > player2.getX() && z.getY() > player2.getY()) {
+                                z.setRotation(225);
+                                z.moveLeft();
+                                z.moveDown();
+
+                            }
+                            if (z.getX() == player2.getX() && z.getY() > player2.getY()) {
+                                z.setRotation(270);
+                                z.moveDown();
+                            }
+                            if (z.getX() < player2.getX() && z.getY() > player2.getY()) {
+                                z.setRotation(315);
+                                z.moveRight();
+                                z.moveDown();
+
+                            }
+                        }
+                    } else if (player1.getAlive() == true && z.getAlive() == true) {
                         if (z.getX() < player1.getX() && z.getY() == player1.getY()) {
                             z.setRotation(0);
                             z.moveRight();
@@ -858,8 +946,7 @@ public class ZombieGame extends ApplicationAdapter {
                             z.moveDown();
 
                         }
-
-                    } else if (distance1 > distance2) {
+                    } else if (player2.getAlive() == true && z.getAlive() == true) {
                         if (z.getX() < player2.getX() && z.getY() == player2.getY()) {
                             z.setRotation(0);
                             z.moveRight();
@@ -902,92 +989,8 @@ public class ZombieGame extends ApplicationAdapter {
 
                         }
                     }
-                } else if (player1.getAlive() == true && z.getAlive() == true) {
-                    if (z.getX() < player1.getX() && z.getY() == player1.getY()) {
-                        z.setRotation(0);
-                        z.moveRight();
-                    }
-                    if (z.getX() < player1.getX() && z.getY() < player1.getY()) {
-                        z.setRotation(45);
-                        z.moveRight();
-                        z.moveUp();
-
-                    }
-                    if (z.getX() == player1.getX() && z.getY() < player1.getY()) {
-                        z.setRotation(90);
-                        z.moveUp();
-
-                    }
-                    if (z.getX() > player1.getX() && z.getY() < player1.getY()) {
-                        z.setRotation(135);
-                        z.moveLeft();
-                        z.moveUp();
-
-                    }
-                    if (z.getX() > player1.getX() && z.getY() == player1.getY()) {
-                        z.setRotation(180);
-                        z.moveLeft();
-                        z.moveDown();
-                    }
-                    if (z.getX() > player1.getX() && z.getY() > player1.getY()) {
-                        z.setRotation(225);
-                        z.moveLeft();
-                        z.moveDown();
-                    }
-                    if (z.getX() == player1.getX() && z.getY() > player1.getY()) {
-                        z.setRotation(270);
-                        z.moveDown();
-                    }
-
-                    if (z.getX() < player1.getX() && z.getY() > player1.getY()) {
-                        z.setRotation(315);
-                        z.moveRight();
-                        z.moveDown();
-
-                    }
-                } else if (player2.getAlive() == true && z.getAlive() == true) {
-                    if (z.getX() < player2.getX() && z.getY() == player2.getY()) {
-                        z.setRotation(0);
-                        z.moveRight();
-                    }
-                    if (z.getX() < player2.getX() && z.getY() < player2.getY()) {
-                        z.setRotation(45);
-                        z.moveRight();
-                        z.moveUp();
-                    }
-                    if (z.getX() == player2.getX() && z.getY() < player2.getY()) {
-                        z.setRotation(90);
-                        z.moveUp();
-
-                    }
-                    if (z.getX() > player2.getX() && z.getY() < player2.getY()) {
-                        z.setRotation(135);
-                        z.moveLeft();
-                        z.moveUp();
-
-                    }
-                    if (z.getX() > player2.getX() && z.getY() == player2.getY()) {
-                        z.setRotation(180);
-                        z.moveLeft();
-                        z.moveDown();
-                    }
-                    if (z.getX() > player2.getX() && z.getY() > player2.getY()) {
-                        z.setRotation(225);
-                        z.moveLeft();
-                        z.moveDown();
-
-                    }
-                    if (z.getX() == player2.getX() && z.getY() > player2.getY()) {
-                        z.setRotation(270);
-                        z.moveDown();
-                    }
-                    if (z.getX() < player2.getX() && z.getY() > player2.getY()) {
-                        z.setRotation(315);
-                        z.moveRight();
-                        z.moveDown();
-
-                    }
-                }
+            
+            
 
                 if (z.getAlive() == true) {
                     for (int i = j + 1; i < zombies.size(); i++) {
@@ -1229,8 +1232,8 @@ public class ZombieGame extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
     }
-
-    @Override
+    
+     @Override
     public void resize(int width, int height) {
         if (startGame == true) {
             playerOneViewPort.update(Gdx.graphics.getWidth() / 2, height);
@@ -1244,7 +1247,7 @@ public class ZombieGame extends ApplicationAdapter {
 
         }
     }
-
+    
     public boolean colidesWithZombie(float bX, float bY, Zombie z) {
         if (bX + 10 >= z.getX() && bX <= z.getX() + z.getWidth() / 2 && bY + 10 >= z.getY() && bY <= z.getY() + z.getHeight() / 2) {
             return true;

@@ -3,6 +3,7 @@ package com.summative4currymen.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -66,11 +67,13 @@ public class Temp3 extends ApplicationAdapter {
     private Texture buyNow;
     private Texture coin;
     private Texture treePic;
+    private Texture shopTitle;
     private boolean startGame;
     private boolean goStore;
     private boolean nextScreen;
     private boolean background;
     private boolean instructNum2;
+    private boolean isShopTrue;
     private boolean nextGame;
     private boolean endGame;
     private int totalZombies;
@@ -88,9 +91,16 @@ public class Temp3 extends ApplicationAdapter {
     private Items pickups; //pickups class by matt
     private HUD hud1; //HUD ADDED BY MATT
     private HUD hud2; //HUD ADDED BY MATT
+    
+    private Music music;
 
     @Override
     public void create() {
+        music = Gdx.audio.newMusic(Gdx.files.internal("arcademusic.wav"));
+        music.setLooping(true);
+        music.setVolume(0.25f);
+        music.play();
+        
         this.rotation1 = 270;
         this.rotation2 = 270;
         shapeBatch2 = new ShapeRenderer();
@@ -112,6 +122,7 @@ public class Temp3 extends ApplicationAdapter {
         chr1IMG = new Texture("character1.png");
         zomIMG = new Texture("zombietopview.png");
         treePic = new Texture("treetop.png");
+        shopTitle = new Texture("title.png");
 
         bullets = new ArrayList<Bullet>();
         worldWeapons = new ArrayList<Weapon>();
@@ -312,43 +323,10 @@ public class Temp3 extends ApplicationAdapter {
             if (Gdx.input.justTouched()) {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
                     instructNum2 = true;
-                }
-            }
-
-        } else if (goStore == false) {
-            wave = 1;
-            shapeBatch.setProjectionMatrix(menuCam.combined);
-            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
-            //the instruction picture
-            shapeBatch.setColor(Color.GOLD);
-            shapeBatch.rect(0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
-            shapeBatch.end();
-            batch.setProjectionMatrix(menuCam.combined);
-            batch.begin();
-            batch.draw(instructionPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
-            batch.draw(nextButton, 680, 20, 100, 100);
-            font.setColor(Color.WHITE);
-            font.draw(batch, "Go to Store", 630, 23);
-            font.setColor(Color.WHITE);
-            font.draw(batch, "               Welcome to Arcade Apocalypse!\n \n \n"
-                    + "This game is based in a world rampant with zombies.\n \n \n"
-                    + "  But, there is hope for the remaining " + peopleAlive + " people.\n \n \n"
-                    + "                               That hope is … \n \n \n"
-                    + "                                    YOU!\n \n \n"
-                    + "                                Go for it!", 35, 415);
-            batch.end();
-
-            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            menuCam.unproject(touch);
-            if (Gdx.input.justTouched()) {
-                if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
-                    goStore = true;
                     nextGame = true;
                     endGame = true;
-
                 }
-            }
-
+            }            
         } else if (nextGame == false) {
             menuCam.zoom = 1;
             menuCam.position.x = 400;
@@ -444,40 +422,31 @@ public class Temp3 extends ApplicationAdapter {
             batch.begin();
             batch.draw(instructionPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
-            batch.draw(whiteRect, 20, 375, 150, 150);
-            batch.draw(whiteRect, 20, 225, 150, 150);
-            batch.draw(whiteRect, 20, 75, 150, 150);
             font.setColor(Color.WHITE);
-            font.draw(batch, "AK47", 160, 510);
-            batch.draw(coin, 310, 493, 35, 25);
-            desc.draw(batch, "100", 345, 513);
-            desc.draw(batch, "A reliable weapon with a high rate of fire and \n consistant damage.", 160, 490);
-            desc.draw(batch, "STATS: \n Bullet Speed: Average      Reload Speed: Fast \n Damage: 50", 160, 445);
-            batch.draw(buyNow, 615, 420, 150, 50);
-            batch.draw(ak47, 45, 420, 100, 50);
-            font.draw(batch, "Barrett", 160, 360);
-            batch.draw(coin, 310, 493, 35, 25);
-            desc.draw(batch, "250", 345, 513);
-            desc.draw(batch, "Packs a punch. Take on the hoard with a low magazine, but \n high damage sniper rifle.", 160, 340);
-            desc.draw(batch, "STATS: \n Bullet Speed: Fast      Reload Speed: Slow \n Damage: 150", 160, 295);
-            batch.draw(buyNow, 615, 270, 150, 50);
-            batch.draw(barrett, 45, 280, 100, 40);
-            font.draw(batch, "Shotgun", 160, 210);
-            desc.draw(batch, "Is one bullet not enough? Eliminate the zombies \n with a spread shot shotgun.", 160, 190);
-            desc.draw(batch, "STATS: \n Bullet Speed: Slow      Reload Speed: Average \n Damage: 70", 160, 145);
-            batch.draw(shotgun, 45, 130, 100, 40);
-            batch.draw(buyNow, 615, 120, 150, 50);
+            font.draw(batch, "Start Game", 630, 23);
+            font.setColor(Color.WHITE);
+            font.draw(batch, "               Welcome to Arcade Apocalypse!\n \n \n"
+                    + "This game is based in a world rampant with zombies.\n \n \n"
+                    + "  But, there is hope for the remaining 1000 people.\n \n \n"
+                    + "                               That hope is … \n \n \n"
+                    + "                                    YOU!\n \n \n"
+                    + "                                Go for it!", 35, 415);
             batch.end();
 
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             menuCam.unproject(touch);
             if (Gdx.input.justTouched()) {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
-                    map = new Map();
+                    music = Gdx.audio.newMusic(Gdx.files.internal("click.wav"));
+                    music.setVolume(0.50f);
+                    music.play();                    
                     this.rotation3 = new int[zombies.size()];
                     zombiesKilled = 0;
                     totalZombies = 1 + waveIncrease;
                     for (int i = 0; i < totalZombies; i++) {
+                        music = Gdx.audio.newMusic(Gdx.files.internal("levelUp.wav"));
+                        music.setVolume(0.10f);
+                        music.play();
                         zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie" + i, 1, 0, 20));
                     }
                     this.rotation3 = new int[zombies.size()];
@@ -492,9 +461,120 @@ public class Temp3 extends ApplicationAdapter {
                     startGame = true;
                 }
             }
+        }
+            
+
+        menuCam.zoom = 1;
+        menuCam.position.x = 400;
+        menuCam.position.y = 300;
+        menuCam.update();
+        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+            isShopTrue = true;
+            startGame = false;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            isShopTrue = false;
+            startGame = true;
+        }
+
+        if (isShopTrue == true) {
+            shapeBatch.setProjectionMatrix(menuCam.combined);
+            shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
+            //the instruction picture
+            shapeBatch.setColor(Color.GOLD);
+            shapeBatch.rect(0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
+            shapeBatch.end();
+            batch.setProjectionMatrix(menuCam.combined);
+
+            batch.begin();
+            batch.draw(instructionPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
+            batch.draw(whiteRect, 20, 375, 150, 150);
+            batch.draw(whiteRect, 20, 225, 150, 150);
+            batch.draw(whiteRect, 20, 75, 150, 150);
+            font.draw(batch, "PRESS 'ESCAPE' TO CLOSE SHOP", 200, 50);
+            batch.draw(shopTitle, 310, 510, 200, 100);
+            font.setColor(Color.WHITE);
+            font.draw(batch, "AK47", 160, 510);
+            batch.draw(coin, 310, 493, 35, 25);
+            desc.draw(batch, "100", 345, 513);
+            desc.draw(batch, "A reliable weapon with a high rate of fire and \n consistant damage.", 160, 490);
+            desc.draw(batch, "STATS: \n Bullet Speed: Average      Reload Speed: Fast \n Damage: 50", 160, 445);
+            batch.draw(buyNow, 615, 420, 150, 50);
+            batch.draw(ak47, 45, 420, 100, 50);
+            font.draw(batch, "Barrett", 160, 360);
+            batch.draw(coin, 340, 340, 35, 25);
+            desc.draw(batch, "250", 375, 360);
+            desc.draw(batch, "Packs a punch. Take on the hoard with a low magazine, but \n high damage sniper rifle.", 160, 340);
+            desc.draw(batch, "STATS: \n Bullet Speed: Fast      Reload Speed: Slow \n Damage: 150", 160, 295);
+            batch.draw(buyNow, 615, 270, 150, 50);
+            batch.draw(barrett, 45, 280, 100, 40);
+            font.draw(batch, "Shotgun", 160, 210);
+            batch.draw(coin, 340, 195, 35, 25);
+            desc.draw(batch, "150", 375, 215);
+            desc.draw(batch, "Is one bullet not enough? Eliminate the zombies \n with a spread shot shotgun.", 160, 190);
+            desc.draw(batch, "STATS: \n Bullet Speed: Slow      Reload Speed: Average \n Damage: 70", 160, 145);
+            batch.draw(shotgun, 45, 130, 100, 40);
+            batch.draw(buyNow, 615, 120, 150, 50);
+            batch.end();
+            
+            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            menuCam.unproject(touch);
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 420 && touch.y < 470) {
+                    startGame = true;
+                    isShopTrue = false;
+                }
+            }
+            
+            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            menuCam.unproject(touch);
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 270 && touch.y < 320) {
+                    startGame = true;
+                    isShopTrue = false;
+                }
+            }
+            
+            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            menuCam.unproject(touch);
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 120 && touch.y < 170) {
+                    startGame = true;
+                    isShopTrue = false;
+                }
+            }
+
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 420 && touch.y < 470) {
+                    music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
+                    music.setVolume(0.75f);
+                    music.play();
+                    player1.setEquipped("AK-47");
+                    player2.setEquipped("AK-47");
+                }
+            }
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 270 && touch.y < 320) {
+                    music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
+                    music.setVolume(0.75f);
+                    music.play();
+                    player1.setEquipped("Barret50");
+                    player2.setEquipped("Barret50");
+                }
+            }
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 120 && touch.y < 170) {
+                    music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
+                    music.setVolume(0.75f);
+                    music.play();
+                    player1.setEquipped("ShotGun");
+                    player2.setEquipped("ShotGun");
+                }
+            }
+
+        }
 
             //if the game has begn draw in the game             
-        } else if (startGame == true) {
+          if (startGame == true) {
             if (zombiesKilled == totalZombies) {
                 waveIncrease = waveIncrease + 1;
                 nextGame = false;
