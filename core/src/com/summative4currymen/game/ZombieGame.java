@@ -1001,117 +1001,80 @@ public class ZombieGame extends ApplicationAdapter {
                                         if (z2.getX() < player1.getX() && z2.getY() == player1.getY()) {
                                             z2.setRotation(0);
                                             z2.moveLeft();
-                                            //original
-                                            //z2.moveRight();
-
                                         }
                                         if (z2.getX() < player1.getX() && z2.getY() < player1.getY()) {
                                             z2.setRotation(45);
                                             z2.moveLeft();
                                             z2.moveDown();
-                                            //z2.moveRight();
-                                            //z2.moveUp();
-
                                         }
                                         if (z2.getX() == player1.getX() && z2.getY() < player1.getY()) {
                                             z2.setRotation(90);
                                             z2.moveDown();
-                                            //z2.moveUp();
-
                                         }
                                         if (z2.getX() > player1.getX() && z2.getY() < player1.getY()) {
                                             z2.setRotation(135);
                                             z2.moveRight();
                                             z2.moveDown();
-                                            //z2.moveLeft();
-                                            //z2.moveUp();
-
                                         }
                                         if (z2.getX() > player1.getX() && z2.getY() == player1.getY()) {
                                             z2.setRotation(180);
                                             z2.moveRight();
                                             z2.moveUp();
-                                            //z2.moveLeft();
-                                            //z2.moveDown();
                                         }
                                         if (z2.getX() > player1.getX() && z2.getY() > player1.getY()) {
                                             z2.setRotation(225);
                                             z2.moveRight();
                                             z2.moveUp();
-                                            //z2.moveLeft();
-                                            //z2.moveDown();
                                         }
                                         if (z2.getX() == player1.getX() && z2.getY() > player1.getY()) {
                                             z2.setRotation(270);
                                             z2.moveUp();
-                                            //z2.moveDown();
                                         }
 
                                         if (z2.getX() < player1.getX() && z2.getY() > player1.getY()) {
                                             z2.setRotation(315);
                                             z2.moveLeft();
                                             z2.moveUp();
-                                            //z2.moveRight();
-                                            //z2.moveDown();
-
                                         }
 
                                     } else if (distance1 > distance2) {
                                         if (z2.getX() < player2.getX() && z2.getY() == player2.getY()) {
                                             z2.setRotation(0);
                                             z2.moveLeft();
-                                            //original
-                                            //z2.moveRight();
-
                                         }
                                         if (z2.getX() < player2.getX() && z2.getY() < player2.getY()) {
                                             z2.setRotation(45);
                                             z2.moveLeft();
                                             z2.moveDown();
-                                            //z2.moveRight();
-                                            //z2.moveUp();
-
                                         }
                                         if (z2.getX() == player2.getX() && z2.getY() < player2.getY()) {
                                             z2.setRotation(90);
                                             z2.moveDown();
-                                            //z2.moveUp();
-
                                         }
                                         if (z2.getX() > player2.getX() && z2.getY() < player2.getY()) {
                                             z2.setRotation(135);
                                             z2.moveRight();
                                             z2.moveDown();
-                                            //z2.moveLeft();
-                                            //z2.moveUp();
-
                                         }
                                         if (z2.getX() > player2.getX() && z2.getY() == player2.getY()) {
                                             z2.setRotation(180);
                                             z2.moveRight();
                                             z2.moveUp();
-                                            //z2.moveLeft();
-                                            //z2.moveDown();
                                         }
                                         if (z2.getX() > player2.getX() && z2.getY() > player2.getY()) {
                                             z2.setRotation(225);
                                             z2.moveRight();
                                             z2.moveUp();
-                                            //z2.moveLeft();
-                                            //z2.moveDown();
                                         }
                                         if (z2.getX() == player2.getX() && z2.getY() > player2.getY()) {
                                             z2.setRotation(270);
                                             z2.moveUp();
-                                            //z2.moveDown();
                                         }
 
                                         if (z2.getX() < player2.getX() && z2.getY() > player2.getY()) {
                                             z2.setRotation(315);
                                             z2.moveLeft();
                                             z2.moveUp();
-                                            //z2.moveRight();
-                                            //z2.moveDown();
                                         }
                                     }
                                 }
@@ -1127,12 +1090,6 @@ public class ZombieGame extends ApplicationAdapter {
                         z.setSpeed(1);
                     }
                 }
-                //This can detect if a zombie collides with another zombie
-                /*for (Zombie z2 : zombies) {
-                    if (z.collidesWith(z2)){
-                        
-                    }
-                }*/
             }
 
             Iterator<Bullet> it = this.bullets.iterator();
