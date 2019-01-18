@@ -45,7 +45,7 @@ public class Map {
         int upper = 101;
         int lower = 1;
         int num = (int) (Math.random() * (upper - lower)) + lower;
-        num = 3;
+        num = 1;
         System.out.println("RANDOM NUMBER IS " + num);
         int rooms = 0;
         if (num >= 1 && num <= 33) {
