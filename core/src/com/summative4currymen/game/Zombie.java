@@ -22,7 +22,7 @@ public class Zombie extends Player {
     private int rotation;
     private int damage;
     private boolean alive;
-    private long fireRate;
+    private long hitRate;
 
     /**
      * Initializes Zombie data
@@ -36,13 +36,13 @@ public class Zombie extends Player {
      * @param name The name of the zombie
      * @param damage The amount of damage the zombie can attack with
      */
-    public Zombie(float x, float y, int width, int height, int health, double speed, String name, int damage, int rotation, long fireRate) {
+    public Zombie(float x, float y, int width, int height, int health, double speed, String name, int damage, int rotation, long hitRate) {
         super(x, y, width, height, health, speed, name);
         //this.speed = speed;
         this.damage = damage;
         this.rotation = rotation;
         this.alive = true;
-        this.fireRate = fireRate;
+        this.hitRate = hitRate;
         //zombie = new Rectangle(x, y, width, height);
     }
 
@@ -58,8 +58,8 @@ public class Zombie extends Player {
         this.rotation = num;
     }
 
-    public long getFireRate() {
-        return this.fireRate;
+    public long getHitRate() {
+        return this.hitRate;
     }
 
     /**

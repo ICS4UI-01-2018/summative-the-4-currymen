@@ -137,8 +137,10 @@ public class Player {
     }
     
     public void revive(){
-        this.health = this.health + 1;
+        this.health = 100;
         this.alive = true;
+        player.x = (int) Math.floor(Math.random() * 801);
+        player.y = (int) Math.floor(Math.random() * 601);
     }
     
     public int getCoins(){

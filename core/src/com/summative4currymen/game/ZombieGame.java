@@ -177,11 +177,11 @@ public class ZombieGame extends ApplicationAdapter {
 
         player1 = new Player(400, 300, 45, 45, 100, 2, "Rick");
         player2 = new Player(450, 350, 45, 45, 100, 2, "Carl");
-        hud1 = new HUD(playerOneViewPort.getWorldWidth()); //HUD ADDED BY MATT
-        hud2 = new HUD(playerTwoViewPort.getWorldWidth()); //HUD ADDED BY MATT
+        hud1 = new HUD(playerOneViewPort.getWorldWidth()); 
+        hud2 = new HUD(playerTwoViewPort.getWorldWidth()); 
 
         player1.setEquipped("AK-47");
-        player2.setEquipped("ShotGun");
+        player2.setEquipped("Barret50");
 
         zombies = new ArrayList<Zombie>();
 
@@ -477,9 +477,11 @@ public class ZombieGame extends ApplicationAdapter {
                     this.rotation3 = new int[zombies.size()];
                     zombiesKilled = 0;
                     totalZombies = 1 + waveIncrease;
+                    
                     for (int i = 0; i < totalZombies; i++) {
                         zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie" + i, 1, 0, 20));
                     }
+                            
                     this.rotation3 = new int[zombies.size()];
                     map = new Map();
                     pickups = new Items();
@@ -760,13 +762,13 @@ public class ZombieGame extends ApplicationAdapter {
             for (Zombie z : zombies) {
                 if (z.getAlive()) {
                     if (z.collides(player1.getBounds())) {
-                        if (TimeUtils.millis() - previousTime3 > z.getFireRate()) {
+                        if (TimeUtils.millis() - previousTime3 > z.getHitRate()) {
                             player1.hit(z.attack());
                             previousTime3 = TimeUtils.millis();
                         }
                     }
                     if (z.collides(player2.getBounds())) {
-                        if (TimeUtils.millis() - previousTime3 > z.getFireRate()) {
+                        if (TimeUtils.millis() - previousTime3 > z.getHitRate()) {
                             player2.hit(z.attack());
                             previousTime3 = TimeUtils.millis();
                         }
