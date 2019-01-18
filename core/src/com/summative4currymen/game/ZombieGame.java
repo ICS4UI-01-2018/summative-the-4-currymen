@@ -366,7 +366,7 @@ public class ZombieGame extends ApplicationAdapter {
             batch.begin();
             batch.draw(instructionPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
-            font.setColor(Color.WHITE);
+            font.setColor(Color.ROYAL);
             font.draw(batch, "Go to Store", 630, 23);
             font.setColor(Color.MAGENTA);
             font.draw(batch, "                           Well done! \n"
@@ -411,6 +411,8 @@ public class ZombieGame extends ApplicationAdapter {
             font.draw(batch, "                           Game OVER! \n"
                     + "                           You survived " + wave + " waves!\n"
                     + "                                  Come again!", 35, 415);
+            font.setColor(Color.ROYAL);
+            font.draw(batch, "Restart", 670, 23);
             batch.end();
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             menuCam.unproject(touch);
@@ -475,6 +477,8 @@ public class ZombieGame extends ApplicationAdapter {
             desc.draw(batch, "STATS: \n Bullet Speed: Slow      Reload Speed: Average \n Damage: 70", 160, 145);
             batch.draw(shotgun, 45, 130, 100, 40);
             batch.draw(buyNow, 615, 120, 150, 50);
+            font.setColor(Color.ROYAL);
+            font.draw(batch, "Play", 695, 23);
             batch.end();
 
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -486,7 +490,7 @@ public class ZombieGame extends ApplicationAdapter {
                     zombiesKilled = 0;
                     totalZombies = 1 + waveIncrease;
                     for (int i = 0; i < totalZombies; i++) {
-                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie" + i, 1, 0, 20));
+                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie" + i, 20, 0, 1000));
                     }
                     
                     if(waveIncrease == 1){
