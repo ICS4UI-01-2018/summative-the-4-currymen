@@ -1155,6 +1155,7 @@ public class ZombieGame extends ApplicationAdapter {
             shapeBatch.rect((playerOneCam.position.x + (playerOneCam.viewportWidth / 2)) - 5, (playerOneCam.position.y - (playerOneCam.viewportHeight / 2)), 5, playerOneCam.viewportHeight);
             shapeBatch.end();
             hud1.draw(shapeBatch, batch, player1, playerOneCam); //draw player 1 hud
+            hud1.pressE(batch, player1, playerOneCam);
             //draw for player two
 
             playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);

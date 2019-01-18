@@ -71,5 +71,13 @@ public class HUD {
         batch.end();
     }
     
+    public void pressE(SpriteBatch batch, Player p1,OrthographicCamera cam){
+        batch.begin();
+        font.setColor(Color.GOLD);
+        font.draw(batch, "press E to continue", cam.position.x-(cam.viewportWidth/2) + 40, cam.position.y-(cam.viewportHeight/2) + 500);
+        batch.end();
+    }
+    
+    
 }
 
