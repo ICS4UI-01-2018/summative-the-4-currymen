@@ -30,7 +30,23 @@ public class Map {
     private int worldHeight;
     private int worldWidth;
 
-    public Map() {
+    public Map(){
+        ground1 = new Texture("ground2.png");
+        ground2 = new Texture("carpet2.png");
+        ground3 = new Texture("ground3.png");
+        ground4 = new Texture("ground4.png");
+        ground5 = new Texture("block.png");
+        ground6 = new Texture("discoFloor.png");
+        whiteGround = new Texture("whiteGround.png");
+        blackGround = new Texture("blackGround.png");
+
+        worldWidth = 1000;
+        worldHeight = 1000;
+        room = new Room[1];
+        room[0] = new Room(-50, -50, 20, 20);
+        
+    }
+    public void OLDMap() {
         ground1 = new Texture("ground2.png");
         ground2 = new Texture("carpet2.png");
         ground3 = new Texture("ground3.png");
