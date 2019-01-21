@@ -10,6 +10,10 @@ public class DesktopLauncher {
 
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        new LwjglApplication(new ZombieGame(), config);
+        new LwjglApplication(new Temp(), config);
     }
 }
+
+//“Never underestimate the power of stupid people in large groups.” 
+//“Talk sense to a fool and he calls you foolish.” 
+//“In politics, stupidity is not a handicap.” 

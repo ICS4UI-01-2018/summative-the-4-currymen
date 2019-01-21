@@ -495,7 +495,7 @@ public class ZombieGame extends ApplicationAdapter {
                     
                     if(waveIncrease == 1){
                         totalZombies++;
-                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 90, 90, 300, 0.99, "ZambieBIG", 80, 0, 2000));
+                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 60, 60, 300, 0.99, "ZambieBIG", 80, 0, 2000));
                     }
                     
                     this.rotation3 = new int[zombies.size()];

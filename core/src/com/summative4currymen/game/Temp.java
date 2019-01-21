@@ -254,7 +254,7 @@ public class Temp extends ApplicationAdapter {
             shapeBatch.end();
             batch.setProjectionMatrix(menuCam.combined);
             batch.begin();
-            batch.setColor(Color.CHARTREUSE);
+            font.setColor(Color.CHARTREUSE);
             batch.draw(menuPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             batch.setColor(Color.TAN);
             batch.draw(arcadeLogo, 335, 330, 125, 75);
@@ -369,7 +369,7 @@ public class Temp extends ApplicationAdapter {
             font.setColor(Color.ROYAL);
             font.draw(batch, "Go to Store", 630, 23);
             font.setColor(Color.MAGENTA);
-            font.draw(batch, "                           Well done! \n"
+            font.draw(batch, "                                Well done! \n"
                     + "                           Wave " + wave + " completed!\n"
                     + "                                Keep it up!", 35, 415);
             batch.end();
@@ -408,7 +408,7 @@ public class Temp extends ApplicationAdapter {
             batch.draw(instructionPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
             font.setColor(Color.MAGENTA);
-            font.draw(batch, "                           Game OVER! \n"
+            font.draw(batch, "                                  Game OVER! \n"
                     + "                           You survived " + wave + " waves!\n"
                     + "                                  Come again!", 35, 415);
             font.setColor(Color.ROYAL);
@@ -425,6 +425,8 @@ public class Temp extends ApplicationAdapter {
                     player2.die();
                     player1.revive();
                     player2.revive();
+                    player1.removeCoins();
+                    player2.removeCoins();
                     waveIncrease = 0;
                     totalZombies = 1;
                     for (Zombie z : zombies) {
@@ -435,6 +437,7 @@ public class Temp extends ApplicationAdapter {
                 }
             }
         } else if (startGame == false) {
+            shapeBatch.setColor(Color.ROYAL);
             menuCam.zoom = 1;
             menuCam.position.x = 400;
             menuCam.position.y = 300;
@@ -458,6 +461,7 @@ public class Temp extends ApplicationAdapter {
             batch.draw(whiteRect, 20, 225, 150, 150);
             batch.draw(whiteRect, 20, 75, 150, 150);
             font.setColor(Color.MAGENTA);
+            desc.setColor(Color.ORANGE);
             font.draw(batch, "AK47", 160, 510);
             batch.draw(coin, 310, 493, 35, 25);
             desc.draw(batch, "100", 345, 513);
@@ -515,6 +519,10 @@ public class Temp extends ApplicationAdapter {
         } else if (startGame == true) {
             if (zombiesKilled == totalZombies) {
                 batch.setProjectionMatrix(menuCam.combined);
+                batch.begin();
+                font.setColor(Color.RED);
+                font.draw(batch, "hi", player1.getX(), player1.getY());
+                batch.end();
                 if(Gdx.input.isKeyPressed(Input.Keys.E)){
                     waveIncrease = waveIncrease + 1;
                     nextGame = false;
@@ -1216,7 +1224,7 @@ public class Temp extends ApplicationAdapter {
             batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
             for (Zombie z : zombies) {
                 if (z.getAlive() == true) {
-                    batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
+                    batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, 45, 45, 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
                 }
             }
             batch.end();
