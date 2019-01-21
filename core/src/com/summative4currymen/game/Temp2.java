@@ -300,6 +300,7 @@ public class Temp2 extends ApplicationAdapter {
                         music.play();
                         zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie" + i, 100, 0, 20));
                     }
+                    
                     this.rotation3 = new int[zombies.size()];
                     map = new Map();
                     startGame = true;
