@@ -17,8 +17,8 @@ public class Items {
     private final float pickupDistance = 25;
     private final int maxAmmo = 6;
     private final int minAmmo = 2;
-    private final int maxCoin = 10;
-    private final int minCoin = 5;
+    private final int maxCoin = 120;
+    private final int minCoin = 50;
     private final int healthpack = 15;
     private final int ammoPercent = 12;
     private final int coinPercent = 32;
