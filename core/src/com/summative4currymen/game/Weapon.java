@@ -104,6 +104,15 @@ public class Weapon {
     public int ammoReserves(){
         return this.ammoReserves;
     }
+    /**
+     * Adds ammo from pickups
+     * added by matt
+     * 
+     * @param n the amount of ammo to add
+     */
+    public void addAmmo(int n){
+        this.ammoReserves += n;
+    }
             
     /**
      * A getter for the x position of the weapon

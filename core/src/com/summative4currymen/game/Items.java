@@ -14,15 +14,15 @@ import java.util.ArrayList;
 public class Items {
 
     private ArrayList<Pickup> pickups;
-    private final float pickupDistance = 1;
+    private final float pickupDistance = 25;
     private final int maxAmmo = 6;
     private final int minAmmo = 2;
     private final int maxCoin = 10;
     private final int minCoin = 5;
     private final int healthpack = 15;
     private final int ammoPercent = 12;
-    private final int coinPercent = 36;
-    private final int healthPercent = 2;
+    private final int coinPercent = 32;
+    private final int healthPercent = 6;
 
     private Texture ammoIMG;
     private Texture coinIMG;
@@ -49,7 +49,7 @@ public class Items {
      * @param y the y component of the position
      */
     public void create(float x, float y) {
-        int roll = (int) (Math.floor(Math.random() * 100.0) + 1); //
+        int roll = (int) (Math.floor(Math.random() * 101.0));
         int type = 1;
         boolean drop = true;
         //decide type using variables for odds/100
@@ -80,7 +80,7 @@ public class Items {
             if (pickups.get(i).getType() == 0 && pickups.get(i).getActive() == true) {
                 if (collect(player, pickups.get(i).getVector()) == true) {
                     pickups.get(i).deactivate();
-                    collected += (int) ((Math.random() * (maxAmmo - minAmmo + 1)) + minAmmo);
+                    collected += (int) Math.floor((Math.random() * (maxAmmo - minAmmo + 1)) + minAmmo);
                 }
             }
         }
@@ -99,7 +99,7 @@ public class Items {
             if (pickups.get(i).getType() == 1 && pickups.get(i).getActive() == true) {
                 if (collect(player, pickups.get(i).getVector()) == true) {
                     pickups.get(i).deactivate();
-                    collected += (int) ((Math.random() * (maxCoin - minCoin + 1)) + minCoin);
+                    collected += (int) Math.floor((Math.random() * (maxCoin - minCoin + 1)) + minCoin);
                 }
             }
         }
@@ -146,6 +146,7 @@ public class Items {
      */
     public boolean collect(Vector2 player, Vector2 pickup) {
         if (player.dst2(pickup) <= pickupDistance) {
+            System.out.println("collected");
             return true;
         }
         return false;
