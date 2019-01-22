@@ -153,7 +153,6 @@ public class Items {
     }
 
     public void draw(SpriteBatch batch) {
-        //batch.begin();
         for (Pickup p : this.pickups) {
             switch (p.getType()) {
                 case 0:
@@ -168,6 +167,5 @@ public class Items {
                 default:
             }
         }
-        //batch.end();
     }
 }
