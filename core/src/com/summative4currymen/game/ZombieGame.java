@@ -69,6 +69,7 @@ public class ZombieGame extends ApplicationAdapter {
     private Texture coin;
     private Texture treePic;
     private Texture shopTitle;
+    private Texture graveStone;
     private boolean startGame;
     private boolean goStore;
     private boolean nextScreen;
@@ -83,6 +84,8 @@ public class ZombieGame extends ApplicationAdapter {
     private int peopleAlive;
     private String amount;
     private int waveIncrease;
+    private boolean disco;
+    private ArrayList<Integer> keyCode;
 
     private long previousTime;
     private long previousTime2;
@@ -125,9 +128,13 @@ public class ZombieGame extends ApplicationAdapter {
         zomIMG = new Texture("zombietopview.png");
         treePic = new Texture("treetop.png");
         shopTitle = new Texture("title.png");
+        graveStone = new Texture("GraveStone.png");
 
         bullets = new ArrayList<Bullet>();
         worldWeapons = new ArrayList<Weapon>();
+
+        disco = false;
+        keyCode = new ArrayList<Integer>();
 
         //load in guns from file        
         Scanner in = null;
@@ -365,7 +372,7 @@ public class ZombieGame extends ApplicationAdapter {
                     nextGame = true;
                     startGame = false;
                     wave = wave + 1;
-                    
+
                     if (player1.getAlive() == false) {
                         player1.revive();
                     }
@@ -598,7 +605,27 @@ public class ZombieGame extends ApplicationAdapter {
 
         }
         //if the game has begn draw in the game             
-        if (startGame == true) {
+        if (startGame == true) {            
+                if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                    keyCode.add(1);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                    keyCode.add(2);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                    keyCode.add(3);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    keyCode.add(4);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.B)) {
+                    keyCode.add(5);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                    keyCode.add(6);
+                }
+            
+
             if (zombiesKilled == totalZombies) {
                 batch.setProjectionMatrix(menuCam.combined);
                 if (Gdx.input.isKeyPressed(Input.Keys.F)) {
@@ -1270,10 +1297,29 @@ public class ZombieGame extends ApplicationAdapter {
             shapeBatch.end();
             batch.setProjectionMatrix(playerOneCam.combined);
             batch.begin();
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                batch.setColor(Color.MAGENTA);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                batch.setColor(Color.ROYAL);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                batch.setColor(Color.LIME);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                batch.setColor(Color.MAROON);
+            }
             map.draw(batch);
+            batch.setColor(Color.WHITE);
             pickups.draw(batch);
-            batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-            batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+            if (player2.getAlive()) {
+                batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+            } else {
+                batch.draw(graveStone, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, 0, 0, 0, graveStone.getWidth(), graveStone.getHeight(), false, false);
+            }
+            if (player1.getAlive()) {
+                batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+            } else {
+                batch.draw(graveStone, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, 0, 0, 0, graveStone.getWidth(), graveStone.getHeight(), false, false);
+            }
+
             for (Zombie z : zombies) {
                 if (z.getAlive() == true) {
                     batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
@@ -1301,10 +1347,38 @@ public class ZombieGame extends ApplicationAdapter {
             shapeBatch.end();
             batch.setProjectionMatrix(playerTwoCam.combined);
             batch.begin();
+            //the menu picture
+            if (disco == true) {
+                if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                    batch.setColor(Color.BLUE);
+                } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                    batch.setColor(Color.FOREST);
+                } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    batch.setColor(Color.SALMON);
+                } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                    batch.setColor(Color.CHARTREUSE);
+                }
+            }
+
             map.draw(batch);
+            batch.setColor(Color.WHITE);
             pickups.draw(batch);
-            batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
-            batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+            if (player2.getAlive()) {
+                batch.draw(chr1IMG, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, rotation2, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+            } else {
+                batch.draw(graveStone, player2.getX(), player2.getY(), player2.getWidth() / 2, player2.getHeight() / 2, player2.getWidth(), player2.getHeight(), 1, 1, 0, 0, 0, graveStone.getWidth(), graveStone.getHeight(), false, false);
+            }
+            if (player1.getAlive()) {
+                batch.draw(chr1IMG, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, rotation1, 0, 0, chr1IMG.getWidth(), chr1IMG.getHeight(), false, false);
+            } else {
+                batch.draw(graveStone, player1.getX(), player1.getY(), player1.getWidth() / 2, player1.getHeight() / 2, player1.getWidth(), player1.getHeight(), 1, 1, 0, 0, 0, graveStone.getWidth(), graveStone.getHeight(), false, false);
+            }
+
+            for (Zombie z : zombies) {
+                if (z.getAlive() == true) {
+                    batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
+                }
+            }
             for (Zombie z : zombies) {
                 if (z.getAlive() == true) {
                     batch.draw(zomIMG, z.getX(), z.getY(), z.getWidth() / 2, z.getHeight() / 2, z.getWidth(), z.getHeight(), 1, 1, z.getRotation(), 0, 0, zomIMG.getWidth(), zomIMG.getHeight(), false, false);
