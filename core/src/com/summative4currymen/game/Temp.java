@@ -225,7 +225,8 @@ public class Temp extends ApplicationAdapter {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //if the game has not started yet, draw in the main menu   
-
+        //random = (int)Math.floor(Math.random() * 2);
+        
         if (nextScreen == false) {
             shapeBatch.setProjectionMatrix(menuCam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
@@ -374,14 +375,13 @@ public class Temp extends ApplicationAdapter {
                     + "                           You survived " + wave + " waves!\n"
                     + "                                  Come again!", 35, 415);
             font.setColor(Color.FIREBRICK);
-            random = (int)Math.floor(Math.random() * 2);
-            if(random == 0){
-                font.draw(batch, "Never underestimate the power of stupid people in large groups.", 400, 100);
-            } else if(random == 1){
-                font.draw(batch, "Talk sense to a fool and he calls you foolish.", 400, 100);
-            } else if(random == 2){
-                font.draw(batch, "In politics, stupidity is not a handicap.", 400, 100);
-            }
+            //if(random == 0){
+                //font.draw(batch, "Never underestimate the power of stupid people in large groups.", 400, 100);
+            //} else if(random == 1){
+               // font.draw(batch, "Talk sense to a fool and he calls you foolish.", 400, 100);
+            //} else if(random == 2){
+               // font.draw(batch, "In politics, stupidity is not a handicap.", 400, 100);
+            //}
             font.setColor(Color.ROYAL);
             font.draw(batch, "Restart", 670, 23);
             batch.end();
