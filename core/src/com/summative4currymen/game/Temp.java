@@ -436,12 +436,12 @@ public class Temp extends ApplicationAdapter {
                     + "                               That hope is … \n \n \n"
                     + "                                    YOU!\n \n \n"
                     + "                                Go for it!", 35, 395);
-                    wave = wave + 1;
             } else{
                 font.setColor(Color.MAGENTA);
                 font.draw(batch, "Press next to restart", 400, 300);
+                font.setColor(Color.ROYAL);
+                font.draw(batch, "Start Game", 630, 23);
             }
-            
             batch.end();
 
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -593,6 +593,7 @@ public class Temp extends ApplicationAdapter {
                 batch.setProjectionMatrix(menuCam.combined);
                 if (Gdx.input.isKeyPressed(Input.Keys.F)) {
                     waveIncrease = waveIncrease + 1;
+                    wave = wave + 1;
                     nextGame = false;
                     startGame = false;
                 }
