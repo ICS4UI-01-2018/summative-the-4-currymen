@@ -172,6 +172,10 @@ public class Player {
     public void addCoins(int n){
         this.coins += n;
     }
+    
+    public void removeCoins(){
+        this.coins = 0;
+    }
     /**
      * A method to return the player's health
      *
