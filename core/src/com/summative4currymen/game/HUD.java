@@ -10,8 +10,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
- *
- * @author goodm9679
+ * this class manages drawing the HUD.
+ * it is called once for each player.
+ * 
+ * @author Matthew Goodman
  */
 public class HUD {
 

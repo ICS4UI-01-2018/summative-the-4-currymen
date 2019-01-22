@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 
 /**
- * this class manages all pickups drop-rates are variables for easy adjustment,
+ * this class manages all pickups. drop-rates are variables for easy adjustment,
  * but can't be input when the class is called.
  *
  * @author Matthew Goodman
@@ -151,7 +151,11 @@ public class Items {
         }
         return false;
     }
-
+    /**
+     * method to draw items on the ground which can be picked up
+     * 
+     * @param batch used to draw the images
+     */
     public void draw(SpriteBatch batch) {
         for (Pickup p : this.pickups) {
             switch (p.getType()) {

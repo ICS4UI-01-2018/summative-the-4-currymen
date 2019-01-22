@@ -52,7 +52,6 @@ public class Player {
 
     public boolean collides(Rectangle r) {
         return player.overlaps(r);
-
     }
 
     public Rectangle getBounds() {
@@ -172,7 +171,9 @@ public class Player {
     public void addCoins(int n){
         this.coins += n;
     }
-    
+    /**
+     * removes all coins for a new game
+     */
     public void removeCoins(){
         this.coins = 0;
     }
