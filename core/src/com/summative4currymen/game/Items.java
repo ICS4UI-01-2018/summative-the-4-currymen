@@ -15,8 +15,8 @@ public class Items {
 
     private ArrayList<Pickup> pickups;
     private final float pickupDistance = 50;
-    private final int maxAmmo = 6;
-    private final int minAmmo = 2;
+    private final int maxAmmo = 12;
+    private final int minAmmo = 6;
     private final int maxCoin = 20;
     private final int minCoin = 10;
     private final int healthpack = 20;
