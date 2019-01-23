@@ -58,7 +58,6 @@ public class Player {
      */
     public boolean collides(Rectangle r) {
         return player.overlaps(r);
-
     }
     
     /**
@@ -192,9 +191,8 @@ public class Player {
     public void addCoins(int n){
         this.coins += n;
     }
-    
     /**
-     * Setter that sets the amount of coins the player has to 0
+     * removes all coins for a new game
      */
     public void removeCoins(){
         this.coins = 0;

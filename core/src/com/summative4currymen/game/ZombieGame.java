@@ -1276,8 +1276,14 @@ public class ZombieGame extends ApplicationAdapter {
             //pickup collection happens here
             Vector2 vp1 = new Vector2(player1.getX(), player1.getY());
             Vector2 vp2 = new Vector2(player2.getX(), player2.getY());
-            pickups.updateAmmo(vp1);
-            pickups.updateAmmo(vp2);
+            for (Weapon w : this.worldWeapons) {
+                if (w.getName().equals(player1.getEquipped())) {
+                    w.addAmmo(pickups.updateAmmo(vp1));
+                }
+                if (w.getName().equals(player2.getEquipped())) {
+                    w.addAmmo(pickups.updateAmmo(vp2));
+                }
+            }
             player1.addCoins(pickups.updateCoin(vp1));
             player2.addCoins(pickups.updateCoin(vp2));
             player1.addHealth(pickups.updateHealth(vp1));
