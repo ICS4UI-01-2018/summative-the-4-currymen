@@ -91,9 +91,9 @@ public class ZombieGame extends ApplicationAdapter {
     private long previousTime4;
 
     private Vector3 touch = new Vector3(0, 0, 0);
-    private Items pickups; //pickups class by matt
-    private HUD hud1; //HUD ADDED BY MATT
-    private HUD hud2; //HUD ADDED BY MATT
+    private Items pickups; //object manages pickups
+    private HUD hud1; //HUD for displaying coins and health for player 2
+    private HUD hud2; //HUD for displaying coins and health for player 2
 
     private Music music;
 
@@ -567,13 +567,12 @@ public class ZombieGame extends ApplicationAdapter {
             batch.end();
 
         }
-        
 
         if (Gdx.input.justTouched()) {
             if (touch.x > 615 && touch.x < 765 && touch.y > 420 && touch.y < 470) {
                 music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
                 music.setVolume(0.75f);
-                music.play();               
+                music.play();
                 startGame = true;
                 isShopTrue = false;
             }
@@ -1261,8 +1260,14 @@ public class ZombieGame extends ApplicationAdapter {
             //pickup collection happens here
             Vector2 vp1 = new Vector2(player1.getX(), player1.getY());
             Vector2 vp2 = new Vector2(player2.getX(), player2.getY());
-            pickups.updateAmmo(vp1);
-            pickups.updateAmmo(vp2);
+            for (Weapon w : this.worldWeapons) {
+                if (w.getName().equals(player1.getEquipped())) {
+                    w.addAmmo(pickups.updateAmmo(vp1));
+                }
+                if (w.getName().equals(player2.getEquipped())) {
+                    w.addAmmo(pickups.updateAmmo(vp2));
+                }
+            }
             player1.addCoins(pickups.updateCoin(vp1));
             player2.addCoins(pickups.updateCoin(vp2));
             player1.addHealth(pickups.updateHealth(vp1));
