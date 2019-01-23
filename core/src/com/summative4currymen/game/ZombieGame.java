@@ -69,6 +69,8 @@ public class ZombieGame extends ApplicationAdapter {
     private Texture coin;
     private Texture treePic;
     private Texture shopTitle;
+    private Texture healthIMG;
+    private Texture ammoIMG;
     private boolean startGame;
     private boolean goStore;
     private boolean nextScreen;
@@ -126,6 +128,8 @@ public class ZombieGame extends ApplicationAdapter {
         zomIMG = new Texture("zombietopview.png");
         treePic = new Texture("treetop.png");
         shopTitle = new Texture("title.png");
+        healthIMG = new Texture("HealthPack-transparent.png");
+        ammoIMG = new Texture("Ammo_box_icon.png");
 
         bullets = new ArrayList<Bullet>();
         worldWeapons = new ArrayList<Weapon>();
@@ -313,6 +317,16 @@ public class ZombieGame extends ApplicationAdapter {
             font.draw(batch, "Right Arrow = Move Right", 360, 300);
             font.draw(batch, "Down Arrow = Move Downwards", 360, 250);
             font.draw(batch, "Enter = Shoot", 360, 200);
+            font.draw(batch, "E = Enter Shop", 300, 150);
+            font.draw(batch, "Esc = Exit Shop", 297, 100);
+            font.draw(batch, "F = Start New Wave", 283, 50);
+            batch.draw(coin, 65, 485, 50, 50);
+            batch.draw(ammoIMG, 365, 485, 50, 50);
+            batch.draw(healthIMG, 665, 485, 50, 50); 
+            font.setColor(Color.LIME);
+            font.draw(batch, "Coins", 55, 485);
+            font.draw(batch, "Ammo", 355, 485);
+            font.draw(batch, "Health Pack", 605, 485);
             font.setColor(Color.ROYAL);
             font.draw(batch, "Start", 685, 23);
             batch.end();
@@ -573,7 +587,9 @@ public class ZombieGame extends ApplicationAdapter {
             if (touch.x > 615 && touch.x < 765 && touch.y > 420 && touch.y < 470) {
                 music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
                 music.setVolume(0.75f);
-                music.play();               
+                music.play();   
+                player1.setEquipped("AK-47");
+                player2.setEquipped("AK-47");
                 startGame = true;
                 isShopTrue = false;
             }
