@@ -619,42 +619,62 @@ public class Temp3 extends ApplicationAdapter {
 
         }
         //if the game has begn draw in the game             
-        if (startGame == true) {            
-                if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                    keyCode.add(1);
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                    keyCode.add(2);
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                    keyCode.add(3);
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                    keyCode.add(4);
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.B)) {
-                    keyCode.add(5);
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                    keyCode.add(6);
-                }
-                for (int i = 0; i < keyCode.size(); i++) {
-                    if(keyCode.indexOf(i)==1){
-                        int num = 1;
-                        for (int j = i+1; j < keyCode.size(); j++) {                            
-                            if(keyCode.indexOf(i)==codeArray[j]){
-                                num++;
-                                if(num==10){
-                                    
+        if (startGame == true) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+                keyCode.add(1);
+
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+                keyCode.add(2);
+                System.out.println(keyCode);
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+                keyCode.add(3);
+                System.out.println(keyCode);
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+                keyCode.add(4);
+                System.out.println(keyCode);
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
+                keyCode.add(5);
+                System.out.println(keyCode);
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+                keyCode.add(6);
+                System.out.println(keyCode);
+                if(keyCode.size()==10){
+                     if (keyCode.indexOf(0) == 1) {
+                    if (keyCode.indexOf(1) == 2) {
+                        if (keyCode.indexOf(2) == 1) {
+                            if (keyCode.indexOf(3) == 2) {
+                                if (keyCode.indexOf(4) == 3) {
+                                    if (keyCode.indexOf(5) == 4) {
+                                        if (keyCode.indexOf(6) == 3) {
+                                            if (keyCode.indexOf(7) == 4) {
+                                                if (keyCode.indexOf(8) == 5) {
+                                                    if (keyCode.indexOf(9) == 6) {
+                                                        System.out.println("WOW");
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
-                            }else{
-                                break;
                             }
                         }
                     }
+                }
+                
             }
-            
+            }
 
+            
+                
+               
+                
+
+            
             if (zombiesKilled == totalZombies) {
                 batch.setProjectionMatrix(menuCam.combined);
                 if (Gdx.input.isKeyPressed(Input.Keys.F)) {
