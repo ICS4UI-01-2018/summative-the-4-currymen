@@ -15,7 +15,6 @@ import com.badlogic.gdx.math.Rectangle;
  * @author riepj9547
  */
 public class Bullet {
-
     private Rectangle bullet;
     private int speed;
     private float dx;
@@ -31,8 +30,9 @@ public class Bullet {
      * @param width The width of the bullet
      * @param height The height of the bullet
      * @param speed The speed the bullet will move at
-     * @param the x direction the bullet is going in
-     * @param the y direction the bullet is going in
+     * @param damage
+     * @param dx x direction the bullet is going in
+     * @param dy y direction the bullet is going in
      */
     public Bullet(float x, float y, int width, int height, int speed, int damage, float dx, float dy) {
         this.speed = speed;
@@ -83,7 +83,7 @@ public class Bullet {
     *
     * @return the x position of the Bullet
     */
-    public float getLeft() {
+    public float getX() {
         return bullet.x;
     }
     
@@ -92,17 +92,7 @@ public class Bullet {
     *
     * @return the y position of the Bullet
     */
-    public float getBottom() {
-        return bullet.y;
-    }
-    
-    // there is genuinely no need for this
-    public float getX(){
-        return bullet.x;
-    }
-    
-    // genuinely no need other than the fact it has a different name 
-    public float getY(){
+    public float getY() {
         return bullet.y;
     }
     
@@ -127,22 +117,10 @@ public class Bullet {
     /**
     * A method for drawing the bullet a specific color
     *
-    * @param shapeBatch  
+    * @param shapeBatch the current shapeBatch drawing used to draw shapes
     */
     public void drawBullet(ShapeRenderer shapeBatch) {
         shapeBatch.setColor(Color.YELLOW);
         shapeBatch.circle(bullet.x + (45/2), bullet.y+(45/2), bullet.width/2 /*bullet.height*/);
     }
-    
-    /**
-    * Getter that checks whether or not a zombie and the Bullet is colliding
-    *
-    * @param b a zombie whom is being checked to see whether or not the Bullet is colliding with it
-    * @return whether or not the Bullet is colliding with the zombie
-    */
-    /*
-    public boolean collidesWith(Zombie b){
-        return bullet.overlaps(b.getBounds());
-    }
-*/
 }

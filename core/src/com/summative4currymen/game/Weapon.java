@@ -101,9 +101,15 @@ public class Weapon {
         return this.damage;
     }
     
+    /**
+     * The reserve ammo for a the weapon
+     * 
+     * @return the ammo reserves
+     */
     public int ammoReserves(){
         return this.ammoReserves;
     }
+    
     /**
      * Adds ammo from pickups
      * added by matt
@@ -131,13 +137,19 @@ public class Weapon {
     public float getY() {
         return this.y;
     }
-
+    
+    /**
+    * A method for drawing the weapon a specific image
+    *
+    * @param batch the current SpriteBatch drawing used to draw the texture
+    */
     public void drawWeapon(SpriteBatch batch) {
         batch.draw(gun1Texture, this.x, this.y, 55, 55);
     }
 
+    
     public ArrayList<Bullet> shootWeapon(String name, int rotation, float x, float y, int bulletSpeed, int damage, int fireRate, int numBullets) {
-if(ammoReserves>0){
+    if(ammoReserves>0){
         if (rotation == 0) {
             if (numBullets == 1) {
                 Bullet b = new Bullet((int) x, (int) y, 10, 10, bulletSpeed, damage, (float) 1, 0);

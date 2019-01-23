@@ -77,10 +77,10 @@ public class HUD {
      * @param batch for drawing images
      * @param cam the position of the camera in the map
      */
-    public void pressE(SpriteBatch batch,OrthographicCamera cam){
+    public void pressF(SpriteBatch batch,OrthographicCamera cam){
         batch.begin();
         font.setColor(Color.GOLD);
-        font.draw(batch, "press E to continue", cam.position.x-(cam.viewportWidth/2) + 40, cam.position.y-(cam.viewportHeight/2) + 500);
+        font.draw(batch, "press F to continue", cam.position.x-(cam.viewportWidth/2) + 40, cam.position.y-(cam.viewportHeight/2) + 500);
         batch.end();
     }
     

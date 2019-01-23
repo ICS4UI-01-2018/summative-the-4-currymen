@@ -77,6 +77,7 @@ public class ZombieGame extends ApplicationAdapter {
     private boolean isShopTrue;
     private boolean nextGame;
     private boolean endGame;
+    private boolean endWave;
     private int totalZombies;
     private int zombiesKilled;
     private int wave;
@@ -332,7 +333,9 @@ public class ZombieGame extends ApplicationAdapter {
                 }
             }
 
-        } else if (nextGame == false) {
+        
+        }else if (nextGame == false) {
+            endWave = false;
             menuCam.zoom = 1;
             menuCam.position.x = 400;
             menuCam.position.y = 300;
@@ -355,19 +358,18 @@ public class ZombieGame extends ApplicationAdapter {
             font.setColor(Color.ROYAL);
             font.draw(batch, "Next Wave", 650, 23);
             font.setColor(Color.MAGENTA);
-            font.draw(batch, "                           Well done! \n"
+            font.draw(batch, "                                Well done! \n"
                     + "                           Wave " + wave + " completed!\n"
                     + "                                Keep it up!", 35, 415);
             batch.end();
 
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            menuCam.unproject(touch);
-            if (Gdx.input.justTouched()) {
+            menuCam.unproject(touch); if (Gdx.input.justTouched()) {
                 if (touch.x > 680 && touch.x < 780 && touch.y > 20 && touch.y < 120) {
                     nextGame = true;
                     startGame = false;
                     wave = wave + 1;
-                    
+
                     if (player1.getAlive() == false) {
                         player1.revive();
                     }
@@ -378,6 +380,7 @@ public class ZombieGame extends ApplicationAdapter {
                     }
                     player2.setHealth(100);
                 }
+                
             }
         } else if (endGame == false) {
             menuCam.zoom = 1;
@@ -400,20 +403,15 @@ public class ZombieGame extends ApplicationAdapter {
             batch.draw(instructionPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
             font.setColor(Color.MAGENTA);
-            font.draw(batch, "                           Game OVER! \n"
+            font.draw(batch, "                                 Game OVER! \n"
                     + "                           You survived " + wave + " waves!\n"
                     + "                                  Come again!", 35, 415);
             font.setColor(Color.FIREBRICK);
-            random = (int)Math.floor(Math.random() * 2);
-            if(random == 0){
-                font.draw(batch, "Never underestimate the power of stupid people in large groups.", 400, 100);
-            } else if(random == 1){
-                font.draw(batch, "Talk sense to a fool and he calls you foolish.", 400, 100);
-            } else if(random == 2){
-                font.draw(batch, "In politics, stupidity is not a handicap.", 400, 100);
-            }
+            font.draw(batch, "Never underestimate the power of stupid people\n"
+                    +"                         in large groups.", 55, 200);
             font.setColor(Color.ROYAL);
             font.draw(batch, "Restart", 670, 23);
+            font.draw(batch, "Press anywhere besides the arrow to quit", 10, 23);
             batch.end();
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             menuCam.unproject(touch);
@@ -457,25 +455,23 @@ public class ZombieGame extends ApplicationAdapter {
             batch.begin();
             batch.draw(instructionPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
-            font.setColor(Color.WHITE);
-            font.draw(batch, "Start Game", 630, 23);
             font.setColor(Color.MAGENTA);
-            if(wave == 0){
+            if (wave == 0) {
                 font.setColor(Color.ROYAL);
                 font.draw(batch, "Start Game", 630, 23);
                 font.setColor(Color.MAGENTA);
                 font.draw(batch, "               Welcome to Arcade Apocalypse!\n \n \n", 35, 415);
-                    font.setColor(Color.ORANGE);
-                    font.draw(batch, "This game is based in a world rampant with zombies.\n \n \n"
-                    + "     But, there is hope for the remaining people.\n \n \n"
-                    + "                               That hope is … \n \n \n"
-                    + "                                    YOU!\n \n \n"
-                    + "                                Go for it!", 35, 395);
-            } else{
+                font.setColor(Color.ORANGE);
+                font.draw(batch, "This game is based in a world rampant with zombies.\n \n \n"
+                        + "     But, there is hope for the remaining people.\n \n \n"
+                        + "                               That hope is … \n \n \n"
+                        + "                                    YOU!\n \n \n"
+                        + "                                Go for it!", 35, 395);
+            } else {
                 font.setColor(Color.MAGENTA);
-                font.draw(batch, "Press next to continue", 400, 300);
+                font.draw(batch, "Press next to continue", 250, 415);
                 font.setColor(Color.ROYAL);
-                font.draw(batch, "Start Game", 630, 23);
+                font.draw(batch, "Next Wave", 645, 23);
             }
             batch.end();
 
@@ -495,9 +491,9 @@ public class ZombieGame extends ApplicationAdapter {
                         music.play();
                         zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie" + i, 20, 0, 1000));
                     }
-                    if (waveIncrease == 1) {
+                    if (wave % 10 == 0 && wave != 0) {
                         totalZombies++;
-                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 60, 60, 300, 0.99, "ZambieBIG", 80, 0, 2000));
+                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 60, 60, 300, 0.99, "ZambieBIG", 50, 0, 2000));
                     }
                     this.rotation3 = new int[zombies.size()];
                     map = new Map();
@@ -625,7 +621,7 @@ public class ZombieGame extends ApplicationAdapter {
         //if the game has begn draw in the game             
         if (startGame == true) {
             if (zombiesKilled == totalZombies) {
-                batch.setProjectionMatrix(menuCam.combined);
+                endWave = true;
                 if (Gdx.input.isKeyPressed(Input.Keys.F)) {
                     waveIncrease = waveIncrease + 1;
                     wave = wave + 1;
@@ -1316,6 +1312,9 @@ public class ZombieGame extends ApplicationAdapter {
             shapeBatch.rect((playerOneCam.position.x + (playerOneCam.viewportWidth / 2)) - 5, (playerOneCam.position.y - (playerOneCam.viewportHeight / 2)), 5, playerOneCam.viewportHeight);
             shapeBatch.end();
             hud1.draw(shapeBatch, batch, player1, playerOneCam); //draw player 1 hud
+            if (endWave == true) {
+                hud1.pressF(batch, playerOneCam);
+            }
             //draw for player two
 
             playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);

@@ -84,6 +84,8 @@ public class Temp extends ApplicationAdapter {
     private String amount;
     private int waveIncrease;
     private int random;
+    private boolean endWave;
+    
 
     private long previousTime;
     private long previousTime2;
@@ -226,6 +228,7 @@ public class Temp extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //if the game has not started yet, draw in the main menu   
         //random = (int)Math.floor(Math.random() * 2);
+
         
         if (nextScreen == false) {
             shapeBatch.setProjectionMatrix(menuCam.combined);
@@ -592,6 +595,7 @@ public class Temp extends ApplicationAdapter {
             if (zombiesKilled == totalZombies) {
                 batch.setProjectionMatrix(menuCam.combined);
                 if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+                    
                     waveIncrease = waveIncrease + 1;
                     wave = wave + 1;
                     nextGame = false;
@@ -1281,6 +1285,9 @@ public class Temp extends ApplicationAdapter {
             shapeBatch.rect((playerOneCam.position.x + (playerOneCam.viewportWidth / 2)) - 5, (playerOneCam.position.y - (playerOneCam.viewportHeight / 2)), 5, playerOneCam.viewportHeight);
             shapeBatch.end();
             hud1.draw(shapeBatch, batch, player1, playerOneCam); //draw player 1 hud
+            if(endWave == true){
+                hud1.pressF(batch, playerOneCam);
+            }
             //draw for player two
 
             playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);
