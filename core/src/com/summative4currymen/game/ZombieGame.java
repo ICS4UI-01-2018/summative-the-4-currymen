@@ -1,3 +1,4 @@
+
 package com.summative4currymen.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -62,6 +63,8 @@ public class ZombieGame extends ApplicationAdapter {
     private Texture nextButton;
     private Texture storeButton;
     private Texture whiteRect;
+    private Texture healthIMG;
+    private Texture ammoIMG;
     private Texture shotgun;
     private Texture ak47;
     private Texture barrett;
@@ -69,8 +72,6 @@ public class ZombieGame extends ApplicationAdapter {
     private Texture coin;
     private Texture treePic;
     private Texture shopTitle;
-    private Texture healthIMG;
-    private Texture ammoIMG;
     private boolean startGame;
     private boolean goStore;
     private boolean nextScreen;
@@ -79,6 +80,7 @@ public class ZombieGame extends ApplicationAdapter {
     private boolean isShopTrue;
     private boolean nextGame;
     private boolean endGame;
+    private boolean endWave;
     private int totalZombies;
     private int zombiesKilled;
     private int wave;
@@ -101,6 +103,7 @@ public class ZombieGame extends ApplicationAdapter {
 
     @Override
     public void create() {
+
         music = Gdx.audio.newMusic(Gdx.files.internal("arcademusic.wav"));
         music.setLooping(true);
         music.setVolume(0.25f);
@@ -322,7 +325,7 @@ public class ZombieGame extends ApplicationAdapter {
             font.draw(batch, "F = Start New Wave", 283, 50);
             batch.draw(coin, 65, 485, 50, 50);
             batch.draw(ammoIMG, 365, 485, 50, 50);
-            batch.draw(healthIMG, 665, 485, 50, 50); 
+            batch.draw(healthIMG, 665, 485, 50, 50);
             font.setColor(Color.LIME);
             font.draw(batch, "Coins", 55, 485);
             font.draw(batch, "Ammo", 355, 485);
@@ -347,6 +350,7 @@ public class ZombieGame extends ApplicationAdapter {
             }
 
         } else if (nextGame == false) {
+            endWave = false;
             menuCam.zoom = 1;
             menuCam.position.x = 400;
             menuCam.position.y = 300;
@@ -369,7 +373,7 @@ public class ZombieGame extends ApplicationAdapter {
             font.setColor(Color.ROYAL);
             font.draw(batch, "Next Wave", 650, 23);
             font.setColor(Color.MAGENTA);
-            font.draw(batch, "                           Well done! \n"
+            font.draw(batch, "                                Well done! \n"
                     + "                           Wave " + wave + " completed!\n"
                     + "                                Keep it up!", 35, 415);
             batch.end();
@@ -392,6 +396,7 @@ public class ZombieGame extends ApplicationAdapter {
                     }
                     player2.setHealth(100);
                 }
+
             }
         } else if (endGame == false) {
             menuCam.zoom = 1;
@@ -414,20 +419,15 @@ public class ZombieGame extends ApplicationAdapter {
             batch.draw(instructionPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
             font.setColor(Color.MAGENTA);
-            font.draw(batch, "                           Game OVER! \n"
+            font.draw(batch, "                                 Game OVER! \n"
                     + "                           You survived " + wave + " waves!\n"
                     + "                                  Come again!", 35, 415);
             font.setColor(Color.FIREBRICK);
-            random = (int) Math.floor(Math.random() * 2);
-            if (random == 0) {
-                font.draw(batch, "Never underestimate the power of stupid people in large groups.", 400, 100);
-            } else if (random == 1) {
-                font.draw(batch, "Talk sense to a fool and he calls you foolish.", 400, 100);
-            } else if (random == 2) {
-                font.draw(batch, "In politics, stupidity is not a handicap.", 400, 100);
-            }
+            font.draw(batch, "Never underestimate the power of stupid people\n"
+                    + "                         in large groups.", 55, 200);
             font.setColor(Color.ROYAL);
             font.draw(batch, "Restart", 670, 23);
+            font.draw(batch, "Press anywhere besides the arrow to quit", 10, 23);
             batch.end();
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             menuCam.unproject(touch);
@@ -471,8 +471,6 @@ public class ZombieGame extends ApplicationAdapter {
             batch.begin();
             batch.draw(instructionPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
-            font.setColor(Color.WHITE);
-            font.draw(batch, "Start Game", 630, 23);
             font.setColor(Color.MAGENTA);
             if (wave == 0) {
                 font.setColor(Color.ROYAL);
@@ -487,9 +485,9 @@ public class ZombieGame extends ApplicationAdapter {
                         + "                                Go for it!", 35, 395);
             } else {
                 font.setColor(Color.MAGENTA);
-                font.draw(batch, "Press next to continue", 400, 300);
+                font.draw(batch, "Press next to continue", 250, 415);
                 font.setColor(Color.ROYAL);
-                font.draw(batch, "Start Game", 630, 23);
+                font.draw(batch, "Next Wave", 645, 23);
             }
             batch.end();
 
@@ -509,9 +507,9 @@ public class ZombieGame extends ApplicationAdapter {
                         music.play();
                         zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 45, 45, 100, 1, "Zambie" + i, 20, 0, 1000));
                     }
-                    if (waveIncrease == 1) {
+                    if (wave % 10 == 0 && wave != 0) {
                         totalZombies++;
-                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 60, 60, 300, 0.99, "ZambieBIG", 80, 0, 2000));
+                        zombies.add(new Zombie((int) Math.floor(Math.random() * 801), (int) Math.floor(Math.random() * 601), 60, 60, 300, 0.99, "ZambieBIG", 50, 0, 2000));
                     }
                     this.rotation3 = new int[zombies.size()];
                     map = new Map();
@@ -566,7 +564,7 @@ public class ZombieGame extends ApplicationAdapter {
             batch.draw(ak47, 45, 420, 100, 50);
             font.draw(batch, "Barrett", 160, 360);
             batch.draw(coin, 340, 340, 35, 25);
-            desc.draw(batch, "125", 375, 360);
+            desc.draw(batch, "250", 375, 360);
             desc.draw(batch, "Packs a punch. Take on the hoard with a low magazine, but \n high damage sniper rifle.", 160, 340);
             desc.draw(batch, "STATS: \n Bullet Speed: Fast      Reload Speed: Slow \n Damage: 150", 160, 295);
             batch.draw(buyNow, 615, 270, 150, 50);
@@ -580,52 +578,48 @@ public class ZombieGame extends ApplicationAdapter {
             batch.draw(buyNow, 615, 120, 150, 50);
             batch.end();
 
-        }
-        
-
-        if (Gdx.input.justTouched()) {
-            if (touch.x > 615 && touch.x < 765 && touch.y > 420 && touch.y < 470) {
-                music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
-                music.setVolume(0.75f);
-                music.play();   
-                player1.setEquipped("AK-47");
-                player2.setEquipped("AK-47");
-                startGame = true;
-                isShopTrue = false;
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 420 && touch.y < 470) {
+                    music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
+                    music.setVolume(0.75f);
+                    music.play();
+                    player1.setEquipped("AK-47");
+                    player2.setEquipped("AK-47");
+                    startGame = true;
+                    isShopTrue = false;
+                }
+            }
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 270 && touch.y < 320) {
+                    music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
+                    music.setVolume(0.75f);
+                    music.play();
+                    player1.setEquipped("Barret50");
+                    player2.setEquipped("Barret50");
+                    startGame = true;
+                    isShopTrue = false;
+                }
+            }
+            if (Gdx.input.justTouched()) {
+                if (touch.x > 615 && touch.x < 765 && touch.y > 120 && touch.y < 170) {
+                    music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
+                    music.setVolume(0.75f);
+                    music.play();
+                    player1.setEquipped("ShotGun");
+                    player2.setEquipped("ShotGun");
+                    startGame = true;
+                    isShopTrue = false;
+                }
             }
 
         }
-        if (Gdx.input.justTouched()) {
-            if (touch.x > 615 && touch.x < 765 && touch.y > 270 && touch.y < 320) {
-                music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
-                music.setVolume(0.75f);
-                music.play();
-                player1.setEquipped("Barret50");
-                player2.setEquipped("Barret50");
-                startGame = true;
-                isShopTrue = false;
-            }
-
-        }
-        if (Gdx.input.justTouched()) {
-            if (touch.x > 615 && touch.x < 765 && touch.y > 120 && touch.y < 170) {
-                music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
-                music.setVolume(0.75f);
-                music.play();
-                player1.setEquipped("ShotGun");
-                player2.setEquipped("ShotGun");
-                startGame = true;
-                isShopTrue = false;
-            }
-
-        }
-
         //if the game has begn draw in the game             
         if (startGame == true) {
             if (zombiesKilled == totalZombies) {
-                batch.setProjectionMatrix(menuCam.combined);
+                endWave = true;
                 if (Gdx.input.isKeyPressed(Input.Keys.F)) {
                     waveIncrease = waveIncrease + 1;
+                    wave = wave + 1;
                     nextGame = false;
                     startGame = false;
                 }
@@ -1277,8 +1271,14 @@ public class ZombieGame extends ApplicationAdapter {
             //pickup collection happens here
             Vector2 vp1 = new Vector2(player1.getX(), player1.getY());
             Vector2 vp2 = new Vector2(player2.getX(), player2.getY());
-            pickups.updateAmmo(vp1);
-            pickups.updateAmmo(vp2);
+            for (Weapon w : this.worldWeapons) {
+                if (w.getName().equals(player1.getEquipped())) {
+                    w.addAmmo(pickups.updateAmmo(vp1));
+                }
+                if (w.getName().equals(player2.getEquipped())) {
+                    w.addAmmo(pickups.updateAmmo(vp2));
+                }
+            }
             player1.addCoins(pickups.updateCoin(vp1));
             player2.addCoins(pickups.updateCoin(vp2));
             player1.addHealth(pickups.updateHealth(vp1));
@@ -1313,6 +1313,9 @@ public class ZombieGame extends ApplicationAdapter {
             shapeBatch.rect((playerOneCam.position.x + (playerOneCam.viewportWidth / 2)) - 5, (playerOneCam.position.y - (playerOneCam.viewportHeight / 2)), 5, playerOneCam.viewportHeight);
             shapeBatch.end();
             hud1.draw(shapeBatch, batch, player1, playerOneCam); //draw player 1 hud
+            if (endWave == true) {
+                hud1.pressF(batch, playerOneCam);
+            }
             //draw for player two
 
             playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);

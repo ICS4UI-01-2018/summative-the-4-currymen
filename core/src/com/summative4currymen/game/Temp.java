@@ -84,6 +84,8 @@ public class Temp extends ApplicationAdapter {
     private String amount;
     private int waveIncrease;
     private int random;
+    private boolean endWave;
+    
 
     private long previousTime;
     private long previousTime2;
@@ -225,7 +227,9 @@ public class Temp extends ApplicationAdapter {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //if the game has not started yet, draw in the main menu   
+        //random = (int)Math.floor(Math.random() * 2);
 
+        
         if (nextScreen == false) {
             shapeBatch.setProjectionMatrix(menuCam.combined);
             shapeBatch.begin(ShapeRenderer.ShapeType.Filled);
@@ -374,14 +378,13 @@ public class Temp extends ApplicationAdapter {
                     + "                           You survived " + wave + " waves!\n"
                     + "                                  Come again!", 35, 415);
             font.setColor(Color.FIREBRICK);
-            random = (int)Math.floor(Math.random() * 2);
-            if(random == 0){
-                font.draw(batch, "Never underestimate the power of stupid people in large groups.", 400, 100);
-            } else if(random == 1){
-                font.draw(batch, "Talk sense to a fool and he calls you foolish.", 400, 100);
-            } else if(random == 2){
-                font.draw(batch, "In politics, stupidity is not a handicap.", 400, 100);
-            }
+            //if(random == 0){
+                //font.draw(batch, "Never underestimate the power of stupid people in large groups.", 400, 100);
+            //} else if(random == 1){
+               // font.draw(batch, "Talk sense to a fool and he calls you foolish.", 400, 100);
+            //} else if(random == 2){
+               // font.draw(batch, "In politics, stupidity is not a handicap.", 400, 100);
+            //}
             font.setColor(Color.ROYAL);
             font.draw(batch, "Restart", 670, 23);
             batch.end();
@@ -592,6 +595,7 @@ public class Temp extends ApplicationAdapter {
             if (zombiesKilled == totalZombies) {
                 batch.setProjectionMatrix(menuCam.combined);
                 if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+                    
                     waveIncrease = waveIncrease + 1;
                     wave = wave + 1;
                     nextGame = false;
@@ -1281,6 +1285,9 @@ public class Temp extends ApplicationAdapter {
             shapeBatch.rect((playerOneCam.position.x + (playerOneCam.viewportWidth / 2)) - 5, (playerOneCam.position.y - (playerOneCam.viewportHeight / 2)), 5, playerOneCam.viewportHeight);
             shapeBatch.end();
             hud1.draw(shapeBatch, batch, player1, playerOneCam); //draw player 1 hud
+            if(endWave == true){
+                hud1.pressF(batch, playerOneCam);
+            }
             //draw for player two
 
             playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);

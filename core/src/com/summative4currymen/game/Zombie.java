@@ -13,16 +13,9 @@ import com.badlogic.gdx.math.Rectangle;
  * @author riepj9547
  */
 public class Zombie extends Player {
-
-    private double speed;
-
-    // private Rectangle zombie;
-    private String name;
-    //private Boolean alive;
     private int rotation;
-    private int damage;
-    private boolean alive;
     private long hitRate;
+    private int damage;
 
     /**
      * Initializes Zombie data
@@ -38,17 +31,12 @@ public class Zombie extends Player {
      */
     public Zombie(float x, float y, int width, int height, int health, double speed, String name, int damage, int rotation, long hitRate) {
         super(x, y, width, height, health, speed, name);
-        //this.speed = speed;
-        this.damage = damage;
         this.rotation = rotation;
-        this.alive = true;
         this.hitRate = hitRate;
-        //zombie = new Rectangle(x, y, width, height);
+        this.damage = damage;
     }
 
-    public int getHealth() {
-        return super.getHealth();
-    }
+    
 
     public int getRotation() {
         return this.rotation;
