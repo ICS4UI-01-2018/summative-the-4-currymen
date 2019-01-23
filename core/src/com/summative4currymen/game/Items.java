@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 
 /**
- * this class manages all pickups drop-rates are variables for easy adjustment,
+ * this class manages all pickups. drop-rates are variables for easy adjustment,
  * but can't be input when the class is called.
  *
  * @author Matthew Goodman
@@ -14,12 +14,12 @@ import java.util.ArrayList;
 public class Items {
 
     private ArrayList<Pickup> pickups;
-    private final float pickupDistance = 25;
-    private final int maxAmmo = 6;
-    private final int minAmmo = 2;
-    private final int maxCoin = 120;
-    private final int minCoin = 50;
-    private final int healthpack = 15;
+    private final float pickupDistance = 50;
+    private final int maxAmmo = 12;
+    private final int minAmmo = 6;
+    private final int maxCoin = 20;
+    private final int minCoin = 10;
+    private final int healthpack = 20;
     private final int ammoPercent = 12;
     private final int coinPercent = 32;
     private final int healthPercent = 6;
@@ -151,9 +151,12 @@ public class Items {
         }
         return false;
     }
-
+    /**
+     * method to draw items on the ground which can be picked up
+     * 
+     * @param batch used to draw the images
+     */
     public void draw(SpriteBatch batch) {
-        //batch.begin();
         for (Pickup p : this.pickups) {
             switch (p.getType()) {
                 case 0:
@@ -168,6 +171,5 @@ public class Items {
                 default:
             }
         }
-        //batch.end();
     }
 }

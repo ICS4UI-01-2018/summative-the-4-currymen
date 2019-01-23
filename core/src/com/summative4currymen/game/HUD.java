@@ -10,8 +10,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
- *
- * @author goodm9679
+ * this class manages drawing the HUD.
+ * it is called once for each player.
+ * 
+ * @author Matthew Goodman
  */
 public class HUD {
 
@@ -37,6 +39,7 @@ public class HUD {
         akIMG = new Texture("ak.png");
     }
     /**
+     * draws half the HUD. displays coins, weapon, and health.
      * 
      * @param shapeBatch used for drawing shapes like health bar
      * @param batch used for drawing images and font
@@ -70,11 +73,16 @@ public class HUD {
         font.draw(batch, "$" + p1.getCoins(), cam.position.x-(cam.viewportWidth/2) + 310, cam.position.y-(cam.viewportHeight/2) + 70);
         batch.end();
     }
-    
-    public void pressE(SpriteBatch batch, Player p1,OrthographicCamera cam){
+    /**
+     * method called by main game to display a prompt to player 1 when the wave ends
+     * 
+     * @param batch for drawing images
+     * @param cam the position of the camera in the map
+     */
+    public void pressF(SpriteBatch batch,OrthographicCamera cam){
         batch.begin();
         font.setColor(Color.GOLD);
-        font.draw(batch, "press E to continue", cam.position.x-(cam.viewportWidth/2) + 40, cam.position.y-(cam.viewportHeight/2) + 500);
+        font.draw(batch, "press F to continue", cam.position.x-(cam.viewportWidth/2) + 40, cam.position.y-(cam.viewportHeight/2) + 500);
         batch.end();
     }
     

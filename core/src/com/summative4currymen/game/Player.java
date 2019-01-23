@@ -49,18 +49,28 @@ public class Player {
         this.height = height;
         this.coins = 0;
     }
-
+    
+    /**
+     * Checking to see whether the player is colliding with a rectangle
+     * 
+     * @param r A rectangle that is being compared to the player
+     * @return True if the player is colliding with the rectangle otherwise return false
+     */
     public boolean collides(Rectangle r) {
         return player.overlaps(r);
-
     }
-
+    
+    /**
+     * Getter for the players x, y, width, and height
+     * 
+     * @return the x, y, width, and height
+     */
     public Rectangle getBounds() {
         return this.player;
     }
 
     /**
-     *
+     * Getter for which weapon the player has equipped
      *
      * @return current gun name
      */
@@ -71,7 +81,7 @@ public class Player {
     /**
      * Setter for the Player's weapon
      *
-     * @param name
+     * @param name the name of the weapon the player holds
      */
     public void setEquipped(String name) {
         equipped = name;
@@ -106,15 +116,6 @@ public class Player {
     }
 
     /**
-     *
-     *
-     * @return
-     */
-    public ArrayList getWeapons() {
-        return weapons;
-    }
-
-    /**
      * The method when the player is being hit
      *
      * @param damage the amount of damage the player is taking
@@ -127,15 +128,26 @@ public class Player {
         }
         return this.health;
     }
-
+    
+    /**
+     * Setter for that sets the player to not alive or dead
+     */
     public void die() {
         this.alive = false;
     }
     
+    /**
+     * Getter for the players name
+     * 
+     * @return the players name
+     */
     public String getName() {
         return this.name;
     }
     
+    /**
+     * Setting the player to full health, alive, and randomizing their x and y positions
+     */
     public void revive(){
         this.health = 100;
         this.alive = true;
@@ -143,11 +155,17 @@ public class Player {
         player.y = (int) Math.floor(Math.random() * 601);
     }
     
+    /**
+     * Getter for the amount of coins the player has
+     * 
+     * @return the amount of coins the player has
+     */
     public int getCoins(){
         return this.coins;
     }
+    
     /**
-     * if the player can afford the item they are trying to buy, 
+     * If the player can afford the item they are trying to buy, 
      * return true and subtract cost from coins.
      * otherwise it will return false
      * added by matt
@@ -163,8 +181,9 @@ public class Player {
             return true;
         }
     }
+    
     /**
-     * method to add coins from pickups
+     * Method to add coins from pickups
      * added by matt
      * 
      * @param n the number of coins to add
@@ -173,14 +192,25 @@ public class Player {
         this.coins += n;
     }
     /**
-     * A method to return the player's health
+     * removes all coins for a new game
+     */
+    public void removeCoins(){
+        this.coins = 0;
+    }
+    /**
+     * Getter that gets players health
      *
      * @return the integer health
      */
     public int getHealth() {
         return health;
     }
-
+    
+    /**
+     * Setter for the players health
+     * 
+     * @param health the amount of the health that the player will have
+     */
     public void setHealth(int health) {
         this.health = health;
     }
@@ -235,9 +265,9 @@ public class Player {
     }
 
     /**
-     * A method to set the players speed
-     *
-     *
+     * Setter for the players speed
+     * 
+     * @param s the speed the player will have
      */
     public void setSpeed(double s) {
         this.speed = s;

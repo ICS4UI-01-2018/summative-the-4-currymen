@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.summative4currymen.game;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -101,11 +96,17 @@ public class Weapon {
     public int damage() {
         return this.damage;
     }
-
-    public int ammoReserves() {
+    
+    /**
+     * The reserve ammo for a the weapon
+     * 
+     * @return the ammo reserves
+     */
+    public int ammoReserves(){
         return this.ammoReserves;
     }
 
+    
     /**
      * Adds ammo from pickups added by matt
      *
