@@ -16,6 +16,14 @@ public class Furniture {
     public Rectangle f;  
     
     private String name;
+    /**
+     * create a furniture object
+     * @param name of object
+     * @param x position
+     * @param y position
+     * @param width 
+     * @param height 
+     */
     public Furniture(String name ,float x, float y, float width, float height){
         this.name = name;
         f = new Rectangle(x, y, 0, 0);
@@ -23,36 +31,11 @@ public class Furniture {
         f.y = y;      
         f.width = width;
         f.height = height;
-        /*
-        if(name.equals("chair")){
-            f.width = 30;
-            f.height = 30;
-        }else if(name.equals("couch")){
-            f.width = 100;
-            f.height = 45;
-        }else if(name.equals("small table")){
-            f.width = 60;
-            f.height = 60;
-        }else if(name.equals("big table")){
-            f.width = 70;
-            f.height = 150;
-        }else if(name.equals("bed")){
-            f.width = 70;
-            f.height = 140;
-        }else if(name.equals("tv")){
-            f.width = 55;
-            f.height = 10;
-        }else if(name.equals("carpet")){
-            f.width = 90;
-            f.height = 125;
-        }else if(name.equals("cactus")){
-            f.width = width;
-            f.height = height;
-        }else if(name.equals("block")){
-            f.width = width;
-            f.height = height;
-        }*/
     }
+    /**
+     * getter for the furniture
+     * @return the name
+     */
     public String getName(){
         return this.name;
     }
