@@ -606,7 +606,18 @@ public class ZombieGame extends ApplicationAdapter {
                     music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
                     music.setVolume(0.75f);
                     music.play();
-                    //if it has been then equip both players with it
+                    player1.addCoins(player2.getCoins());
+                    int tempCoin = player2.getCoins();
+                    player2.pay(player2.getCoins());
+                    if (player1.pay(100) == true) {
+                        player1.setEquipped("AK-47");
+                        player2.setEquipped("AK-47");
+                        player1.pay(player1.getCoins() / 2);
+                        player2.addCoins(player1.getCoins() / 2);
+                    } else {
+                        player2.addCoins(tempCoin);
+                        player1.pay(tempCoin);
+                    }
                     player1.setEquipped("AK-47");
                     player2.setEquipped("AK-47");
                     startGame = true;
@@ -619,9 +630,18 @@ public class ZombieGame extends ApplicationAdapter {
                     music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
                     music.setVolume(0.75f);
                     music.play();
-                    //if it has been then equip both players with it
-                    player1.setEquipped("Barret50");
-                    player2.setEquipped("Barret50");
+                    player1.addCoins(player2.getCoins());
+                    int tempCoin = player2.getCoins();
+                    player2.pay(player2.getCoins());
+                    if (player1.pay(250) == true) {
+                        player1.setEquipped("Barret50");
+                        player2.setEquipped("Barret50");
+                        player1.pay(player1.getCoins() / 2);
+                        player2.addCoins(player1.getCoins() / 2);
+                    } else {
+                        player2.addCoins(tempCoin);
+                        player1.pay(tempCoin);
+                    }
                     startGame = true;
                     isShopTrue = false;
                 }
@@ -632,14 +652,22 @@ public class ZombieGame extends ApplicationAdapter {
                     music = Gdx.audio.newMusic(Gdx.files.internal("Click.wav"));
                     music.setVolume(0.75f);
                     music.play();
-                    //if it has been then equip both players with it
-                    player1.setEquipped("ShotGun");
-                    player2.setEquipped("ShotGun");
+                    player1.addCoins(player2.getCoins());
+                    int tempCoin = player2.getCoins();
+                    player2.pay(player2.getCoins());
+                    if (player1.pay(150) == true) {
+                        player1.setEquipped("ShotGun");
+                        player2.setEquipped("ShotGun");
+                        player1.pay(player1.getCoins() / 2);
+                        player2.addCoins(player1.getCoins() / 2);
+                    } else {
+                        player2.addCoins(tempCoin);
+                        player1.pay(tempCoin);
+                    }
                     startGame = true;
                     isShopTrue = false;
                 }
             }
-
         }
         //if the game has begn draw in the game             
         if (startGame == true) {
@@ -1304,7 +1332,7 @@ public class ZombieGame extends ApplicationAdapter {
             if (endWave == true) {
                 hud1.pressF(batch, playerOneCam);
             }
-            
+
             //now draw in everything on player twos side (the right side)
             //set up the right side
             playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);
@@ -1358,11 +1386,14 @@ public class ZombieGame extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
     }
-/**
- * This is where the two split screen are resized for the window size * 
- * @param width the width of the window
- * @param height the height of the window
- */
+
+    /**
+     * This is where the two split screen are resized for the window size
+     *
+     *
+     * @param width the width of the window
+     * @param height the height of the window
+     */
     @Override
     public void resize(int width, int height) {
         //if a round is currently under go
@@ -1383,8 +1414,10 @@ public class ZombieGame extends ApplicationAdapter {
 
         }
     }
+
     /**
      * This is where we check if a bullet has collided with a zombie
+     *
      * @param bX the bullets x position
      * @param bY the bullets y position
      * @param z the zombie we are checking with
