@@ -355,7 +355,7 @@ public class ZombieGame extends ApplicationAdapter {
                     nextGame = true;
                     endGame = true;
                     startGame = false;
-                    wave = 0;
+                    wave = 1;
                 }
             }
             //at the ned of a round that has be won this screen will appear
@@ -488,7 +488,7 @@ public class ZombieGame extends ApplicationAdapter {
             batch.draw(instructionPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
             font.setColor(Color.MAGENTA);
-            if (wave == 0) {
+            if (wave == 1) {
                 font.setColor(Color.ROYAL);
                 font.draw(batch, "Start Game", 630, 23);
                 font.setColor(Color.MAGENTA);
@@ -651,8 +651,7 @@ public class ZombieGame extends ApplicationAdapter {
                 endWave = true;
                 //if the f key is pressed end the round
                 if (Gdx.input.isKeyPressed(Input.Keys.F)) {
-                    waveIncrease = waveIncrease + 1;
-                    wave = wave + 1;
+                    waveIncrease = waveIncrease + 1;                    
                     nextGame = false;
                     startGame = false;
                 }
