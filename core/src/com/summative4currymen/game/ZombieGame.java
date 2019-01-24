@@ -313,14 +313,17 @@ public class ZombieGame extends ApplicationAdapter {
             batch.draw(nextButton, 680, 20, 100, 100);
             font.setColor(Color.MAGENTA);
             font.draw(batch, "Instructions", 300, 550);
-            font.setColor(Color.ORANGE);
+            font.setColor(Color.MAGENTA);
             font.draw(batch, "Player One Controls", 25, 450);
+            font.setColor(Color.ORANGE);
             font.draw(batch, "W = Move Upwards", 25, 400);
             font.draw(batch, "A = Move Left", 25, 350);
             font.draw(batch, "S = Move Downwards", 25, 300);
             font.draw(batch, "D = Move Right", 25, 250);
             font.draw(batch, "Space = Shoot", 25, 200);
+            font.setColor(Color.MAGENTA);
             font.draw(batch, "Player Two Controls", 360, 450);
+            font.setColor(Color.ORANGE);
             font.draw(batch, "Up Arrow = Move Upwards", 360, 400);
             font.draw(batch, "Left Arrow = Move Left", 360, 350);
             font.draw(batch, "Right Arrow = Move Right", 360, 300);
