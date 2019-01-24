@@ -313,22 +313,25 @@ public class ZombieGame extends ApplicationAdapter {
             batch.draw(nextButton, 680, 20, 100, 100);
             font.setColor(Color.MAGENTA);
             font.draw(batch, "Instructions", 300, 550);
-            font.setColor(Color.ORANGE);
+            font.setColor(Color.MAGENTA);
             font.draw(batch, "Player One Controls", 25, 450);
+            font.setColor(Color.ORANGE);
             font.draw(batch, "W = Move Upwards", 25, 400);
             font.draw(batch, "A = Move Left", 25, 350);
             font.draw(batch, "S = Move Downwards", 25, 300);
             font.draw(batch, "D = Move Right", 25, 250);
             font.draw(batch, "Space = Shoot", 25, 200);
+            font.setColor(Color.MAGENTA);
             font.draw(batch, "Player Two Controls", 360, 450);
+            font.setColor(Color.ORANGE);
             font.draw(batch, "Up Arrow = Move Upwards", 360, 400);
             font.draw(batch, "Left Arrow = Move Left", 360, 350);
             font.draw(batch, "Right Arrow = Move Right", 360, 300);
             font.draw(batch, "Down Arrow = Move Downwards", 360, 250);
             font.draw(batch, "Enter = Shoot", 360, 200);
-            font.draw(batch, "E = Enter Shop", 300, 150);
-            font.draw(batch, "Esc = Exit Shop", 297, 100);
-            font.draw(batch, "F = Start New Wave", 283, 50);
+            font.draw(batch, "E = Enter Shop", 25, 100);
+            font.draw(batch, "Esc = Exit Shop", 25, 50);
+            font.draw(batch, "F = Start New Wave", 360, 100);
             batch.draw(coin, 65, 485, 50, 50);
             batch.draw(ammoIMG, 365, 485, 50, 50);
             batch.draw(healthIMG, 665, 485, 50, 50);
@@ -352,7 +355,7 @@ public class ZombieGame extends ApplicationAdapter {
                     nextGame = true;
                     endGame = true;
                     startGame = false;
-                    wave = 0;
+                    wave = 1;
                 }
             }
             //at the ned of a round that has be won this screen will appear
@@ -485,7 +488,7 @@ public class ZombieGame extends ApplicationAdapter {
             batch.draw(instructionPic, 0, 0, menuViewPort.getWorldWidth(), menuViewPort.getWorldHeight());
             batch.draw(nextButton, 680, 20, 100, 100);
             font.setColor(Color.MAGENTA);
-            if (wave == 0) {
+            if (wave == 1) {
                 font.setColor(Color.ROYAL);
                 font.draw(batch, "Start Game", 630, 23);
                 font.setColor(Color.MAGENTA);
@@ -668,6 +671,7 @@ public class ZombieGame extends ApplicationAdapter {
                     isShopTrue = false;
                 }
             }
+
         }
         //if the game has begn draw in the game             
         if (startGame == true) {
@@ -676,8 +680,7 @@ public class ZombieGame extends ApplicationAdapter {
                 endWave = true;
                 //if the f key is pressed end the round
                 if (Gdx.input.isKeyPressed(Input.Keys.F)) {
-                    waveIncrease = waveIncrease + 1;
-                    wave = wave + 1;
+                    waveIncrease = waveIncrease + 1;                    
                     nextGame = false;
                     startGame = false;
                 }
@@ -1332,7 +1335,7 @@ public class ZombieGame extends ApplicationAdapter {
             if (endWave == true) {
                 hud1.pressF(batch, playerOneCam);
             }
-
+            
             //now draw in everything on player twos side (the right side)
             //set up the right side
             playerTwoViewPort.setScreenX(Gdx.graphics.getWidth() / 2);
@@ -1386,14 +1389,11 @@ public class ZombieGame extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
     }
-
-    /**
-     * This is where the two split screen are resized for the window size
-     *
-     *
-     * @param width the width of the window
-     * @param height the height of the window
-     */
+/**
+ * This is where the two split screen are resized for the window size * 
+ * @param width the width of the window
+ * @param height the height of the window
+ */
     @Override
     public void resize(int width, int height) {
         //if a round is currently under go
@@ -1414,10 +1414,8 @@ public class ZombieGame extends ApplicationAdapter {
 
         }
     }
-
     /**
      * This is where we check if a bullet has collided with a zombie
-     *
      * @param bX the bullets x position
      * @param bY the bullets y position
      * @param z the zombie we are checking with
