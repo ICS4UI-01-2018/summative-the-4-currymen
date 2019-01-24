@@ -100,12 +100,12 @@ public class ZombieGame extends ApplicationAdapter {
 
     @Override
     public void create() {
-        
         music = Gdx.audio.newMusic(Gdx.files.internal("arcademusic.wav"));
         music.setLooping(true);
         music.setVolume(0.25f);
         music.play();
-
+        
+        // Setting the 
         this.rotation1 = 270;
         this.rotation2 = 270;
         shapeBatch2 = new ShapeRenderer();
