@@ -38,6 +38,7 @@ public class HUD {
         barretIMG = new Texture("RSASS_Sideview.png");
         akIMG = new Texture("ak.png");
     }
+    
     /**
      * draws half the HUD. displays coins, weapon, and health.
      * 
